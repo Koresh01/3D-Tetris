@@ -6,20 +6,23 @@
 /// </summary>
 public class CubeGridGenerator : MonoBehaviour
 {
-    [Header("Настройки поля")]
-    [Tooltip("Префаб кубика, который будет использоваться для генерации поля")]
-    public GameObject cubePrefab; // Префаб кубика
     [SerializeField] GameManager gameManager;
+    GameObject cubePrefab;
 
-    [Tooltip("Размерность поля (N x N)")]
-    int gridSize; // Размерность поля
+    [Tooltip("Ширина игровой области")]
+    int gridWidth;
+
+    [Tooltip("Высота игровой области")]
+    int gridHeight;
 
     /// <summary>
     /// Генерирует квадратное поле из кубиков при старте сцены.
     /// </summary>
     void Start()
     {
-        gridSize = gameManager.gridSize;
+        gridWidth = gameManager.gridWidth;
+        cubePrefab = gameManager.cubePrefab;
+        gridHeight = gameManager.gridHeight;
         GenerateGrid();
     }
 
@@ -35,11 +38,11 @@ public class CubeGridGenerator : MonoBehaviour
         }
 
         // Вычисляем начальную точку так, чтобы поле было центрировано относительно (0, 0, 0)
-        float offset = (gridSize - 1) / 2.0f;
+        float offset = (gridWidth - 1) / 2.0f;
 
-        for (int x = 0; x < gridSize; x++)
+        for (int x = 0; x < gridWidth; x++)
         {
-            for (int z = 0; z < gridSize; z++)
+            for (int z = 0; z < gridWidth; z++)
             {
                 // Вычисляем позицию каждого кубика
                 Vector3 position = new Vector3(x - offset, 0, z - offset);

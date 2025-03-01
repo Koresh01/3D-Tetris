@@ -496,6 +496,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 471675208}
+  - component: {fileID: 471675210}
   - component: {fileID: 471675209}
   m_Layer: 0
   m_Name: "\u041E\u0441\u043D\u043E\u0432\u0430\u043D\u0438\u0435"
@@ -531,8 +532,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b096f3981bd2a54caa80d7acd68a47a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cubePrefab: {fileID: 253209148917467183, guid: 946e7aba58b7b4b479f7d62397badb2a, type: 3}
   gameManager: {fileID: 1411685209}
+--- !u!114 &471675210
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 471675207}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a341c7fc7fd3ce4baaf88bd50644f6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameManager: {fileID: 1411685209}
+  gridWidth: 4
+  gridHeight: 10
+  lineColor: {r: 0, g: 1, b: 0, a: 1}
 --- !u!1 &669841214
 GameObject:
   m_ObjectHideFlags: 0
@@ -678,7 +694,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3185ff5fed0a3d44296206a6411fb553, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridSize: 4
+  cubePrefab: {fileID: 253209148917467183, guid: 946e7aba58b7b4b479f7d62397badb2a, type: 3}
+  gridWidth: 4
+  gridHeight: 8
 --- !u!4 &1411685210
 Transform:
   m_ObjectHideFlags: 0
