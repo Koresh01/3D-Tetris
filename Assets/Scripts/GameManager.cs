@@ -7,7 +7,7 @@ class GameManager : MonoBehaviour
     public GameObject cubePrefab; // Префаб кубика
 
     [Tooltip("Ширина (N x N) игровой области")]
-    [Range(1, 10)] // Ограничиваем размер поля в разумных пределах
+    [Range(1, 9)] // Теперь только нечетные числа в диапазоне
     public int gridWidth = 5; // Размерность поля
 
     [Tooltip("Высота игровой области")]
