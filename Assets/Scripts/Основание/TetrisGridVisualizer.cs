@@ -63,12 +63,12 @@ public class TetrisGridVisualizer : MonoBehaviour
     /// </summary>
     private void DrawVerticalLines(float width, float gridHeight)
     {
-        Vector3 bottomLeft = new Vector3(-width / 2, 0, -width / 2);
-        Vector3 bottomRight = new Vector3(width / 2, 0, -width / 2);
-        Vector3 topLeft = new Vector3(-width / 2, 0, width / 2);
-        Vector3 topRight = new Vector3(width / 2, 0, width / 2);
+        Vector3 bottomLeft = new Vector3(-width / 2, 0.5f, -width / 2);
+        Vector3 bottomRight = new Vector3(width / 2, 0.5f, -width / 2);
+        Vector3 topLeft = new Vector3(-width / 2, 0.5f, width / 2);
+        Vector3 topRight = new Vector3(width / 2, 0.5f, width / 2);
 
-        Vector3 up = Vector3.up * gridHeight;
+        Vector3 up = Vector3.up * (gridHeight - 0.5f);
 
         Handles.DrawLine(bottomLeft, bottomLeft + up);
         Handles.DrawLine(bottomRight, bottomRight + up);
