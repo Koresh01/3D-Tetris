@@ -1,7 +1,9 @@
 using UnityEngine;
 
-public class CameraOrbitController : MonoBehaviour
+public class MobileInput : MonoBehaviour
 {
+    [SerializeField] Camera camera;
+
     public Transform target; // Целевой объект, вокруг которого вращается камера
     public float rotationSpeed = 0.2f; // Скорость вращения камеры
     public float zoomSpeed = 0.5f; // Скорость приближения/отдаления
@@ -19,7 +21,7 @@ public class CameraOrbitController : MonoBehaviour
             Debug.LogError("CameraOrbitController: Не назначен целевой объект!");
             return;
         }
-        distanceToTarget = Vector3.Distance(transform.position, target.position);
+        distanceToTarget = Vector3.Distance(camera.transform.position, target.position);
     }
 
     private void Update()
@@ -63,16 +65,16 @@ public class CameraOrbitController : MonoBehaviour
         float rotationY = -touchDelta.y * rotationSpeed;
 
         // Вращаем камеру вокруг объекта
-        transform.RotateAround(target.position, Vector3.up, rotationX);
-        transform.RotateAround(target.position, transform.right, rotationY);
+        camera.transform.RotateAround(target.position, Vector3.up, rotationX);
+        camera.transform.RotateAround(target.position, camera.transform.right, rotationY);
 
         // Обновляем расстояние камеры до цели после вращения
-        distanceToTarget = Vector3.Distance(transform.position, target.position);
+        distanceToTarget = Vector3.Distance(camera.transform.position, target.position);
     }
 
     private void UpdateCameraPosition()
     {
-        Vector3 direction = (transform.position - target.position).normalized;
-        transform.position = target.position + direction * distanceToTarget;
+        Vector3 direction = (camera.transform.position - target.position).normalized;
+        camera.transform.position = target.position + direction * distanceToTarget;
     }
 }
