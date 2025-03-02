@@ -65,7 +65,7 @@ public class StructureController : MonoBehaviour
         foreach (BlockController block in blocks)
         {
             block.isFalling = true;
-            block.transform.parent = null; // Освобождаем блоки от родительского объекта
+            block.transform.parent = transform.parent; // Освобождаем блоки от родительского объекта
         }
 
         Destroy(gameObject); // Удаляем объект, на котором висел StructureController

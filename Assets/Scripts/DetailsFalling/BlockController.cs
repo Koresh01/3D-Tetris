@@ -31,14 +31,14 @@ public class BlockController : MonoBehaviour
     /// </summary>
     private void Fall()
     {
-        transform.Translate(Vector3.down * Time.deltaTime, Space.World);
-
         // ≈сли достигли поверхности, фиксируем блок
         if (IsTouchingGround())
         {
             AlignToGround();
             isFalling = false;
         }
+
+        transform.Translate(Vector3.down * Time.deltaTime, Space.World);
     }
 
     /// <summary>
