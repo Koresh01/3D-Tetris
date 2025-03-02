@@ -1,21 +1,22 @@
 ﻿using UnityEngine;
 
-class GameManager : MonoBehaviour
+public class GameManager : MonoBehaviour
 {
     [Header("Настройки поля:")]
-    [Tooltip("Префаб кубика, который будет использоваться для генерации поля")]
-    public GameObject cubePrefab; // Префаб кубика
 
     [Tooltip("Ширина (N x N) игровой области")]
-    [Range(1, 9)] // Теперь только нечетные числа в диапазоне
-    public int gridWidth = 5; // Размерность поля
+    [Range(1, 9)]
+    public int gridWidth = 5;
 
     [Tooltip("Высота игровой области")]
-    [Range(1, 20)] // Ограничиваем размер поля в разумных пределах
-    public int gridHeight = 15; // Размерность поля
+    [Range(1, 20)]
+    public int gridHeight = 15;
 
 
     [Header("Ещё настройки:")]
     bool pause = false;
+
+    [Header("Текущее состояние игры:")]
+    bool readyToCreateDetail = false;
 
 }
