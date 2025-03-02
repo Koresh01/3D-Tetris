@@ -2,67 +2,83 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Скрипт висит на детальке тетриса и упарвляет логикой кубиков из которых он состоит.
+/// Управляет поведением падающей тетрис-детали и её блоков.
 /// </summary>
 public class StructureController : MonoBehaviour
 {
     [SerializeField] private List<BlockController> blocks;
 
+    [Tooltip("Падает ли вся деталь как единое целое.")]
+    public bool isFalling = true;
+
     private void Start()
     {
-        // Находим все блоки в подчинении этого объекта
+        // Находим все блоки внутри этой детали
         blocks = new List<BlockController>(GetComponentsInChildren<BlockController>());
     }
 
-    /// <summary>
-    /// Метод вращает всю падающую детальку.
-    /// </summary>
-    /// <param name="rotation"></param>
-    public void RotateStructure(Vector3 rotation)
+    private void Update()
     {
-        transform.Rotate(rotation);
-    }
-
-    /// <summary>
-    /// Метод как бы говорит что все кубики существуют сами
-    /// по себе, то есть отдельно от своего родительского 
-    /// GameObj на котором висит StructureController.
-    /// </summary>
-    public void Collapse()
-    {
-        foreach (BlockController block in blocks)
+        if (isFalling)
         {
-            // Запускаем падение блоков
-            block.isFalling = true;
+            Fall();
         }
     }
 
     /// <summary>
-    /// Метод проверяет, возможно какой то блок уже уперся,
-    /// тогда тормозим всю конструкцию. Метод имеет смысл,
-    /// только если целостность всей детали еще не была разрушена
-    /// методом Collapse.
+    /// Перемещает всю деталь вниз.
     /// </summary>
-    private void CheckIfAnyBlockStopped()
+    private void Fall()
+    {
+        transform.Translate(Vector3.down * Time.deltaTime, Space.World);
+
+        // Если хотя бы один блок достиг поверхности, останавливаем деталь
+        if (IsTouchingGround())
+        {
+            isFalling = false;
+            StopAllBlocks();
+        }
+    }
+
+    /// <summary>
+    /// Проверяет, касается ли хотя бы один блок земли или неподвижного объекта.
+    /// </summary>
+    private bool IsTouchingGround()
     {
         foreach (BlockController block in blocks)
         {
-            if (!block.isFalling)
+            if (block.IsTouchingGround())
             {
-                StopAllBlocks();
-                break; // Если один блок остановился, останавливаем проверку
+                return true;
             }
         }
+        return false;
     }
 
     /// <summary>
-    /// Метод, останавливающий все блоки текущей детали.
+    /// Разбирает деталь на отдельные блоки, удаляя родительский объект.
+    /// Этот метод можно вызвать вручную через инспектор.
+    /// </summary>
+    [ContextMenu("Разобрать деталь")]
+    private void Collapse()
+    {
+        foreach (BlockController block in blocks)
+        {
+            block.isFalling = true;
+            block.transform.parent = null; // Освобождаем блоки от родительского объекта
+        }
+
+        Destroy(gameObject); // Удаляем объект, на котором висел StructureController
+    }
+
+    /// <summary>
+    /// Останавливает все блоки внутри детали.
     /// </summary>
     private void StopAllBlocks()
     {
         foreach (BlockController block in blocks)
         {
-            block.isFalling = false; // Метод для остановки движения блока
+            block.isFalling = false;
         }
     }
 }
