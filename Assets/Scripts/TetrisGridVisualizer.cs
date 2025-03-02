@@ -37,9 +37,13 @@ public class TetrisGridVisualizer : MonoBehaviour
         Handles.color = lineColor;
 
         // Слои по которым будут расставлены кубики
-        for (int h = 0; h < gridHeight; h++) {
+        /*for (int h = 0; h < gridHeight; h++) {
             DrawRectangle(h);
-        }
+        }*/
+        DrawRectangle(0);
+        DrawRectangle(gridHeight);
+
+        DrawLines(gridHeight);
 
     }
 
@@ -48,16 +52,42 @@ public class TetrisGridVisualizer : MonoBehaviour
     /// </summary>
     private void DrawRectangle(int h)
     {
-        Vector3 leftBottom = start  + new Vector3(0, h, 0);
+        Vector3 leftBottom  = start + new Vector3(0, h, 0);
         Vector3 rightBottom = start + new Vector3(gridWidth, h, 0);
-        Vector3 rightUp = start     + new Vector3(gridWidth, h, gridWidth);
-        Vector3 leftUp = start      + new Vector3(0, h, gridWidth);
+        Vector3 rightUp     = start + new Vector3(gridWidth, h, gridWidth);
+        Vector3 leftUp      = start + new Vector3(0, h, gridWidth);
 
 
         Handles.DrawLine(leftBottom, rightBottom);
         Handles.DrawLine(rightBottom, rightUp);
         Handles.DrawLine(rightUp, leftUp);
         Handles.DrawLine(leftUp, leftBottom);
+    }
+
+    /// <summary>
+    /// Рисует вертикальные линии.
+    /// </summary>
+    private void DrawLines(int h)
+    {
+        Vector3 l1      = start + new Vector3(0, 0, 0);
+        Vector3 l1Up    = start + new Vector3(0, h, 0);
+
+        Vector3 l2      = start + new Vector3(gridWidth, 0, 0);
+        Vector3 l2Up    = start + new Vector3(gridWidth, h, 0);
+
+        Vector3 l3      = start + new Vector3(0, 0, gridWidth);
+        Vector3 l3Up    = start + new Vector3(0, h, gridWidth);
+
+        Vector3 l4      = start + new Vector3(gridWidth, 0, gridWidth);
+        Vector3 l4Up    = start + new Vector3(gridWidth, h, gridWidth);
+
+
+
+
+        Handles.DrawLine(l1, l1Up);
+        Handles.DrawLine(l2, l2Up);
+        Handles.DrawLine(l3, l3Up);
+        Handles.DrawLine(l4, l4Up);
     }
 }
 #endif
