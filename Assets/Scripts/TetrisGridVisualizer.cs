@@ -40,8 +40,8 @@ public class TetrisGridVisualizer : MonoBehaviour
         /*for (int h = 0; h < gridHeight; h++) {
             DrawRectangle(h);
         }*/
-        DrawRectangle(0);
-        DrawRectangle(gridHeight);
+        DrawRectangle(-0.5f);
+        DrawRectangle(gridHeight-0.5f);
 
         DrawLines(gridHeight);
 
@@ -50,7 +50,7 @@ public class TetrisGridVisualizer : MonoBehaviour
     /// <summary>
     /// Рисует прямоугольник (основание или верхнюю границу)
     /// </summary>
-    private void DrawRectangle(int h)
+    private void DrawRectangle(float h)
     {
         Vector3 leftBottom  = start + new Vector3(0, h, 0);
         Vector3 rightBottom = start + new Vector3(gridWidth, h, 0);
@@ -69,17 +69,17 @@ public class TetrisGridVisualizer : MonoBehaviour
     /// </summary>
     private void DrawLines(int h)
     {
-        Vector3 l1      = start + new Vector3(0, 0, 0);
-        Vector3 l1Up    = start + new Vector3(0, h, 0);
+        Vector3 l1      = start + new Vector3(0, -0.5f, 0);
+        Vector3 l1Up    = start + new Vector3(0, h-0.5f, 0);
 
-        Vector3 l2      = start + new Vector3(gridWidth, 0, 0);
-        Vector3 l2Up    = start + new Vector3(gridWidth, h, 0);
+        Vector3 l2      = start + new Vector3(gridWidth, -0.5f, 0);
+        Vector3 l2Up    = start + new Vector3(gridWidth, h-0.5f, 0);
 
-        Vector3 l3      = start + new Vector3(0, 0, gridWidth);
-        Vector3 l3Up    = start + new Vector3(0, h, gridWidth);
+        Vector3 l3      = start + new Vector3(0, -0.5f, gridWidth);
+        Vector3 l3Up    = start + new Vector3(0, h-0.5f, gridWidth);
 
-        Vector3 l4      = start + new Vector3(gridWidth, 0, gridWidth);
-        Vector3 l4Up    = start + new Vector3(gridWidth, h, gridWidth);
+        Vector3 l4      = start + new Vector3(gridWidth, -0.5f, gridWidth);
+        Vector3 l4Up    = start + new Vector3(gridWidth, h-0.5f, gridWidth);
 
 
 

@@ -9,18 +9,32 @@ public class BlockController : MonoBehaviour
     [SerializeField] private StructureController parentStructure; // Ссылка на родительскую деталь
     public bool isFalling = false; // Флаг падения отдельного блока
 
+    [Header("Положение кубика:")]
+    [SerializeField] Vector3 localPos;       // Локальные координаты относительно родителя
+    [SerializeField] Vector3 worldPos;       // Глобальные координаты
+    [SerializeField] Vector3Int roundedWorldPos;    // Округлённые мировые координаты
+    [SerializeField] Vector3Int alignedWorldPos;    // Округлённые мировые координаты
+
+    [Header("Состояник кубика:")]
+    [SerializeField] bool isTouchingGround;
+
     private void Start()
     {
-        // Получаем ссылку на родительский объект (деталь, к которой относится блок)
         parentStructure = GetComponentInParent<StructureController>();
     }
 
-    private void Update()
+    private void LateUpdate()
     {
-        bool isParentFalling = parentStructure.isFalling;
+        // Сбор данных о положении:
+        localPos = transform.localPosition;
+        worldPos = transform.position;
+        roundedWorldPos = GetRoundedPosition();
+        alignedWorldPos = GetAlignedPosition();
 
-        // Если родительская деталь уже остановилась, даем блоку падать отдельно
-        if (isFalling && !isParentFalling)
+        isTouchingGround = IsTouchingGround(GetRoundedPosition());
+
+        // Действие:
+        if (isFalling && !parentStructure.isFalling)
         {
             Fall();
         }
@@ -31,47 +45,56 @@ public class BlockController : MonoBehaviour
     /// </summary>
     private void Fall()
     {
-        // Если достигли поверхности, фиксируем блок
-        if (IsTouchingGround())
+        Vector3Int roundedPos = GetRoundedPosition();
+
+        if (IsTouchingGround(roundedPos))
         {
-            AlignToGround();
+            //AlignToGround(roundedPos);
             isFalling = false;
-        }
 
-        transform.Translate(Vector3.down * Time.deltaTime, Space.World);
+            Vector3Int alignedGridPos = GetAlignedPosition();
+            Grid.SetCellState(alignedGridPos, CellState.Taken);
+        }
+        else
+        {
+            transform.Translate(Vector3.down * Time.deltaTime, Space.World);
+        }
     }
 
     /// <summary>
-    /// Проверяет, находится ли под блоком поверхность или другой неподвижный блок.
+    /// Проверяет, есть ли под блоком препятствие.
     /// </summary>
-    public bool IsTouchingGround()
+    public bool IsTouchingGround(Vector3Int roundedPos)
     {
-        RaycastHit hit;
-        if (Physics.Raycast(transform.position, Vector3.down, out hit, 0.5f))
-        {
-            BlockController otherBlock = hit.collider.GetComponent<BlockController>();
-
-            if (otherBlock != null && otherBlock.isFalling)
-            {
-                return false; // Игнорируем падающие блоки
-            }
-            return true; // Достигли поверхности или неподвижного объекта
-        }
-        return false;
+        // return roundedPos.y == 0 || Grid.GetCellState(roundedPos) == CellState.Taken;
+        return Grid.GetCellState(roundedPos) == CellState.Taken;
     }
 
     /// <summary>
-    /// Выравнивает блок по поверхности.
+    /// Возвращает округлённую позицию кубика.
+    /// (Округлённую до нижнего значения по оси Y).
     /// </summary>
-    private void AlignToGround()
+    public Vector3Int GetRoundedPosition()
     {
-        RaycastHit hit;
-        if (Physics.Raycast(transform.position, Vector3.down, out hit, 0.6f))
-        {
-            transform.position = new Vector3(
-                transform.position.x,
-                hit.collider.transform.position.y + 1f, // Поднимаем на 1, так как размер кубика 1x1x1
-                transform.position.z);
-        }
+        worldPos = transform.position; // Уже глобальная позиция
+
+        return new Vector3Int(
+            Mathf.RoundToInt(worldPos.x),
+            Mathf.FloorToInt(worldPos.y),
+            Mathf.RoundToInt(worldPos.z)
+        );
+    }
+
+    /// <summary>
+    /// Возвращает позицию блока по сетке.
+    /// (Не округляет до нижнего значения по оси Y).
+    /// </summary>
+    public Vector3Int GetAlignedPosition()
+    {
+        return new Vector3Int(
+            Mathf.RoundToInt(worldPos.x),
+            Mathf.RoundToInt(worldPos.y),
+            Mathf.RoundToInt(worldPos.z)
+        );
     }
 }

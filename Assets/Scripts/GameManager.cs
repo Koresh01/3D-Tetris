@@ -19,4 +19,9 @@ public class GameManager : MonoBehaviour
     [Header("Текущее состояние игры:")]
     bool readyToCreateDetail = false;
 
+    void Awake()
+    {
+        Grid.InitializeGrid(new Vector3Int(gridWidth, gridHeight, gridWidth));
+    }
+
 }
