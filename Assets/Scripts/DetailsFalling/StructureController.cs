@@ -28,6 +28,10 @@ public class StructureController : MonoBehaviour
         {
             Fall();
         }
+        else if (!hasGroundContact)
+        {
+            isFalling = true;
+        }
     }
 
     /// <summary>
@@ -42,10 +46,6 @@ public class StructureController : MonoBehaviour
         {
             isFalling = false;
             FillGrid();
-        }
-        else // «начит снова можно продолжить падение детали.
-        {
-            isFalling = true;
         }
     }
 
