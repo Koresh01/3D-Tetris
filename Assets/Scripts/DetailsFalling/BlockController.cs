@@ -34,9 +34,14 @@ public class BlockController : MonoBehaviour
         isTouchingGround = IsTouchingGround(GetRoundedPosition());
 
         // Действие:
-        if (isFalling && !parentStructure.isFalling)
+        if (!parentStructure.isFalling)
         {
-            Fall();
+            if (isFalling)
+                Fall();
+            else if (parentStructure == null)
+            {
+                isFalling = true;
+            }
         }
     }
 
