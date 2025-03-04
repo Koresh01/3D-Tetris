@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 /// <summary>
@@ -39,25 +41,34 @@ public class StructureController : MonoBehaviour
         }
         else
         {
-            //FreeCells();
+            FreeCells();
             transform.Translate(Vector3.down * Time.deltaTime, Space.World);
         }
     }
 
     /// <summary>
-    /// Проверяет, касается ли хотя бы один блок земли или занятой клетки.
+    /// Проверяет, касается ли хотя бы один блок земли или занятой клетки,
+    /// игнорируя блоки этой же детали.
     /// </summary>
     private bool HasGroundContact()
     {
         foreach (BlockController block in blocks)
         {
-            if (block.IsTouchingGround())
+            Vector3Int blockPos = block.GetAlignedPosition();
+            Vector3Int belowPos = blockPos + Vector3Int.down;
+
+            // Если блок касается земли или занятой клетки
+            if (Grid.GetCellState(belowPos) == CellState.Filled)
             {
-                return true;
+                // Проверяем, не является ли эта клетка частью той же детали
+                bool touchingOurBlock = blocks.Any(other => other != block && other.GetAlignedPosition() == belowPos);
+                if (!touchingOurBlock)  // тронули блок не этой детали, значит фиксируем соприкосновение с другой деталью/землей.
+                    return true;
             }
         }
         return false;
     }
+
 
     /// <summary>
     /// Разбирает деталь на отдельные блоки, удаляя родительский объект.
@@ -83,9 +94,9 @@ public class StructureController : MonoBehaviour
     /// </summary>
     private void FillCells()
     {
+        // Говорим что эти ячейки заняты:
         foreach (BlockController block in blocks)
         {
-            // Говорим что эти ячейки заняты:
             block.FillCell();
         }
     }
@@ -95,9 +106,9 @@ public class StructureController : MonoBehaviour
     /// </summary>
     private void FreeCells()
     {
+        // Говорим что эти ячейки свободны:
         foreach (BlockController block in blocks)
         {
-            // Говорим что эти ячейки свободны:
             block.FreeCell();
         }
     }

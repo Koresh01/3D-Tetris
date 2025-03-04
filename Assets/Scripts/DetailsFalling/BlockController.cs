@@ -69,9 +69,9 @@ public class BlockController : MonoBehaviour
     public Vector3Int GetAlignedPosition()
     {
         return new Vector3Int(
-            Mathf.RoundToInt(worldPos.x),
-            Mathf.CeilToInt(worldPos.y), // Округление вверх
-            Mathf.RoundToInt(worldPos.z)
+            Mathf.RoundToInt(transform.position.x),
+            Mathf.CeilToInt(transform.position.y), // Округление вверх
+            Mathf.RoundToInt(transform.position.z)
         );
     }
 
@@ -107,6 +107,16 @@ public class BlockController : MonoBehaviour
     public void FreeCell()
     {
         Vector3Int CellPosition = GetAlignedPosition();
+
+        if (CellPosition == Vector3Int.zero)
+        {
+            Debug.LogError("Обращение к нулевому квадратику.");
+            Debug.Log($"parent Name: {parentStructure.name}");
+            Debug.Log($"block Name: {transform.name}");
+            Debug.Log($"block pos: {transform.position}");
+            Debug.Log($"block aligned Position: {GetAlignedPosition()}");
+        }
+
         Grid.SetCellState(CellPosition, CellState.Free);
 
         CellsVizualizer.Instance.ReGenerate();
