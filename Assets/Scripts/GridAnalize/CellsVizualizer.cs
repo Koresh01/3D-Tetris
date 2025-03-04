@@ -63,6 +63,7 @@ public class CellsVizualizer : MonoBehaviour
     /// Пересоздаёт игровую сетку, если размеры изменились. 
     /// В противном случае обновляет материалы существующих клеток.
     /// </summary>
+    [ContextMenu("Обновить визуализацию Grid.")]
     public void ReGenerate()
     {
         Vector3Int newSize = new Vector3Int(gameManager.gridWidth, gameManager.gridHeight, gameManager.gridWidth);
@@ -110,11 +111,8 @@ public class CellsVizualizer : MonoBehaviour
     /// </summary>
     public void UpdateCellMaterial(Vector3Int position)
     {
-        if (Grid.IsInsideGrid(position))
-        {
-            Material mat = Grid.GetCellState(position) == CellState.Free ? defaultMaterial : occupiedMaterial;
-            cells[position.x, position.y, position.z].GetComponent<Renderer>().material = mat;
-        }
+        Material mat = Grid.GetCellState(position) == CellState.Free ? defaultMaterial : occupiedMaterial;
+        cells[position.x, position.y, position.z].GetComponent<Renderer>().material = mat;
     }
 
     /// <summary>

@@ -32,5 +32,8 @@ class FoundationCreator : MonoBehaviour
                 Grid.SetCellState(positionBottomLayer, CellState.Filled);
             }
         }
+
+        // Отрисовывем состояние ячеек:
+        CellsVizualizer.Instance.ReGenerate();
     }
 }

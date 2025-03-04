@@ -12,7 +12,6 @@ public class BlockController : MonoBehaviour
     [Header("Положение кубика:")]
     [SerializeField] Vector3 localPos;       // Локальные координаты относительно родителя
     [SerializeField] Vector3 worldPos;       // Глобальные координаты
-    [SerializeField] Vector3Int roundedWorldPos;    // Округлённые мировые координаты
     [SerializeField] Vector3Int alignedWorldPos;    // Округлённые мировые координаты
     [SerializeField] bool haveParent;
 

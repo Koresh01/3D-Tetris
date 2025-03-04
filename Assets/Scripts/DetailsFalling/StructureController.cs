@@ -39,7 +39,7 @@ public class StructureController : MonoBehaviour
         }
         else
         {
-            FreeCells();
+            //FreeCells();
             transform.Translate(Vector3.down * Time.deltaTime, Space.World);
         }
     }
@@ -69,7 +69,7 @@ public class StructureController : MonoBehaviour
         foreach (BlockController block in blocks)
         {
             // Говорим что эти ячейки свободные:
-            FreeCells();
+            // FreeCells();
 
             // Запускаем падение кубиков(удаляя им родителя):
             block.transform.parent = transform.parent; // Освобождаем блоки от родительского объекта

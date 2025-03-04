@@ -57,7 +57,7 @@ public static class Grid
     /// <summary>
     /// ѕровер€ет, находитс€ ли клетка в пределах сетки.
     /// </summary>
-    public static bool IsInsideGrid(Vector3Int position)
+    private static bool IsInsideGrid(Vector3Int position)
     {
         return position.x >= 0 && position.x < sizeX &&
                position.y >= 0 && position.y < sizeY &&
