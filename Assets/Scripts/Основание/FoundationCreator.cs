@@ -29,7 +29,7 @@ class FoundationCreator : MonoBehaviour
             for (int z = 0; z < gridWidth; z++)
             {
                 Vector3Int positionBottomLayer = new Vector3Int(x, 0, z);
-                Grid.SetCellState(positionBottomLayer, CellState.Taken);
+                Grid.SetCellState(positionBottomLayer, CellState.Filled);
             }
         }
     }

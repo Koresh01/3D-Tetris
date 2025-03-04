@@ -14,6 +14,7 @@ public class BlockController : MonoBehaviour
     [SerializeField] Vector3 worldPos;       // Глобальные координаты
     [SerializeField] Vector3Int roundedWorldPos;    // Округлённые мировые координаты
     [SerializeField] Vector3Int alignedWorldPos;    // Округлённые мировые координаты
+    [SerializeField] bool haveParent;
 
     [Header("Состояник кубика:")]
     [SerializeField] bool isTouchingGround;
@@ -28,21 +29,13 @@ public class BlockController : MonoBehaviour
         // Сбор данных о положении:
         localPos = transform.localPosition;
         worldPos = transform.position;
-        roundedWorldPos = GetRoundedPosition();
         alignedWorldPos = GetAlignedPosition();
-
-        isTouchingGround = IsTouchingGround(GetRoundedPosition());
+        isTouchingGround = IsTouchingGround();
+        haveParent = parentStructure != null;
 
         // Действие:
-        if (!parentStructure.isFalling)
-        {
-            if (isFalling)
-                Fall();
-            else if (parentStructure == null)
-            {
-                isFalling = true;
-            }
-        }
+        if (!haveParent)
+            Fall();
     }
 
     /// <summary>
@@ -50,56 +43,69 @@ public class BlockController : MonoBehaviour
     /// </summary>
     private void Fall()
     {
-        Vector3Int roundedPos = GetRoundedPosition();
-
-        if (IsTouchingGround(roundedPos))
+        if (IsTouchingGround())
         {
-            //AlignToGround(roundedPos);
-            isFalling = false;
-
-            Vector3Int alignedGridPos = GetAlignedPosition();
-            Grid.SetCellState(alignedGridPos, CellState.Taken);
+            // тут можно центрировать кубики.
+            FillCell();
         }
         else
         {
+            FreeCell();
             transform.Translate(Vector3.down * Time.deltaTime, Space.World);
         }
     }
 
     /// <summary>
-    /// Проверяет, есть ли под блоком препятствие.
+    /// Проверяет, свободна ли клетка.
     /// </summary>
-    public bool IsTouchingGround(Vector3Int roundedPos)
+    /// <param name="roundedPos">позиция</param>
+    public CellState GetCellState(Vector3Int position)
     {
-        // return roundedPos.y == 0 || Grid.GetCellState(roundedPos) == CellState.Taken;
-        return Grid.GetCellState(roundedPos) == CellState.Taken;
+        return Grid.GetCellState(position);
     }
-
-    /// <summary>
-    /// Возвращает округлённую позицию кубика.
-    /// (Округлённую до нижнего значения по оси Y).
-    /// </summary>
-    public Vector3Int GetRoundedPosition()
-    {
-        worldPos = transform.position; // Уже глобальная позиция
-
-        return new Vector3Int(
-            Mathf.RoundToInt(worldPos.x),
-            Mathf.FloorToInt(worldPos.y),
-            Mathf.RoundToInt(worldPos.z)
-        );
-    }
-
+    
     /// <summary>
     /// Возвращает позицию блока по сетке.
-    /// (Не округляет до нижнего значения по оси Y).
     /// </summary>
     public Vector3Int GetAlignedPosition()
     {
         return new Vector3Int(
             Mathf.RoundToInt(worldPos.x),
-            Mathf.RoundToInt(worldPos.y),
+            Mathf.CeilToInt(worldPos.y), // Округление вверх
             Mathf.RoundToInt(worldPos.z)
         );
+    }
+
+    /// <summary>
+    /// Проверяет, касается ли блок земли.
+    /// </summary>
+    /// <returns></returns>
+    public bool IsTouchingGround()
+    {
+        Vector3Int alignedCellPos = GetAlignedPosition();
+        if (GetCellState(alignedCellPos + Vector3Int.down) == CellState.Filled)
+        {
+            return true;
+        }
+        else
+            return false;
+    }
+
+    /// <summary>
+    /// Заполняет ячейку где расположен этот кубик.
+    /// </summary>
+    public void FillCell()
+    {
+        Vector3Int CellPosition = GetAlignedPosition();
+        Grid.SetCellState(CellPosition, CellState.Filled);
+    }
+
+    /// <summary>
+    /// Освобождает ячейку где расположен этот кубик.
+    /// </summary>
+    public void FreeCell()
+    {
+        Vector3Int CellPosition = GetAlignedPosition();
+        Grid.SetCellState(CellPosition, CellState.Free);
     }
 }

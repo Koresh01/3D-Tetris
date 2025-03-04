@@ -7,5 +7,5 @@ public enum CellState
     [Tooltip("Клетка свободна")]
     Free,
     [Tooltip("Клетка занята")]
-    Taken
+    Filled
 }
