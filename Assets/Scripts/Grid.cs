@@ -42,7 +42,7 @@ public static class Grid
         }
         else
         {
-            Debug.LogError("ѕереданные координаты не попали в игровую область");
+            Debug.LogError($"ѕереданные координаты [x:{position.x}, y:{position.y}, z:{position.z}] не попали в игровую область");
         }
     }
 
@@ -57,7 +57,7 @@ public static class Grid
     /// <summary>
     /// ѕровер€ет, находитс€ ли клетка в пределах сетки.
     /// </summary>
-    private static bool IsInsideGrid(Vector3Int position)
+    public static bool IsInsideGrid(Vector3Int position)
     {
         return position.x >= 0 && position.x < sizeX &&
                position.y >= 0 && position.y < sizeY &&
