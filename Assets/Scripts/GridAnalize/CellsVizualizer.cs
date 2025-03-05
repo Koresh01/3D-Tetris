@@ -7,8 +7,6 @@ public class CellsVizualizer : MonoBehaviour
 {
     public static CellsVizualizer Instance { get; private set; } // Синглтон
 
-    [SerializeField] private GameManager gameManager;
-
     [Header("Настройки")]
     public GameObject cellPrefab; // Префаб кубика
     public Material defaultMaterial; // Материал для свободных клеток
@@ -40,7 +38,7 @@ public class CellsVizualizer : MonoBehaviour
     /// </summary>
     private void GenerateGrid()
     {
-        size = new Vector3Int(gameManager.gridWidth, gameManager.gridHeight, gameManager.gridWidth);
+        size = new Vector3Int(GameManager.gridWidth, GameManager.gridHeight, GameManager.gridWidth);
         cells = new GameObject[size.x, size.y, size.z];
 
         for (int x = 0; x < size.x; x++)
@@ -66,7 +64,7 @@ public class CellsVizualizer : MonoBehaviour
     [ContextMenu("Обновить визуализацию Grid.")]
     public void ReGenerate()
     {
-        Vector3Int newSize = new Vector3Int(gameManager.gridWidth, gameManager.gridHeight, gameManager.gridWidth);
+        Vector3Int newSize = new Vector3Int(GameManager.gridWidth, GameManager.gridHeight, GameManager.gridWidth);
 
         if (cells != null && newSize == size)
         {

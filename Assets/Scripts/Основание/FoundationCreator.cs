@@ -5,13 +5,12 @@
 /// </summary>
 class FoundationCreator : MonoBehaviour
 {
-    [SerializeField] GameManager gameManager;
     [SerializeField] GameObject cubePrefab;
 
     private void Start()
     {
-        int gridWidth = gameManager.gridWidth;
-        int gridHeight = gameManager.gridHeight;
+        int gridWidth = GameManager.gridWidth;
+        int gridHeight = GameManager.gridHeight;
 
         // Создаем кубики:
         for (int x = 0; x < gridWidth; x++)

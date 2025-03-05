@@ -1,27 +1,37 @@
 ﻿using UnityEngine;
 
+[AddComponentMenu("Custom/GameManager (Главный скрипт с настройками всей игры.)")]
 public class GameManager : MonoBehaviour
 {
     [Header("Настройки поля:")]
 
-    [Tooltip("Ширина (N x N) игровой области")]
     [Range(1, 9)]
-    public int gridWidth = 5;
+    [Tooltip("Ширина (N x N) игровой области")]
+    [SerializeField] private int _gridWidth = 5;
 
-    [Tooltip("Высота игровой области")]
     [Range(1, 20)]
-    public int gridHeight = 15;
+    [Tooltip("Высота игровой области")]
+    [SerializeField] private int _gridHeight = 15;
 
+    
+    public static int gridWidth { get; private set; }
+    public static int gridHeight { get; private set; }
 
     [Header("Ещё настройки:")]
-    bool pause = false;
+    private bool pause = false;
 
     [Header("Текущее состояние игры:")]
-    bool readyToCreateDetail = false;
+    private bool _readyToCreateDetail = false;
 
-    void Awake()
+
+    
+
+    private void Awake()
     {
-        Grid.InitializeGrid(new Vector3Int(gridWidth, gridHeight, gridWidth));
-    }
+        gridWidth = _gridWidth;
+        gridHeight = _gridHeight;
 
+
+        Grid.InitializeGrid();
+    }
 }

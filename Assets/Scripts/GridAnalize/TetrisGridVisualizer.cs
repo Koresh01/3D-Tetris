@@ -7,8 +7,6 @@ using UnityEditor;
 /// </summary>
 public class TetrisGridVisualizer : MonoBehaviour
 {
-    [SerializeField] GameManager gameManager;
-
     [Tooltip("Ширина игровой области")]
     public int gridWidth;
 
@@ -25,11 +23,8 @@ public class TetrisGridVisualizer : MonoBehaviour
     {
         start = new Vector3(- 0.5f, 0, - 0.5f);   // где целесообразнее это делать?
 
-        if (gameManager != null)
-        {
-            gridWidth = gameManager.gridWidth;
-            gridHeight = gameManager.gridHeight;
-        }
+        gridWidth = GameManager.gridWidth;
+        gridHeight = GameManager.gridHeight;
     }
 
     private void OnDrawGizmos()

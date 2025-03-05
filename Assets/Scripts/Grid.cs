@@ -11,11 +11,11 @@ public static class Grid
     /// <summary>
     /// »нициализирует игровое поле с заданными размерами.
     /// </summary>
-    public static void InitializeGrid(Vector3Int size)
+    public static void InitializeGrid()
     {
-        sizeX = size.x;
-        sizeY = size.y;
-        sizeZ = size.z;
+        sizeX = GameManager.gridWidth;
+        sizeY = GameManager.gridHeight;
+        sizeZ = GameManager.gridWidth;
         grid = new CellState[sizeX, sizeY, sizeZ];
 
         // «аполн€ем поле свободными клетками
