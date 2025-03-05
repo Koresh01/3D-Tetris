@@ -860,6 +860,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _gridWidth: 5
   _gridHeight: 12
+  detailsSpawner: {fileID: 584927309}
+  pause: 0
+  _readyToCreateDetail: 0
 --- !u!4 &1411685210
 Transform:
   m_ObjectHideFlags: 0

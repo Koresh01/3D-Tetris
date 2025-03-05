@@ -1,9 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-/// <summary>
-/// Скрипт спавнит очередную детальку на сцене.
-/// </summary>
+
 [AddComponentMenu("Custom/Details Spawner (Скрипт спавнит очередную детальку на сцене.)")]
 public class DetailsSpawner : MonoBehaviour
 {
@@ -22,13 +20,20 @@ public class DetailsSpawner : MonoBehaviour
     private void Start()
     {
         centerPoint.GetComponent<CenterFinder>()?.FindCenter();
+        
         // Точка спавна должна быть выше на gridHeight:
-        Vector3 spawnPos = centerPoint.position + Vector3.up * GameManager.gridHeight;
-        Instantiate(spawnPoint, spawnPos, Quaternion.identity, transform);
+        Vector3 spawnPos = centerPoint.position + Vector3.up * GameManager.gridHeight + Vector3.down;
+        spawnPoint.transform.position = spawnPos;
     }
 
-    public void SpawnDetail()
+    /// <summary>
+    /// Спавнит новую деталь на игровом поле.
+    /// </summary>
+    /// <returns></returns>
+    public GameObject SpawnDetail()
     {
-        Instantiate(detailPrefabs[0], centerPoint.transform.position, Quaternion.identity, centerPoint);
+        int randId = Random.Range(0, detailPrefabs.Count);
+        GameObject currentDetail = Instantiate(detailPrefabs[randId], spawnPoint.transform.position, Quaternion.identity, detailsSceneContainer);
+        return currentDetail;
     }
 }

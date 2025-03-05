@@ -17,14 +17,34 @@ public class GameManager : MonoBehaviour
     public static int gridWidth { get; private set; }
     public static int gridHeight { get; private set; }
 
+
+
+
+
+
+    [Header("Ссылки на скрипты:")]
+    [SerializeField] private DetailsSpawner detailsSpawner;
+
+
+
+
+
     [Header("Ещё настройки:")]
-    private bool pause = false;
+    [SerializeField] private bool pause = false;
+
+
+
+
 
     [Header("Текущее состояние игры:")]
-    private bool _readyToCreateDetail = false;
+    [SerializeField] private bool _readyToCreateDetail = false;
 
 
-    
+    [Tooltip("Текущая деталь:")]
+    [SerializeField] private GameObject _currentDetail;
+
+
+
 
     private void Awake()
     {
@@ -33,5 +53,14 @@ public class GameManager : MonoBehaviour
 
 
         Grid.InitializeGrid();
+    }
+
+    private void Update()
+    {
+        if (_readyToCreateDetail)
+        {
+            _currentDetail = detailsSpawner.SpawnDetail();
+            _readyToCreateDetail = false;
+        }
     }
 }

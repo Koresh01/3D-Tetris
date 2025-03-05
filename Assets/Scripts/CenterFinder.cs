@@ -21,7 +21,7 @@ class CenterFinder : MonoBehaviour
         // Определяем куда будет смотреть камера в самом начале:
         int gridWidth = GameManager.gridWidth;
         //int gridHeight = gameManager.gridHeight;
-        Vector3 start = new Vector3(-0.5f, 1.0f, -0.5f);
+        Vector3 start = new Vector3(-0.5f, 0.0f, -0.5f);
         transform.position = start + new Vector3(gridWidth / 2f, 0, gridWidth / 2f);
     }
 }
