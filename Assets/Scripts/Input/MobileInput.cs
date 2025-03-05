@@ -2,11 +2,48 @@ using UnityEngine;
 
 public class MobileInput : CameraController
 {
+    // Поля для камеры и объекта, вокруг которого происходит вращение
+    [SerializeField] private RectTransform scrollBarRect; // Ссылка на RectTransform полоски
+    private Vector2 previousTouchPosition;
+
+    // Ввод двумя пальцами:
     private Vector2 previousTouch1;
     private Vector2 previousTouch2;
 
     protected override void HandleInput()
     {
+        if (Input.touchCount == 1) // Обрабатываем только один палец
+        {
+            Touch touch = Input.GetTouch(0);
+
+            // Преобразуем экранные координаты касания в пространство канваса
+            Vector2 localPoint;
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(scrollBarRect, touch.position, camera, out localPoint);
+
+            // Проверяем, попадает ли локальная точка в область полоски
+            if (scrollBarRect.rect.Contains(localPoint))
+            {
+                // Если движение пальца происходит по полоске
+                if (touch.phase == TouchPhase.Moved)
+                {
+                    Vector2 deltaPosition = touch.position - previousTouchPosition;
+
+                    // Изменяем угол вращения в зависимости от движения пальца
+                    float currentAngle = deltaPosition.x * rotationSpeed * Time.deltaTime;
+
+                    // Обновляем вращение камеры вокруг target
+                    RotateCamera(new Vector2(currentAngle, 0));
+
+                    // Обновляем предыдущую позицию касания
+                    previousTouchPosition = touch.position;
+                }
+                else if (touch.phase == TouchPhase.Began)
+                {
+                    // Запоминаем начальную позицию касания
+                    previousTouchPosition = touch.position;
+                }
+            }
+        }
 
         if (Input.touchCount == 2)
         {
@@ -30,5 +67,6 @@ public class MobileInput : CameraController
             previousTouch2 = touch2.position;
         }
     }
+
 
 }

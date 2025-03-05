@@ -16,7 +16,7 @@ public abstract class CameraController : MonoBehaviour
     public Transform target;
 
     [Tooltip("Скорость вращения камеры вокруг целевого объекта.")]
-    public float rotationSpeed = 0.2f;
+    public float rotationSpeed = 4f;
 
     [Tooltip("Скорость приближения/отдаления камеры.")]
     public float zoomSpeed = 0.5f;
