@@ -36,12 +36,12 @@ public class GameManager : MonoBehaviour
 
 
 
-    [Header("Текущее состояние игры:")]
+    [Header("Текущее состояние игры.")]
     [SerializeField] private bool _readyToCreateDetail = false;
 
 
-    [Tooltip("Текущая деталь:")]
-    [SerializeField] private GameObject _currentDetail;
+    [Tooltip("Текущая деталь.")]
+    public static GameObject currentDetail;
 
 
 
@@ -59,7 +59,7 @@ public class GameManager : MonoBehaviour
     {
         if (_readyToCreateDetail)
         {
-            _currentDetail = detailsSpawner.SpawnDetail();
+            detailsSpawner.SpawnDetail();
             _readyToCreateDetail = false;
         }
     }

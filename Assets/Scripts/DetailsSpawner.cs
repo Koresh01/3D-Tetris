@@ -30,10 +30,10 @@ public class DetailsSpawner : MonoBehaviour
     /// Спавнит новую деталь на игровом поле.
     /// </summary>
     /// <returns></returns>
-    public GameObject SpawnDetail()
+    public void SpawnDetail()
     {
         int randId = Random.Range(0, detailPrefabs.Count);
         GameObject currentDetail = Instantiate(detailPrefabs[randId], spawnPoint.transform.position, Quaternion.identity, detailsSceneContainer);
-        return currentDetail;
+        GameManager.currentDetail = currentDetail;
     }
 }
