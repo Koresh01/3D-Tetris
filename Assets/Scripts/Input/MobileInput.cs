@@ -7,6 +7,7 @@ public class MobileInput : CameraController
 
     protected override void HandleInput()
     {
+
         if (Input.touchCount == 2)
         {
             Touch touch1 = Input.GetTouch(0);
