@@ -863,6 +863,7 @@ MonoBehaviour:
   detailsSpawner: {fileID: 584927309}
   pause: 0
   _readyToCreateDetail: 0
+  _currentDetail: {fileID: 0}
 --- !u!4 &1411685210
 Transform:
   m_ObjectHideFlags: 0
@@ -1245,8 +1246,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5160310545743061908}
   m_Layer: 0
-  m_Name: "\u0422\u043E\u0447\u043A\u0430 \u0441\u043F\u0430\u0432\u043D\u0430 \u0441\u043B\u0435\u0434\u0443\u044E\u0449\u0435\u0439
-    \u0434\u0435\u0442\u0430\u043B\u0438"
+  m_Name: "\u0422\u043E\u0447\u043A\u0430 \u0441\u043F\u0430\u0432\u043D\u0430 \u0434\u0435\u0442\u0430\u043B\u0438"
   m_TagString: Untagged
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
