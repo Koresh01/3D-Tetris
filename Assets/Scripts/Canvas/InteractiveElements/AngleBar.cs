@@ -1,51 +1,106 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-[AddComponentMenu("Custom/AngleBar (Отвечает за работу полосы прокрутки.)")]
+[AddComponentMenu("Custom/AngleBar (РћС‚РІРµС‡Р°РµС‚ Р·Р° СЂР°Р±РѕС‚Сѓ РїРѕР»РѕСЃС‹ РїСЂРѕРєСЂСѓС‚РєРё.)")]
 public class AngleBar : MonoBehaviour
 {
-    [SerializeField, Tooltip("Габариты изображения.")] private RectTransform imageRectTransform;
-    [SerializeField, Tooltip("Область полосы прокрутки.")] private RectTransform canvasRect;
-    [SerializeField, Tooltip("Множитель скорости вращения полосы прокрутки.")] private float rotationSpeed = 6f;
+    private Vector2 previousTouchPosition; // РџРѕР·РёС†РёСЏ РєР°СЃР°РЅРёСЏ РЅР° РїСЂРµРґС‹РґСѓС‰РµРј РєР°РґСЂРµ
 
-    [SerializeField, Tooltip("Текущий угол вращения.")] private float currentRotation = 0f;
-    private float maxRotation = 360f; // Максимальный угол (360 градусов)
-    private float minRotation = 0f;   // Минимальный угол (0 градусов)
+    [SerializeField, Tooltip("РћСЃРЅРѕРІРЅР°СЏ РєР°РјРµСЂР°, СѓРїСЂР°РІР»СЏРµРјР°СЏ СЌС‚РёРј СЃРєСЂРёРїС‚РѕРј.")]
+    private Camera camera;
+
+    [SerializeField, Tooltip("РЎРєСЂРёРїС‚ СѓРїСЂР°РІР»РµРЅРёСЏ РєР°РјРµСЂРѕР№.")]
+    private CameraController cameraController;
+
+    [SerializeField, Tooltip("РћР±Р»Р°СЃС‚СЊ, С„РёРєСЃРёСЂСѓСЋС‰Р°СЏ РєР°СЃР°РЅРёСЏ.")]
+    private RectTransform scrollArea;
+
+    [SerializeField, Tooltip("РћР±Р»Р°СЃС‚СЊ РёР·РѕР±СЂР°Р¶РµРЅРёСЏ РїРѕР»РѕСЃС‹.")]
+    private RectTransform imageRect;
+
+    [SerializeField, Tooltip("РЁРёСЂРёРЅР° РёР·РѕР±СЂР°Р¶РµРЅРёСЏ РІ РїРёРєСЃРµР»СЏС….")]
+    private float imageWidth;
+
+    private void Start()
+    {
+        imageWidth = imageRect.rect.width; // Р—Р°РїРѕРјРёРЅР°РµРј С€РёСЂРёРЅСѓ РёР·РѕР±СЂР°Р¶РµРЅРёСЏ
+    }
+
+    private void Update()
+    {
+        HandleTouchInput();
+    }
 
     /// <summary>
-    /// Обновление позиции angle bar на основе угла вращения камеры.
+    /// РћР±СЂР°Р±Р°С‚С‹РІР°РµС‚ РІРІРѕРґ РѕС‚ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ РїСЂРё РєР°СЃР°РЅРёРё СЌРєСЂР°РЅР°.
     /// </summary>
-    public void UpdateAngleBarPosition(float rotationDelta)
+    private void HandleTouchInput()
     {
-        // Обновляем текущий угол вращения
-        currentRotation += rotationDelta* rotationSpeed;
+        if (Input.touchCount != 1) return; // РћР±СЂР°Р±Р°С‚С‹РІР°РµРј С‚РѕР»СЊРєРѕ РѕРґРЅРѕ РєР°СЃР°РЅРёРµ
 
-        // Обеспечиваем цикличность угла (зацикливаем его на 360 градусов)
-        if (currentRotation > maxRotation)
+        Touch touch = Input.GetTouch(0);
+
+        if (IsTouchWithinScrollArea(touch))
         {
-            currentRotation -= maxRotation;
+            switch (touch.phase)
+            {
+                case TouchPhase.Began:
+                    previousTouchPosition = touch.position; // Р—Р°РїРѕРјРёРЅР°РµРј РЅР°С‡Р°Р»СЊРЅСѓСЋ РїРѕР·РёС†РёСЋ РєР°СЃР°РЅРёСЏ
+                    break;
+                case TouchPhase.Moved:
+                    ProcessTouchMovement(touch);
+                    break;
+            }
         }
-        else if (currentRotation < minRotation)
+    }
+
+    /// <summary>
+    /// РџСЂРѕРІРµСЂСЏРµС‚, РЅР°С…РѕРґРёС‚СЃСЏ Р»Рё РєР°СЃР°РЅРёРµ РІ РїСЂРµРґРµР»Р°С… РѕР±Р»Р°СЃС‚Рё РїРѕР»РѕСЃС‹ РїСЂРѕРєСЂСѓС‚РєРё.
+    /// </summary>
+    /// <param name="touch">РўРµРєСѓС‰РµРµ РєР°СЃР°РЅРёРµ.</param>
+    /// <returns>True, РµСЃР»Рё РєР°СЃР°РЅРёРµ РІРЅСѓС‚СЂРё РѕР±Р»Р°СЃС‚Рё, РёРЅР°С‡Рµ False.</returns>
+    private bool IsTouchWithinScrollArea(Touch touch)
+    {
+        if (RectTransformUtility.ScreenPointToLocalPointInRectangle(scrollArea, touch.position, camera, out Vector2 localPoint))
         {
-            currentRotation += maxRotation;
+            return scrollArea.rect.Contains(localPoint);
+        }
+        return false;
+    }
+
+    /// <summary>
+    /// РћР±СЂР°Р±Р°С‚С‹РІР°РµС‚ РїРµСЂРµРјРµС‰РµРЅРёРµ РїР°Р»СЊС†Р° Рё РѕР±РЅРѕРІР»СЏРµС‚ РїРѕР»РѕСЃРєСѓ Рё РєР°РјРµСЂСѓ.
+    /// </summary>
+    /// <param name="touch">РўРµРєСѓС‰РµРµ РєР°СЃР°РЅРёРµ.</param>
+    private void ProcessTouchMovement(Touch touch)
+    {
+        float pixelDeltaX = touch.position.x - previousTouchPosition.x; // РЎРјРµС‰РµРЅРёРµ РїРѕ X РІ РїРёРєСЃРµР»СЏС…
+
+        // РћСЃРЅРѕРІРЅРѕРµ РґРµР№СЃС‚РІРёРµ:
+        cameraController.RotateCamera(new Vector2(pixelDeltaX, 0)); // Р’СЂР°С‰Р°РµРј РєР°РјРµСЂСѓ
+        UpdateAngleBarPosition(pixelDeltaX); // РћР±РЅРѕРІР»СЏРµРј РїРѕР»РѕСЃРєСѓ
+
+        previousTouchPosition = touch.position; // РћР±РЅРѕРІР»СЏРµРј РїСЂРµРґС‹РґСѓС‰СѓСЋ РїРѕР·РёС†РёСЋ
+    }
+
+    /// <summary>
+    /// РћР±РЅРѕРІР»СЏРµС‚ РїРѕР·РёС†РёСЋ РїРѕР»РѕСЃРєРё РЅР° РѕСЃРЅРѕРІРµ СЃРјРµС‰РµРЅРёСЏ РїРѕ РѕСЃРё X.
+    /// </summary>
+    /// <param name="pixelDeltaX">РЎРјРµС‰РµРЅРёРµ РїРѕ X РІ РїРёРєСЃРµР»СЏС….</param>
+    private void UpdateAngleBarPosition(float pixelDeltaX)
+    {
+        float newPosX = imageRect.anchoredPosition.x + pixelDeltaX;
+
+        // Р—Р°С†РёРєР»РёРІР°РµРј РґРІРёР¶РµРЅРёРµ, РµСЃР»Рё РїРѕР»РѕСЃРєР° РІС‹С…РѕРґРёС‚ Р·Р° РіСЂР°РЅРёС†С‹
+        if (newPosX > imageWidth / 4f)
+        {
+            newPosX -= imageWidth / 4f;
+        }
+        else if (newPosX < -imageWidth / 4f)
+        {
+            newPosX += imageWidth / 4f;
         }
 
-        // Преобразуем угол в значение в пикселях для смещения
-        float normalizedRotation = currentRotation / maxRotation;
-        float angleBarWidth = imageRectTransform.rect.width;
-        float newPosX = normalizedRotation * canvasRect.rect.width;
-
-        // Устанавливаем позицию Image в зависимости от вычисленного значения
-        imageRectTransform.anchoredPosition = new Vector2(newPosX, imageRectTransform.anchoredPosition.y);
-
-        // Дублируем angle bar, если он выходит за границы Canvas
-        if (imageRectTransform.anchoredPosition.x > canvasRect.rect.width)
-        {
-            imageRectTransform.anchoredPosition = new Vector2(newPosX - canvasRect.rect.width, imageRectTransform.anchoredPosition.y);
-        }
-        else if (imageRectTransform.anchoredPosition.x < 0)
-        {
-            imageRectTransform.anchoredPosition = new Vector2(newPosX + canvasRect.rect.width, imageRectTransform.anchoredPosition.y);
-        }
+        imageRect.anchoredPosition = new Vector2(newPosX, imageRect.anchoredPosition.y);
     }
 }

@@ -62,7 +62,7 @@ public abstract class CameraController : MonoBehaviour
     /// Вращает камеру вокруг целевого объекта.
     /// </summary>
     /// <param name="rotationDelta">Изменение угла вращения (обычно на основе пользовательского ввода).</param>
-    protected void RotateCamera(Vector2 rotationDelta)
+    public void RotateCamera(Vector2 rotationDelta)
     {
         // Вращение по горизонтали (вокруг оси Y)
         camera.transform.RotateAround(target.position, Vector3.up, rotationDelta.x * rotationSpeed);
@@ -72,13 +72,6 @@ public abstract class CameraController : MonoBehaviour
 
         // Обновление дистанции до целевого объекта после вращения
         distanceToTarget = Vector3.Distance(camera.transform.position, target.position);
-
-        // Передаем изменение угла в angle bar
-        float currentAngle = rotationDelta.x;
-        if (angleBar != null)
-        {
-            angleBar.UpdateAngleBarPosition(currentAngle);
-        }
     }
 
     /// <summary>
