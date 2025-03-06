@@ -48,7 +48,12 @@ public class AngleBar : MonoBehaviour
                     previousTouchPosition = touch.position; // Запоминаем начальную позицию касания
                     break;
                 case TouchPhase.Moved:
-                    ProcessTouchMovement(touch);
+                    float pixelDeltaX = touch.position.x - previousTouchPosition.x; // Смещение по X в пикселях
+
+                    // Основное действие:
+                    cameraController.RotateCamera(new Vector2(pixelDeltaX, 0)); // Вращаем камеру
+
+                    previousTouchPosition = touch.position; // Обновляем предыдущую позицию
                     break;
             }
         }
@@ -69,25 +74,10 @@ public class AngleBar : MonoBehaviour
     }
 
     /// <summary>
-    /// Обрабатывает перемещение пальца и обновляет полоску и камеру.
-    /// </summary>
-    /// <param name="touch">Текущее касание.</param>
-    private void ProcessTouchMovement(Touch touch)
-    {
-        float pixelDeltaX = touch.position.x - previousTouchPosition.x; // Смещение по X в пикселях
-
-        // Основное действие:
-        cameraController.RotateCamera(new Vector2(pixelDeltaX, 0)); // Вращаем камеру
-        UpdateAngleBarPosition(pixelDeltaX); // Обновляем полоску
-
-        previousTouchPosition = touch.position; // Обновляем предыдущую позицию
-    }
-
-    /// <summary>
     /// Обновляет позицию полоски на основе смещения по оси X.
     /// </summary>
     /// <param name="pixelDeltaX">Смещение по X в пикселях.</param>
-    private void UpdateAngleBarPosition(float pixelDeltaX)
+    public void UpdateAngleBarPosition(float pixelDeltaX)
     {
         float newPosX = imageRect.anchoredPosition.x + pixelDeltaX;
 

@@ -30,27 +30,34 @@ public abstract class CameraController : MonoBehaviour
     [Tooltip("Максимальное расстояние до целевого объекта.")]
     public float maxDistance = 10f;
 
+    [Tooltip("Минимальный угол наклона камеры (по вертикали).")]
+    public float minVerticalAngle = -30f;
+
+    [Tooltip("Максимальный угол наклона камеры (по вертикали).")]
+    public float maxVerticalAngle = 60f;
+
     /// <summary>
     /// Текущее расстояние от камеры до целевого объекта.
     /// </summary>
     protected float distanceToTarget;
 
     /// <summary>
-    /// Инициализация камеры. Вычисляет начальное положение целевого объекта и устанавливает дистанцию камеры.
+    /// Текущий вертикальный угол поворота камеры.
+    /// </summary>
+    private float currentVerticalAngle = 0f;
+
+    /// <summary>
+    /// Инициализация камеры.
     /// </summary>
     protected virtual void Start()
     {
-        // Заставляем камеру смотреть на эту точку:
         camera.transform.LookAt(target.transform);
-
-        // Устанавливаем начальное расстояние камеры до целевого объекта.
         distanceToTarget = Vector3.Distance(camera.transform.position, target.position);
     }
 
     /// <summary>
     /// Масштабирует камеру, приближая или отдаляя её от целевого объекта.
     /// </summary>
-    /// <param name="pinchDelta">Разница в дистанции ввода (например, скролл мыши или жест сжатия).</param>
     protected void ZoomCamera(float pinchDelta)
     {
         float zoomAmount = pinchDelta * zoomSpeed * Time.deltaTime;
@@ -59,19 +66,29 @@ public abstract class CameraController : MonoBehaviour
     }
 
     /// <summary>
-    /// Вращает камеру вокруг целевого объекта.
+    /// Вращает камеру вокруг целевого объекта с ограничением вертикального угла.
     /// </summary>
-    /// <param name="rotationDelta">Изменение угла вращения (обычно на основе пользовательского ввода).</param>
     public void RotateCamera(Vector2 rotationDelta)
     {
+        float pixelDeltaX = rotationDelta.x;
+        float pixelDeltaY = rotationDelta.y;
+
         // Вращение по горизонтали (вокруг оси Y)
-        camera.transform.RotateAround(target.position, Vector3.up, rotationDelta.x * rotationSpeed);
+        camera.transform.RotateAround(target.position, Vector3.up, pixelDeltaX * rotationSpeed);
+
+        // Ограничение вертикального вращения
+        float newVerticalAngle = Mathf.Clamp(currentVerticalAngle - pixelDeltaY, minVerticalAngle, maxVerticalAngle);
+        float deltaAngle = newVerticalAngle - currentVerticalAngle;
+        currentVerticalAngle = newVerticalAngle;
 
         // Вращение по вертикали (вокруг оси X)
-        camera.transform.RotateAround(target.position, camera.transform.right, -rotationDelta.y * rotationSpeed);
+        camera.transform.RotateAround(target.position, camera.transform.right, deltaAngle * rotationSpeed);
 
-        // Обновление дистанции до целевого объекта после вращения
+        // Обновление дистанции до целевого объекта
         distanceToTarget = Vector3.Distance(camera.transform.position, target.position);
+
+        // Обновляем шкалу угла поворота
+        angleBar.UpdateAngleBarPosition(pixelDeltaX);
     }
 
     /// <summary>
@@ -79,23 +96,17 @@ public abstract class CameraController : MonoBehaviour
     /// </summary>
     protected void UpdateCameraPosition()
     {
-        // Направление от целевого объекта к камере
         Vector3 direction = (camera.transform.position - target.position).normalized;
-
-        // Устанавливаем новую позицию камеры, сохраняя расстояние
         camera.transform.position = target.position + direction * distanceToTarget;
     }
 
     /// <summary>
-    /// Абстрактный метод для обработки пользовательского ввода, реализуется в наследниках.
+    /// Абстрактный метод для обработки пользовательского ввода.
     /// </summary>
     protected abstract void HandleInput();
 
-    /// <summary>
-    /// Вызывается каждый кадр. Обрабатывает пользовательский ввод.
-    /// </summary>
     private void Update()
     {
-        HandleInput(); // Вызов метода обработки ввода, реализованного в наследниках.
+        HandleInput();
     }
 }

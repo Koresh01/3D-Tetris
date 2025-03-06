@@ -1145,6 +1145,8 @@ MonoBehaviour:
   zoomSpeed: 0.4
   minDistance: 10
   maxDistance: 40
+  minVerticalAngle: -60
+  maxVerticalAngle: 20
 --- !u!114 &1604851603
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1165,8 +1167,8 @@ MonoBehaviour:
   zoomSpeed: 40
   minDistance: 10
   maxDistance: 40
-  minVerticalAngle: -30
-  maxVerticalAngle: 60
+  minVerticalAngle: -60
+  maxVerticalAngle: 20
 --- !u!1 &1612419456
 GameObject:
   m_ObjectHideFlags: 0
@@ -1221,7 +1223,7 @@ MonoBehaviour:
   cameraController: {fileID: 1604851602}
   scrollArea: {fileID: 1571749022}
   imageRect: {fileID: 1074277233}
-  imageWidth: 5000
+  imageWidth: 0
 --- !u!1 &1631564911
 GameObject:
   m_ObjectHideFlags: 0
