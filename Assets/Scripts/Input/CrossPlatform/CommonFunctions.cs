@@ -38,8 +38,9 @@ public abstract class CommonFunctions : MonoBehaviour
             Debug.LogError("CameraSettings не установлены в " + gameObject.name);
             return;
         }
-
-        cameraSettings.camera.transform.LookAt(cameraSettings.target);
+        // Определяем куда будет смотреть камера:
+        Vector3 lookToTransform = cameraSettings.target.position + Vector3.up * GameManager.gridHeight / 3f;
+        cameraSettings.camera.transform.LookAt(lookToTransform);
         distanceToTarget = Vector3.Distance(cameraSettings.camera.transform.position, cameraSettings.target.position);
     }
 
