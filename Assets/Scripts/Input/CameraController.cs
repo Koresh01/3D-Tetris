@@ -9,6 +9,9 @@ public abstract class CameraController : MonoBehaviour
     [SerializeField, Tooltip("Основная камера, управляемая этим скриптом.")]
     protected Camera camera;
 
+    [SerializeField, Tooltip("Шкала градусов поворота камеры.")]
+    protected AngleBar angleBar;
+
     [SerializeField, Tooltip("Ссылка на GameManager, используемый для получения параметров игрового поля.")]
     protected GameManager gameManager;
 
@@ -69,6 +72,13 @@ public abstract class CameraController : MonoBehaviour
 
         // Обновление дистанции до целевого объекта после вращения
         distanceToTarget = Vector3.Distance(camera.transform.position, target.position);
+
+        // Передаем изменение угла в angle bar
+        float currentAngle = rotationDelta.x;
+        if (angleBar != null)
+        {
+            angleBar.UpdateAngleBarPosition(currentAngle);
+        }
     }
 
     /// <summary>
