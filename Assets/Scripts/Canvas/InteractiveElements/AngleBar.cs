@@ -10,7 +10,7 @@ public class AngleBar : MonoBehaviour
     private Camera camera;
 
     [SerializeField, Tooltip("Скрипт управления камерой.")]
-    private CameraController cameraController;
+    private CommonFunctions cameraController;
 
     [SerializeField, Tooltip("Область, фиксирующая касания.")]
     private RectTransform scrollArea;

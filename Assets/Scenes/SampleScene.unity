@@ -1101,6 +1101,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1604851601}
+  - component: {fileID: 1604851604}
   - component: {fileID: 1604851603}
   - component: {fileID: 1604851602}
   m_Layer: 0
@@ -1134,19 +1135,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1604851599}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6fdb50c94ede5e54db0970145f907fbf, type: 3}
+  m_Script: {fileID: 11500000, guid: 8ff39fee4b6c15b40b4ad78cc068b680, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  camera: {fileID: 330585545}
-  angleBar: {fileID: 1612419458}
-  gameManager: {fileID: 1411685209}
-  target: {fileID: 471675208}
-  rotationSpeed: 1.5
-  zoomSpeed: 0.4
-  minDistance: 10
-  maxDistance: 40
-  minVerticalAngle: -60
-  maxVerticalAngle: 20
+  cameraSettings: {fileID: 1604851604}
 --- !u!114 &1604851603
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1156,15 +1148,28 @@ MonoBehaviour:
   m_GameObject: {fileID: 1604851599}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a7fce2f33e065a1488073bf6ad58df5f, type: 3}
+  m_Script: {fileID: 11500000, guid: 0aac3d442a309f9478096da0019e24f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cameraSettings: {fileID: 1604851604}
+--- !u!114 &1604851604
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1604851599}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a58d4a2e1f11314592bae4d17dcd59a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   camera: {fileID: 330585545}
   angleBar: {fileID: 1612419458}
   gameManager: {fileID: 1411685209}
   target: {fileID: 471675208}
-  rotationSpeed: 1.5
-  zoomSpeed: 40
+  rotationSpeed: 0.1
+  zoomStep: 40
   minDistance: 10
   maxDistance: 40
   minVerticalAngle: -60
@@ -1220,7 +1225,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   camera: {fileID: 330585545}
-  cameraController: {fileID: 1604851602}
+  cameraController: {fileID: 1604851603}
   scrollArea: {fileID: 1571749022}
   imageRect: {fileID: 1074277233}
   imageWidth: 0
@@ -1506,8 +1511,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a341c7fc7fd3ce4baaf88bd50644f6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridWidth: 5
-  gridHeight: 12
+  gridWidth: 0
+  gridHeight: 0
   lineColor: {r: 0.09220352, g: 0.745283, b: 0, a: 1}
 --- !u!4 &2127911571
 Transform:
