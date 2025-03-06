@@ -6,7 +6,7 @@ public class AngleBar : MonoBehaviour
 {
     [SerializeField, Tooltip("Габариты изображения.")] private RectTransform imageRectTransform;
     [SerializeField, Tooltip("Область полосы прокрутки.")] private RectTransform canvasRect;
-    [SerializeField, Tooltip("Множитель скорости вращения полосы прокрутки.")] private float rotationSpeed = 2f;
+    [SerializeField, Tooltip("Множитель скорости вращения полосы прокрутки.")] private float rotationSpeed = 6f;
 
     [SerializeField, Tooltip("Текущий угол вращения.")] private float currentRotation = 0f;
     private float maxRotation = 360f; // Максимальный угол (360 градусов)
