@@ -25,7 +25,7 @@ public class MobileInput : CommonFunctions
             if (touch1.phase == TouchPhase.Moved && touch2.phase == TouchPhase.Moved)
             {
                 Vector2 averageDelta = (touch1.deltaPosition + touch2.deltaPosition);
-                RotateCamera(averageDelta);
+                RotateCamera(averageDelta/2.2f);
             }
 
             previousTouch1 = touch1.position;

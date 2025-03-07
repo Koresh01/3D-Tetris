@@ -33,6 +33,9 @@ class FoundationCreator : MonoBehaviour
         }
 
         // Отрисовывем состояние ячеек:
-        CellsVizualizer.Instance.ReGenerate();
+        if (CellsVizualizer.Instance != null)
+        {
+            CellsVizualizer.Instance.ReGenerate();
+        }
     }
 }

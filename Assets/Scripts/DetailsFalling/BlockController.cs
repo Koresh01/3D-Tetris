@@ -98,7 +98,10 @@ public class BlockController : MonoBehaviour
         Vector3Int CellPosition = GetAlignedPosition();
         Grid.SetCellState(CellPosition, CellState.Filled);
 
-        CellsVizualizer.Instance.ReGenerate();
+        if (CellsVizualizer.Instance != null)
+        {
+            CellsVizualizer.Instance.ReGenerate();
+        }
     }
 
     /// <summary>
@@ -119,6 +122,9 @@ public class BlockController : MonoBehaviour
 
         Grid.SetCellState(CellPosition, CellState.Free);
 
-        CellsVizualizer.Instance.ReGenerate();
+        if (CellsVizualizer.Instance != null)
+        {
+            CellsVizualizer.Instance.ReGenerate();
+        }
     }
 }
