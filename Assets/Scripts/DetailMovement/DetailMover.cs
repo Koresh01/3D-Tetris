@@ -65,17 +65,30 @@ public class DetailMover : MonoBehaviour
     private IEnumerator MoveOverTime(Transform target, Vector3 direction)
     {
         Vector3 startPosition = target.position;
-        Vector3 endPosition = startPosition + direction;
+
+        // Округляем конечную позицию сразу, чтобы избежать накопления погрешностей
+        Vector3 endPosition = new Vector3(
+            Mathf.Round(startPosition.x + direction.x),
+            startPosition.y + direction.y,  // Mathf.Round(startPosition.y + direction.y),
+            Mathf.Round(startPosition.z + direction.z)
+        );
+
         float moved = 0f;
 
         while (moved < 1f)
         {
             float step = moveSpeed * Time.deltaTime;
-            moved += step;
-            target.position = Vector3.Lerp(startPosition, endPosition, moved);
+            moved = Mathf.Min(moved + step, 1f); // Не даём выйти за 1.0
+
+            target.position = Vector3.Lerp(startPosition, endPosition, moved); // Теперь Lerp безопасен
+
             yield return null;
         }
 
-        target.position = endPosition; // Убеждаемся, что позиция точно на целых координатах
+        // В конце гарантируем точное попадание в endPosition
+        target.position = endPosition;
     }
+
+
+
 }
