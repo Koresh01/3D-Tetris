@@ -26,10 +26,10 @@ public class MobileInput : CommonFunctions
             {
                 Vector2 averageDelta = (touch1.deltaPosition + touch2.deltaPosition);
                 RotateCamera(averageDelta);
-
-                previousTouch1 = touch1.position;
-                previousTouch2 = touch2.position;
             }
+
+            previousTouch1 = touch1.position;
+            previousTouch2 = touch2.position;
         }
     }
 }
