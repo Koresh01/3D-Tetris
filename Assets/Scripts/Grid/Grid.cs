@@ -42,7 +42,7 @@ public static class Grid
         }
         else
         {
-            Debug.LogError($"Переданные координаты [x:{position.x}, y:{position.y}, z:{position.z}] не попали в игровую область");
+            // Debug.LogError($"Переданные координаты [x:{position.x}, y:{position.y}, z:{position.z}] не попали в игровую область");
         }
     }
 

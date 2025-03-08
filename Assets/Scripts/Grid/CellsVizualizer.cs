@@ -61,7 +61,7 @@ public class CellsVizualizer : MonoBehaviour
     /// Пересоздаёт игровую сетку, если размеры изменились. 
     /// В противном случае обновляет материалы существующих клеток.
     /// </summary>
-    [ContextMenu("Обновить визуализацию Grid.")]
+    [ContextMenu("Обновить ВСЮ визуализацию Grid.")]
     public void ReGenerate()
     {
         Vector3Int newSize = new Vector3Int(GameManager.gridWidth, GameManager.gridHeight, GameManager.gridWidth);
@@ -109,6 +109,8 @@ public class CellsVizualizer : MonoBehaviour
     /// </summary>
     public void UpdateCellMaterial(Vector3Int position)
     {
+        if (!IsValidPosition(position)) return; // Проверка границ массива
+
         Material mat = Grid.GetCellState(position) == CellState.Free ? defaultMaterial : occupiedMaterial;
         cells[position.x, position.y, position.z].GetComponent<Renderer>().material = mat;
     }
@@ -118,7 +120,19 @@ public class CellsVizualizer : MonoBehaviour
     /// </summary>
     public void SetCellState(Vector3Int position, CellState state)
     {
+        if (!IsValidPosition(position)) return; // Проверка границ массива
+
         Grid.SetCellState(position, state);
         UpdateCellMaterial(position);
+    }
+
+    /// <summary>
+    /// Проверяет, находится ли указанная позиция в допустимых пределах сетки.
+    /// </summary>
+    private bool IsValidPosition(Vector3Int position)
+    {
+        return position.x >= 0 && position.x < size.x &&
+               position.y >= 0 && position.y < size.y &&
+               position.z >= 0 && position.z < size.z;
     }
 }

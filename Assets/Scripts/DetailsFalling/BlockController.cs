@@ -100,7 +100,7 @@ public class BlockController : MonoBehaviour
 
         if (CellsVizualizer.Instance != null)
         {
-            CellsVizualizer.Instance.ReGenerate();
+            CellsVizualizer.Instance.UpdateCellMaterial(CellPosition);
         }
     }
 
@@ -111,20 +111,11 @@ public class BlockController : MonoBehaviour
     {
         Vector3Int CellPosition = GetAlignedPosition();
 
-        if (CellPosition == Vector3Int.zero)
-        {
-            Debug.LogError("Обращение к нулевому квадратику.");
-            Debug.Log($"parent Name: {parentStructure.name}");
-            Debug.Log($"block Name: {transform.name}");
-            Debug.Log($"block pos: {transform.position}");
-            Debug.Log($"block aligned Position: {GetAlignedPosition()}");
-        }
-
         Grid.SetCellState(CellPosition, CellState.Free);
 
         if (CellsVizualizer.Instance != null)
         {
-            CellsVizualizer.Instance.ReGenerate();
+            CellsVizualizer.Instance.UpdateCellMaterial(CellPosition);
         }
     }
 }
