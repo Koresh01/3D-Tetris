@@ -21,11 +21,12 @@ public class ClickEventInvoker : MonoBehaviour
 
     private void Update()
     {
+#if UNITY_ANDROID
         if (Input.GetMouseButtonDown(0))
         {
             CheckClick(Input.mousePosition);
         }
-
+#else
         if (Input.touchCount > 0)
         {
             Touch touch = Input.GetTouch(0);
@@ -34,6 +35,7 @@ public class ClickEventInvoker : MonoBehaviour
                 CheckClick(touch.position);
             }
         }
+# endif
     }
 
     private void CheckClick(Vector2 screenPosition)
