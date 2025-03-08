@@ -12,33 +12,57 @@ public class DetailRotator : MonoBehaviour
     private Coroutine rotationCoroutine;
 
     /// <summary>
-    /// Вращает текущую деталь вокруг мировой оси X.
+    /// Вращает текущую деталь вокруг мировой оси X по часовой стрелке (90°).
     /// </summary>
-    public void RotateX()
+    public void RotateXClockwise()
     {
-        Rotate(Vector3.right);
+        Rotate(Vector3.right, 90f);
     }
 
     /// <summary>
-    /// Вращает текущую деталь вокруг мировой оси Y.
+    /// Вращает текущую деталь вокруг мировой оси X против часовой стрелки (-90°).
     /// </summary>
-    public void RotateY()
+    public void RotateXCounterClockwise()
     {
-        Rotate(Vector3.up);
+        Rotate(Vector3.right, -90f);
     }
 
     /// <summary>
-    /// Вращает текущую деталь вокруг мировой оси Z.
+    /// Вращает текущую деталь вокруг мировой оси Y по часовой стрелке (90°).
     /// </summary>
-    public void RotateZ()
+    public void RotateYClockwise()
     {
-        Rotate(Vector3.forward);
+        Rotate(Vector3.up, 90f);
     }
 
     /// <summary>
-    /// Запускает корутину вращения детали на 90 градусов.
+    /// Вращает текущую деталь вокруг мировой оси Y против часовой стрелки (-90°).
     /// </summary>
-    private void Rotate(Vector3 worldAxis)
+    public void RotateYCounterClockwise()
+    {
+        Rotate(Vector3.up, -90f);
+    }
+
+    /// <summary>
+    /// Вращает текущую деталь вокруг мировой оси Z по часовой стрелке (90°).
+    /// </summary>
+    public void RotateZClockwise()
+    {
+        Rotate(Vector3.forward, 90f);
+    }
+
+    /// <summary>
+    /// Вращает текущую деталь вокруг мировой оси Z против часовой стрелки (-90°).
+    /// </summary>
+    public void RotateZCounterClockwise()
+    {
+        Rotate(Vector3.forward, -90f);
+    }
+
+    /// <summary>
+    /// Запускает корутину вращения детали на заданный угол вокруг указанной оси.
+    /// </summary>
+    private void Rotate(Vector3 worldAxis, float angle)
     {
         if (GameManager.currentDetail == null) return;
 
@@ -48,7 +72,7 @@ public class DetailRotator : MonoBehaviour
         if (rotationCoroutine != null)
             StopCoroutine(rotationCoroutine);
 
-        rotationCoroutine = StartCoroutine(RotateOverTime(GameManager.currentDetail.transform, worldAxis, 90f));
+        rotationCoroutine = StartCoroutine(RotateOverTime(GameManager.currentDetail.transform, worldAxis, angle));
     }
 
     /// <summary>
@@ -64,14 +88,14 @@ public class DetailRotator : MonoBehaviour
 
         Quaternion endRotation = startRotation * Quaternion.AngleAxis(angle, localAxis);
 
-        while (rotated < angle)
+        while (rotated < Mathf.Abs(angle))
         {
             float step = rotationSpeed * Time.deltaTime;
             rotated += step;
-            target.rotation = Quaternion.Slerp(startRotation, endRotation, rotated / angle);
+            target.rotation = Quaternion.Slerp(startRotation, endRotation, rotated / Mathf.Abs(angle));
             yield return null;
         }
 
-        target.rotation = endRotation; // Убеждаемся, что угол точно 90°
+        target.rotation = endRotation; // Гарантируем точное попадание в нужный угол
     }
 }

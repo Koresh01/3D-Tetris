@@ -40,8 +40,8 @@ public abstract class CommonFunctions : MonoBehaviour
         }
         // Определяем куда будет смотреть камера:
         Vector3 lookToTransform = cameraSettings.target.position + Vector3.up * GameManager.gridHeight / 3f;
-        cameraSettings.camera.transform.LookAt(lookToTransform);
-        distanceToTarget = Vector3.Distance(cameraSettings.camera.transform.position, cameraSettings.target.position);
+        cameraSettings.cameraTransform.LookAt(lookToTransform);
+        distanceToTarget = Vector3.Distance(cameraSettings.cameraTransform.position, cameraSettings.target.position);
     }
 
     /// <summary>
@@ -65,11 +65,11 @@ public abstract class CommonFunctions : MonoBehaviour
         float pixelDeltaX = rotationDelta.x;
         float pixelDeltaY = rotationDelta.y;
 
-        Camera cam = cameraSettings.camera;
+        Transform cameraTransform = cameraSettings.cameraTransform;
         Transform target = cameraSettings.target;
 
         // Вращение по горизонтали (вокруг оси Y)
-        cam.transform.RotateAround(target.position, Vector3.up, pixelDeltaX * cameraSettings.rotationSpeed);
+        cameraTransform.RotateAround(target.position, Vector3.up, pixelDeltaX * cameraSettings.rotationSpeed);
 
         // Ограничение вертикального вращения
         float newVerticalAngle = Mathf.Clamp(currentVerticalAngle - pixelDeltaY * cameraSettings.rotationSpeed,
@@ -79,10 +79,10 @@ public abstract class CommonFunctions : MonoBehaviour
         currentVerticalAngle = newVerticalAngle;
 
         // Вращение по вертикали (вокруг оси X)
-        cam.transform.RotateAround(target.position, cam.transform.right, deltaAngle);
+        cameraTransform.RotateAround(target.position, cameraTransform.right, deltaAngle);
 
         // Обновление дистанции до целевого объекта
-        distanceToTarget = Vector3.Distance(cam.transform.position, target.position);
+        distanceToTarget = Vector3.Distance(cameraTransform.position, target.position);
 
         // Обновляем шкалу угла поворота
         cameraSettings.angleBar.UpdateAngleBarPosition(pixelDeltaX);
@@ -94,8 +94,8 @@ public abstract class CommonFunctions : MonoBehaviour
     /// </summary>
     protected void UpdateCameraPosition()
     {
-        Vector3 direction = (cameraSettings.camera.transform.position - cameraSettings.target.position).normalized;
-        cameraSettings.camera.transform.position = cameraSettings.target.position + direction * distanceToTarget;
+        Vector3 direction = (cameraSettings.cameraTransform.position - cameraSettings.target.position).normalized;
+        cameraSettings.cameraTransform.position = cameraSettings.target.position + direction * distanceToTarget;
     }
 
     /// <summary>
