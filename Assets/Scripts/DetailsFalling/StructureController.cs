@@ -54,6 +54,8 @@ public class StructureController : MonoBehaviour
     {
         foreach (BlockController block in blocks)
         {
+            if (!block) continue; // Unity-специфическая проверка на уничтоженный объект
+
             Vector3Int blockPos = block.GetAlignedPosition();
             Vector3Int belowPos = blockPos + Vector3Int.down;
 
@@ -61,13 +63,17 @@ public class StructureController : MonoBehaviour
             if (Grid.GetCellState(belowPos) == CellState.Filled)
             {
                 // Проверяем, не является ли эта клетка частью той же детали
-                bool touchingOurBlock = blocks.Any(other => other != block && other.GetAlignedPosition() == belowPos);
+                bool touchingOurBlock = blocks
+                    .Where(other => other && other != block) // Фильтруем уничтоженные объекты
+                    .Any(other => other.GetAlignedPosition() == belowPos);
+
                 if (!touchingOurBlock)  // тронули блок не этой детали, значит фиксируем соприкосновение с другой деталью/землей.
                     return true;
             }
         }
         return false;
     }
+
 
 
     /// <summary>
@@ -79,6 +85,7 @@ public class StructureController : MonoBehaviour
     {
         foreach (BlockController block in blocks)
         {
+            if (!block) continue; // Unity-специфическая проверка на уничтоженный объект
             // Говорим что эти ячейки свободные:
             // FreeCells();
 
@@ -97,6 +104,7 @@ public class StructureController : MonoBehaviour
         // Говорим что эти ячейки заняты:
         foreach (BlockController block in blocks)
         {
+            if (!block) continue; // Unity-специфическая проверка на уничтоженный объект
             block.FillCell();
         }
     }
@@ -109,6 +117,7 @@ public class StructureController : MonoBehaviour
         // Говорим что эти ячейки свободны:
         foreach (BlockController block in blocks)
         {
+            if (!block) continue; // Unity-специфическая проверка на уничтоженный объект
             block.FreeCell();
         }
     }

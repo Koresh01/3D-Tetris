@@ -17,18 +17,11 @@ class FoundationCreator : MonoBehaviour
         {
             for (int z = 0; z < gridWidth; z++)
             {
-                Vector3 position = new Vector3(x, 0, z);
-                Instantiate(cubePrefab, position, Quaternion.identity, transform);
-            }
-        }
-
-        // Задаём статус клеткам у основания.
-        for (int x = 0; x < gridWidth; x++)
-        {
-            for (int z = 0; z < gridWidth; z++)
-            {
-                Vector3Int positionBottomLayer = new Vector3Int(x, 0, z);
-                Grid.SetCellState(positionBottomLayer, CellState.Filled);
+                Vector3Int position = new Vector3Int(x, 0, z);
+                GameObject block = Instantiate(cubePrefab, position, Quaternion.identity, transform);
+                
+                
+                Grid.SetCellState(position, block, CellState.Filled);
             }
         }
 

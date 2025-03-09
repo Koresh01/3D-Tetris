@@ -96,8 +96,11 @@ public class BlockController : MonoBehaviour
     public void FillCell()
     {
         Vector3Int CellPosition = GetAlignedPosition();
-        Grid.SetCellState(CellPosition, CellState.Filled);
+        
+        // Передаём в Grid этот кубик, потому что он занял клетку.
+        Grid.SetCellState(CellPosition, transform.gameObject, CellState.Filled);
 
+        // Отрисовка состояния Grid на данный момент.
         if (CellsVizualizer.Instance != null)
         {
             CellsVizualizer.Instance.UpdateCellMaterial(CellPosition);
@@ -111,8 +114,10 @@ public class BlockController : MonoBehaviour
     {
         Vector3Int CellPosition = GetAlignedPosition();
 
-        Grid.SetCellState(CellPosition, CellState.Free);
+        // Передаём в Grid этот кубик, потому что он освободил клетку.
+        Grid.SetCellState(CellPosition, transform.gameObject, CellState.Free);
 
+        // Отрисовка состояния Grid на данный момент.
         if (CellsVizualizer.Instance != null)
         {
             CellsVizualizer.Instance.UpdateCellMaterial(CellPosition);

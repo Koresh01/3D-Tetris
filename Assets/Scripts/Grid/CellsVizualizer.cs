@@ -116,17 +116,6 @@ public class CellsVizualizer : MonoBehaviour
     }
 
     /// <summary>
-    /// Устанавливает состояние клетки и обновляет её визуальное представление.
-    /// </summary>
-    public void SetCellState(Vector3Int position, CellState state)
-    {
-        if (!IsValidPosition(position)) return; // Проверка границ массива
-
-        Grid.SetCellState(position, state);
-        UpdateCellMaterial(position);
-    }
-
-    /// <summary>
     /// Проверяет, находится ли указанная позиция в допустимых пределах сетки.
     /// </summary>
     private bool IsValidPosition(Vector3Int position)
