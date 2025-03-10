@@ -84,7 +84,22 @@ public static class Grid
                position.z >= 0 && position.z < sizeZ;
     }
 
-
+    /// <summary>
+    /// Проверяет занят ли весь слой.
+    /// </summary>
+    public static bool IsLayerFilled(int layerInx)
+    {
+        for (int x = 0 ; x < sizeX; x++)
+        {
+            for (int z = 0; z < sizeZ; z++)
+            {
+                CellState cellState = grid[x, layerInx, z].State;
+                if (cellState == CellState.Free)
+                    return false;
+            }
+        }
+        return true;
+    }
 
 
     /// <summary>

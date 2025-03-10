@@ -22,7 +22,7 @@ public class StructureController : MonoBehaviour
     private void LateUpdate()
     {
         // Сбор статистики:
-        hasGroundContact = HasGroundContact();
+        hasGroundContact = HasGroundContact(out BlockController block);
 
         // Действие
         Fall();
@@ -34,10 +34,18 @@ public class StructureController : MonoBehaviour
     private void Fall()
     {
         // Если хотя бы один блок достиг поверхности, останавливаем деталь
-        if (HasGroundContact())
+        if (HasGroundContact(out BlockController block))
         {
+            // Занимаем эти ячейки:
             FillCells();
-            // тут можно центрировать всю деталь.
+            // тут можно центрировать всю деталь...
+
+            // Проверяем вдруг этот слой уже заполнен
+            int layerInx = block.GetAlignedPosition().y;
+            if (Grid.IsLayerFilled(layerInx))
+            {
+                GameManager.DestroyLayer(layerInx);
+            }
         }
         else
         {
@@ -50,8 +58,9 @@ public class StructureController : MonoBehaviour
     /// Проверяет, касается ли хотя бы один блок земли или занятой клетки,
     /// игнорируя блоки этой же детали.
     /// </summary>
-    private bool HasGroundContact()
+    private bool HasGroundContact(out BlockController touchingBlock)
     {
+        touchingBlock = null; // Инициализируем переменную
         foreach (BlockController block in blocks)
         {
             if (!block) continue; // Unity-специфическая проверка на уничтоженный объект
@@ -67,8 +76,11 @@ public class StructureController : MonoBehaviour
                     .Where(other => other && other != block) // Фильтруем уничтоженные объекты
                     .Any(other => other.GetAlignedPosition() == belowPos);
 
-                if (!touchingOurBlock)  // тронули блок не этой детали, значит фиксируем соприкосновение с другой деталью/землей.
+                if (!touchingOurBlock) // Тронули блок не этой детали, значит фиксируем упор в землю.
+                {
+                    touchingBlock = block;
                     return true;
+                }
             }
         }
         return false;

@@ -65,14 +65,16 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    
+
     /// <summary>
     /// Удаляет слой игрового поля.
     /// </summary>
-    public void DestroyLayer(int layerInx)
+    public static void DestroyLayer(int layerInx)
     {
-        for (int x = 0; x < _gridWidth; x++)
+        for (int x = 0; x < gridWidth; x++)    // grid width не видит
         {
-            for (int z = 0; z < _gridWidth; z++)
+            for (int z = 0; z < gridWidth; z++)
             {
                 Vector3Int CellPosition = new Vector3Int(x, layerInx, z);
                 CellState state = Grid.GetCellState(CellPosition);
