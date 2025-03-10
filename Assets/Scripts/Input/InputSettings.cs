@@ -5,7 +5,6 @@ public class InputSettings : MonoBehaviour
 {
     [Header("Основные настройки")]
     public Transform cameraTransform;   // кэшируем transform(оптимизация)
-    public AngleBar angleBar;
     public GameManager gameManager;
     public Transform target;
 

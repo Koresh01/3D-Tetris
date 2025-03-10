@@ -56,6 +56,7 @@ public abstract class CommonFunctions : MonoBehaviour
         UpdateCameraPosition();
     }
 
+    /*
     /// <summary>
     /// Вращает камеру вокруг целевого объекта с учетом ограничений по вертикальному углу.
     /// </summary>
@@ -83,10 +84,43 @@ public abstract class CommonFunctions : MonoBehaviour
 
         // Обновление дистанции до целевого объекта
         distanceToTarget = Vector3.Distance(cameraTransform.position, target.position);
-
-        // Обновляем шкалу угла поворота
-        cameraSettings.angleBar.UpdateAngleBarPosition(pixelDeltaX);
     }
+    */
+
+    /// <summary>
+    /// Вращает камеру вокруг целевого объекта с учетом ограничений по вертикальному углу.
+    /// </summary>
+    public void RotateCamera(Vector2 rotationDelta)
+    {
+        float pixelDeltaX = rotationDelta.x;
+        float pixelDeltaY = rotationDelta.y;
+
+        Transform cameraTransform = cameraSettings.cameraTransform;
+        Transform target = cameraSettings.target;
+
+        // Вращение по горизонтали (вокруг оси Y)
+        cameraTransform.RotateAround(target.position, Vector3.up, pixelDeltaX * cameraSettings.rotationSpeed);
+
+        // Получаем текущее направление камеры относительно цели
+        Vector3 directionToCamera = (cameraTransform.position - target.position).normalized;
+
+        // Вычисляем угол наклона камеры относительно оси Y (в градусах)
+        float currentAngle = Mathf.Asin(directionToCamera.y) * Mathf.Rad2Deg;
+
+        // Ограничиваем новый угол
+        float clampedAngle = Mathf.Clamp(currentAngle - pixelDeltaY * cameraSettings.rotationSpeed,
+                                         cameraSettings.minVerticalAngle, cameraSettings.maxVerticalAngle);
+
+        // Вычисляем разницу углов
+        float deltaAngle = clampedAngle - currentAngle;
+
+        // Вращаем камеру вокруг оси X
+        cameraTransform.RotateAround(target.position, cameraTransform.right, deltaAngle);
+
+        // Обновляем дистанцию до целевого объекта
+        distanceToTarget = Vector3.Distance(cameraTransform.position, target.position);
+    }
+
 
 
     /// <summary>

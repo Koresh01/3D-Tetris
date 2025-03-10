@@ -3,11 +3,32 @@ using UnityEngine;
 [AddComponentMenu("Custom/MobileInput (Обработка ввода с телефона)")]
 public class MobileInput : CommonFunctions
 {
+    private Vector2 previousTouchPos;
+    private Vector2 currentTouchPos;
+
     private Vector2 previousTouch1;
     private Vector2 previousTouch2;
 
     protected override void HandleInput()
     {
+        // Обработчик одного пальца.
+        if (Input.touchCount == 1)
+        {
+            Touch touch = Input.GetTouch(0);
+
+            if (touch.phase == TouchPhase.Began)
+            {
+                previousTouchPos = touch.position; // Устанавливаем стартовую позицию
+            }
+            else if (touch.phase == TouchPhase.Moved)
+            {
+                Vector2 pixelDeltaX = touch.position - previousTouchPos;
+                RotateCamera(pixelDeltaX);
+                previousTouchPos = touch.position; // Обновляем позицию для следующего кадра
+            }
+        }
+
+        // Обработчик двух пальцев.
         if (Input.touchCount == 2)
         {
             Touch touch1 = Input.GetTouch(0);
