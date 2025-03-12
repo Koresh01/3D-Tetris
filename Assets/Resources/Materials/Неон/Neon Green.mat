@@ -41,7 +41,7 @@ Material:
     - _QueueControl: 0
     - _QueueOffset: 0
     - _edge_Glow_Strength: 2
-    - _emission_Intensity: 1.5
+    - _emission_Intensity: 1
     - _fresnel_Power: 3
     - _metallic: 1
     - _smoothness: 0.9

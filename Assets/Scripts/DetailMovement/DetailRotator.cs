@@ -82,7 +82,7 @@ public class DetailRotator : MonoBehaviour
         {
             if (!block) continue;
 
-            Vector3Int currentPos = block.GetAlignedPosition();
+            Vector3 currentPos = block.transform.position;
             Vector3 rotatedPos = rotation * (currentPos - detailTransform.position) + detailTransform.position;
             
             // ѕозици€ кубика как если бы он повернулс€:
