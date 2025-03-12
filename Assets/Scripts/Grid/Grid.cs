@@ -101,7 +101,6 @@ public static class Grid
         return true;
     }
 
-
     /// <summary>
     /// Метод возвращает true, если под текущей ячейкой пусто.
     /// </summary>

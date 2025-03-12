@@ -19,32 +19,8 @@ public class GameManager : MonoBehaviour
     public static int gridHeight { get; private set; }
 
 
-
-
-
-
-    [Header("Ссылки на скрипты:")]
-    [SerializeField] private DetailsSpawner detailsSpawner;
-
-
-
-
-
-    [Header("Ещё настройки:")]
-    [SerializeField] private bool pause = false;
-
-
-
-
-
-    [Header("Текущее состояние игры.")]
-    [SerializeField] private bool _readyToCreateDetail = false;
-
-
     [Tooltip("Текущая деталь.")]
     public static GameObject currentDetail;
-
-
 
 
     private void Awake()
@@ -58,11 +34,6 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if (_readyToCreateDetail)
-        {
-            detailsSpawner.SpawnDetail();
-            _readyToCreateDetail = false;
-        }
     }
 
     

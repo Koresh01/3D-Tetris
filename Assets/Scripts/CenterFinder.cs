@@ -22,6 +22,6 @@ class CenterFinder : MonoBehaviour
         int gridWidth = GameManager.gridWidth;
         //int gridHeight = gameManager.gridHeight;
         Vector3 start = new Vector3(-0.5f, 0.0f, -0.5f);
-        transform.position = start + new Vector3(gridWidth / 2f, 0, gridWidth / 2f);
+        transform.position = Vector3Int.RoundToInt(start + new Vector3(gridWidth / 2f, 0, gridWidth / 2f));
     }
 }
