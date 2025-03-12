@@ -1,9 +1,13 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 
 [AddComponentMenu("Custom/DetailMover (Перемещение падающей детали)")]
 public class DetailMover : MonoBehaviour
 {
+    [Tooltip("Событие невозможности смещения")]
+    public UnityAction OnCanNotMove;
+
     /// <summary>
     /// Скорость перемещения (единиц в секунду).
     /// </summary>
@@ -50,22 +54,19 @@ public class DetailMover : MonoBehaviour
     {
         if (GameManager.currentDetail == null) return;
 
+        var structureController = GameManager.currentDetail.GetComponent<StructureController>();
 
-        StructureController structureController = GameManager.currentDetail.GetComponent<StructureController>();
-        bool hasGroundContact = structureController.hasGroundContact;
-
-
-        if (!hasGroundContact && CanMoveDirection(structureController, direction))
+        bool canMove = !structureController.hasGroundContact && CanMoveDirection(structureController, direction);
+        if (!canMove)
         {
-            if (moveCoroutine != null)
-                StopCoroutine(moveCoroutine);
+            Debug.Log($"Объект {GameManager.currentDetail.name} не может двигаться в направлении {direction}");
+            return;
+        }
 
-            moveCoroutine = StartCoroutine(MoveOverTime(GameManager.currentDetail.transform, direction));
-        }
-        else
-        {
-            Debug.Log($"Невозможно подвинуть в направлении {direction}");
-        }
+        if (moveCoroutine != null)
+            StopCoroutine(moveCoroutine);
+
+        moveCoroutine = StartCoroutine(MoveOverTime(GameManager.currentDetail.transform, direction));
     }
 
     /// <summary>
@@ -100,20 +101,29 @@ public class DetailMover : MonoBehaviour
 
 
     /// <summary>
-    /// Проверяет возможно ли сдвинуть всю конструкцию в этом направлении.
+    /// Проверяет, возможно ли сдвинуть всю конструкцию в указанном направлении.
     /// </summary>
     bool CanMoveDirection(StructureController structureController, Vector3Int direction)
     {
-        foreach (BlockController block in structureController.blocks)
+        foreach (var block in structureController.blocks)
         {
-            if (!block) continue; // проверка на уничтоженный объект
+            if (!block) continue;
 
-            Vector3Int movedPositionOfBlock = block.GetAlignedPosition() + direction;
-            if (Grid.GetCellState(movedPositionOfBlock) == CellState.Filled)
+            // Целевая ячейка поля:
+            Vector3Int targetPosition = block.GetAlignedPosition() + direction;
+            // Та что под ней:
+            Vector3Int belowTargetPosition = targetPosition + Vector3Int.down;
+
+            // Если хотя бы одна клетка занята, движение невозможно
+            if (Grid.GetCellState(targetPosition) == CellState.Filled ||
+                Grid.GetCellState(belowTargetPosition) == CellState.Filled)
             {
+                OnCanNotMove?.Invoke();
                 return false;
             }
         }
+
         return true;
     }
+
 }
