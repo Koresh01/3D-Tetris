@@ -166,7 +166,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &47191790
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -995,7 +995,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b828fe05a6c4f794b98763bbc37420ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cubePrefab: {fileID: 5333200717946384104, guid: 25297f04da30eb34d8bb7acbb103d35e, type: 3}
+  cubePrefab: {fileID: 6415525965206953043, guid: aad08180fe974c04f97289fb732b6b85, type: 3}
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0

@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: "Neon \u043E\u0441\u043D\u043E\u0432\u0430\u043D\u0438\u0435"
+  m_Name: Neon Red
   m_Shader: {fileID: -6465566751694194690, guid: ee1f67ed835d12c4c989ff3ea10d4860, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -59,7 +59,7 @@ Material:
     - _metallic: 1
     - _smoothness: 0.9
     m_Colors:
-    - _base_Color: {r: 0.6549441, g: 0.6549441, b: 0.6549441, a: 0}
+    - _base_Color: {r: 0, g: 0, b: 0, a: 0}
     - _emission_Color: {r: 8, g: 0.19336456, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

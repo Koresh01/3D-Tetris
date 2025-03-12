@@ -54,10 +54,37 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 2a9f34a5e90c97c44ac0eb06b3519f38, type: 2}
     - target: {fileID: 919132149155446097, guid: 5ffca5423376a6c419adea958d438ff9, type: 3}
       propertyPath: m_Name
-      value: "\u041A\u0443\u0431\u0438\u043A (\u043E\u0441\u043D\u043E\u0432\u0430\u043D\u0438\u044F)"
+      value: "\u041A\u0443\u0431\u0438\u043A \u043D\u0435\u043E\u043D \u043A\u0440\u0430\u0441\u043D\u044B\u0439"
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 5ffca5423376a6c419adea958d438ff9, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -3422538023662530964}
   m_SourcePrefab: {fileID: 100100000, guid: 5ffca5423376a6c419adea958d438ff9, type: 3}
+--- !u!1 &5333200717946384104 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 5ffca5423376a6c419adea958d438ff9, type: 3}
+  m_PrefabInstance: {fileID: 5098703810520437689}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &-3422538023662530964
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5333200717946384104}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98aea2b9b7e494342a540ffeb057ba58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parentStructure: {fileID: 0}
+  isFalling: 0
+  localPos: {x: 0, y: 0, z: 0}
+  worldPos: {x: 0, y: 0, z: 0}
+  alignedWorldPos: {x: 0, y: 0, z: 0}
+  haveParent: 0
+  isTouchingGround: 0

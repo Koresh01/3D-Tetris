@@ -19,8 +19,10 @@ class FoundationCreator : MonoBehaviour
             {
                 Vector3Int position = new Vector3Int(x, 0, z);
                 GameObject block = Instantiate(cubePrefab, position, Quaternion.identity, transform);
-                
-                
+
+                // Отключаем скрипт гравитации
+                block.GetComponent<BlockController>().enabled = false;
+
                 Grid.SetCellState(position, block, CellState.Filled);
             }
         }
