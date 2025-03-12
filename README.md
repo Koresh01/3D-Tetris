@@ -5,5 +5,5 @@
 * возможность вращения камеры вокруг поля
 * удобное управление
 
-![image](https://github.com/user-attachments/assets/4212e3e8-c7ee-4d53-a0c6-9d083db98545)
 
+![photo_2025-03-13_02-44-18](https://github.com/user-attachments/assets/5a27ac2b-04be-4819-968e-31b0f82e2559)
