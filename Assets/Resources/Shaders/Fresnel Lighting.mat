@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Outlines_mat
-  m_Shader: {fileID: -6465566751694194690, guid: b879280207701d34cb5aea843c407dbf, type: 3}
+  m_Name: Fresnel Lighting
+  m_Shader: {fileID: -6465566751694194690, guid: 8322c561ac3ad6448bf93c7715d06b13, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -38,15 +38,15 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Fade_Distance: 75
-    - _Outline_Thickness: 0.01
+    - _Fresnel_Power: 0.7
     - _QueueControl: 0
     - _QueueOffset: 0
     m_Colors:
-    - _Outline_Color: {r: 0.8603977, g: 0.8603977, b: 0.8603977, a: 1}
+    - _Frenel_Color: {r: 5.3403134, g: 5.3403134, b: 5.3403134, a: 1}
+    - _baseColor: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
---- !u!114 &2999515197159577506
+--- !u!114 &6127315854260155523
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
