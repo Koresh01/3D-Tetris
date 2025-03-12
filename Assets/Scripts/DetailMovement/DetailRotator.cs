@@ -73,29 +73,41 @@ public class DetailRotator : MonoBehaviour
     /// <summary>
     /// ѕровер€ет, возможно ли повернуть всю конструкцию на заданный угол вокруг указанной оси.
     /// </summary>
+    /// <param name="stepCount"> оличество шагов дл€ проверки (разделение угла на несколько частей).</param>
     private bool CanRotate(StructureController structureController, Vector3 worldAxis, float angle)
     {
         Transform detailTransform = structureController.transform;
-        Quaternion rotation = Quaternion.AngleAxis(angle, worldAxis);
 
-        foreach (var block in structureController.blocks)
+        // –азбиваем угол на несколько шагов
+        int stepCount = 2;
+        float stepAngle = angle / stepCount;
+
+        // ѕроводим проверку на каждом шаге
+        for (int i = 1; i <= stepCount; i++)
         {
-            if (!block) continue;
+            float currentAngle = stepAngle * i;
+            Quaternion rotation = Quaternion.AngleAxis(currentAngle, worldAxis);
 
-            Vector3 currentPos = block.transform.position;
-            Vector3 rotatedPos = rotation * (currentPos - detailTransform.position) + detailTransform.position;
-            
-            // ѕозици€ кубика как если бы он повернулс€:
-            Vector3Int targetPos = Vector3Int.RoundToInt(rotatedPos);
-            Vector3Int belowPos = targetPos + Vector3Int.down;
-
-            if (Grid.GetCellState(targetPos) == CellState.Filled || Grid.GetCellState(belowPos) == CellState.Filled)
+            foreach (var block in structureController.blocks)
             {
-                OnCanNotRotate?.Invoke();
-                return false;
+                if (!block) continue;
+
+                Vector3 currentPos = block.transform.position;
+                Vector3 rotatedPos = rotation * (currentPos - detailTransform.position) + detailTransform.position;
+
+                // ѕозици€ кубика как если бы он повернулс€:
+                Vector3Int targetPos = Vector3Int.RoundToInt(rotatedPos);
+                Vector3Int belowPos = targetPos + Vector3Int.down;
+
+                if (Grid.GetCellState(targetPos) == CellState.Filled || Grid.GetCellState(belowPos) == CellState.Filled)
+                {
+                    OnCanNotRotate?.Invoke();
+                    return false;
+                }
             }
         }
 
         return true;
     }
+
 }
