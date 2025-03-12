@@ -16,7 +16,7 @@ public class DetailMover : MonoBehaviour
     /// </summary>
     public void MoveForward()
     {
-        Move(Vector3.forward);
+        Move(Vector3Int.forward);
     }
 
     /// <summary>
@@ -24,7 +24,7 @@ public class DetailMover : MonoBehaviour
     /// </summary>
     public void MoveBackward()
     {
-        Move(Vector3.back);
+        Move(Vector3Int.back);
     }
 
     /// <summary>
@@ -32,7 +32,7 @@ public class DetailMover : MonoBehaviour
     /// </summary>
     public void MoveLeft()
     {
-        Move(Vector3.left);
+        Move(Vector3Int.left);
     }
 
     /// <summary>
@@ -40,23 +40,32 @@ public class DetailMover : MonoBehaviour
     /// </summary>
     public void MoveRight()
     {
-        Move(Vector3.right);
+        Move(Vector3Int.right);
     }
 
     /// <summary>
     /// «апускает корутину перемещени€ детали на 1 единицу в указанном направлении.
     /// </summary>
-    private void Move(Vector3 direction)
+    private void Move(Vector3Int direction)
     {
         if (GameManager.currentDetail == null) return;
 
-        bool hasGroundContact = GameManager.currentDetail.GetComponent<StructureController>().hasGroundContact;
-        if (hasGroundContact) return;
 
-        if (moveCoroutine != null)
-            StopCoroutine(moveCoroutine);
+        StructureController structureController = GameManager.currentDetail.GetComponent<StructureController>();
+        bool hasGroundContact = structureController.hasGroundContact;
 
-        moveCoroutine = StartCoroutine(MoveOverTime(GameManager.currentDetail.transform, direction));
+
+        if (!hasGroundContact && CanMoveDirection(structureController, direction))
+        {
+            if (moveCoroutine != null)
+                StopCoroutine(moveCoroutine);
+
+            moveCoroutine = StartCoroutine(MoveOverTime(GameManager.currentDetail.transform, direction));
+        }
+        else
+        {
+            Debug.Log($"Ќевозможно подвинуть в направлении {direction}");
+        }
     }
 
     /// <summary>
@@ -90,5 +99,21 @@ public class DetailMover : MonoBehaviour
     }
 
 
+    /// <summary>
+    /// ѕровер€ет возможно ли сдвинуть всю конструкцию в этом направлении.
+    /// </summary>
+    bool CanMoveDirection(StructureController structureController, Vector3Int direction)
+    {
+        foreach (BlockController block in structureController.blocks)
+        {
+            if (!block) continue; // проверка на уничтоженный объект
 
+            Vector3Int movedPositionOfBlock = block.GetAlignedPosition() + direction;
+            if (Grid.GetCellState(movedPositionOfBlock) == CellState.Filled)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
 }

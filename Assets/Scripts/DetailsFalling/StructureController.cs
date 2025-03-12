@@ -8,7 +8,7 @@ using UnityEngine;
 /// </summary>
 public class StructureController : MonoBehaviour
 {
-    [SerializeField] private List<BlockController> blocks;
+    public List<BlockController> blocks;
 
     [Tooltip("Падает ли вся деталь как единое целое.")]
     public bool hasGroundContact;
