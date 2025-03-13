@@ -114,5 +114,32 @@ public static class Grid
         return Grid.GetCellState(belowPos) == CellState.Free;
     }
 
+    /// <summary>
+    /// Удаляет слой игрового поля.
+    /// </summary>
+    public static void DestroyLayer(int layerInx)
+    {
+        for (int x = 0; x < GameManager.gridWidth; x++)    // grid width не видит
+        {
+            for (int z = 0; z < GameManager.gridWidth; z++)
+            {
+                Vector3Int CellPosition = new Vector3Int(x, layerInx, z);
+                CellState state = Grid.GetCellState(CellPosition);
+                GameObject block = Grid.GetCellGameObject(CellPosition);
+
+                if (state == CellState.Filled)
+                {
+                    Grid.SetCellState(CellPosition, null, CellState.Free);
+                    GameObject.Destroy(block);
+                }
+
+                // Отрисовка состояния Grid на данный момент.
+                if (CellsVizualizer.Instance != null)
+                {
+                    CellsVizualizer.Instance.UpdateCellMaterial(CellPosition);
+                }
+            }
+        }
+    }
 
 }

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 /// <summary>
 /// Абстрактный контроллер камеры, содержащий основные методы для управления камерой,
@@ -22,26 +23,72 @@ public abstract class CommonFunctions : MonoBehaviour
     protected float distanceToTarget;
 
     /// <summary>
-    /// Текущий угол наклона камеры по вертикали.
-    /// Используется для ограничения вертикального вращения.
-    /// </summary>
-    private float currentVerticalAngle = 0f;
-
-    /// <summary>
     /// Инициализация параметров камеры при старте.
     /// Устанавливает камеру в начальное положение и рассчитывает дистанцию до цели.
     /// </summary>
-    protected virtual void Start()
+    private void OnEnable()
     {
         if (cameraSettings == null)
         {
             Debug.LogError("CameraSettings не установлены в " + gameObject.name);
             return;
         }
-        // Определяем куда будет смотреть камера:
+        StartCoroutine(LookAtTarget());
+        StartCoroutine(MoveToTarget());
+    }
+
+    /// <summary>
+    /// Направление камеры в сторону цели.
+    /// </summary>
+    /// <returns></returns>
+    IEnumerator LookAtTarget()
+    {
+        // Определяем конечное направление взгляда камеры:
         Vector3 lookToTransform = cameraSettings.target.position + Vector3.up * GameManager.gridHeight / 3f;
-        cameraSettings.cameraTransform.LookAt(lookToTransform);
-        distanceToTarget = Vector3.Distance(cameraSettings.cameraTransform.position, cameraSettings.target.position);
+        Quaternion startRotation = cameraSettings.cameraTransform.rotation;
+        Quaternion targetRotation = Quaternion.LookRotation(lookToTransform - cameraSettings.cameraTransform.position);
+
+        float duration = 1f;    // время за которое камера выставляется в правильную позицию.
+        float progress = 0f;
+
+        while (progress < duration)
+        {
+            progress += Time.deltaTime;
+            float t = progress / duration;
+            cameraSettings.cameraTransform.rotation = Quaternion.Lerp(startRotation, targetRotation, t);
+            yield return null;
+        }
+
+        // Гарантируем, что камера точно повернется к цели:
+        cameraSettings.cameraTransform.rotation = targetRotation;
+    }
+
+    /// <summary>
+    /// Направление камеры в сторону цели.
+    /// </summary>
+    /// <returns></returns>
+    IEnumerator MoveToTarget()
+    {
+        float distance = 20f;
+
+        // Определяем текущую позицию:
+        Vector3 startPos = cameraSettings.cameraTransform.position;
+
+        // Определяем целевую позицию:
+        Vector3 targetPos = cameraSettings.target.position;
+        Vector3 direction = (cameraSettings.cameraTransform.position - targetPos).normalized;
+        Vector3 endPos = direction * distance;
+
+        float duration = 1f;    // время за которое камера выставляется в правильную позицию.
+        float progress = 0f;
+
+        while (progress < duration)
+        {
+            progress += Time.deltaTime;
+            float t = progress / duration;
+            cameraSettings.cameraTransform.position = Vector3.Lerp(startPos, endPos, t);
+            yield return null;
+        }
     }
 
     /// <summary>
@@ -55,37 +102,6 @@ public abstract class CommonFunctions : MonoBehaviour
         distanceToTarget = Mathf.Clamp(distanceToTarget - zoomAmount, cameraSettings.minDistance, cameraSettings.maxDistance);
         UpdateCameraPosition();
     }
-
-    /*
-    /// <summary>
-    /// Вращает камеру вокруг целевого объекта с учетом ограничений по вертикальному углу.
-    /// </summary>
-    /// <param name="rotationDelta">Вектор изменения вращения камеры (например, смещение мыши или жеста на сенсорном экране).</param>
-    public void RotateCamera(Vector2 rotationDelta)
-    {
-        float pixelDeltaX = rotationDelta.x;
-        float pixelDeltaY = rotationDelta.y;
-
-        Transform cameraTransform = cameraSettings.cameraTransform;
-        Transform target = cameraSettings.target;
-
-        // Вращение по горизонтали (вокруг оси Y)
-        cameraTransform.RotateAround(target.position, Vector3.up, pixelDeltaX * cameraSettings.rotationSpeed);
-
-        // Ограничение вертикального вращения
-        float newVerticalAngle = Mathf.Clamp(currentVerticalAngle - pixelDeltaY * cameraSettings.rotationSpeed,
-                                             cameraSettings.minVerticalAngle, cameraSettings.maxVerticalAngle);
-
-        float deltaAngle = newVerticalAngle - currentVerticalAngle;
-        currentVerticalAngle = newVerticalAngle;
-
-        // Вращение по вертикали (вокруг оси X)
-        cameraTransform.RotateAround(target.position, cameraTransform.right, deltaAngle);
-
-        // Обновление дистанции до целевого объекта
-        distanceToTarget = Vector3.Distance(cameraTransform.position, target.position);
-    }
-    */
 
     /// <summary>
     /// Вращает камеру вокруг целевого объекта с учетом ограничений по вертикальному углу.

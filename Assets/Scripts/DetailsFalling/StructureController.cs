@@ -44,7 +44,7 @@ public class StructureController : MonoBehaviour
             int layerInx = block.GetAlignedPosition().y;
             if (Grid.IsLayerFilled(layerInx))
             {
-                GameManager.DestroyLayer(layerInx);
+                Grid.DestroyLayer(layerInx);
             }
         }
         else
