@@ -102,36 +102,24 @@ public static class Grid
     }
 
     /// <summary>
-    /// Метод возвращает true, если под текущей ячейкой пусто.
-    /// </summary>
-    /// <param name="startPos">Позиция кубика по сетке.</param>
-    public static bool CanFall(Vector3Int startPos)
-    {
-        // Проверяем состояние клетки, расположенной ниже текущей
-        Vector3Int belowPos = new Vector3Int(startPos.x, startPos.y - 1, startPos.z);
-
-        // Если клетка пустая, то кубик может падать
-        return Grid.GetCellState(belowPos) == CellState.Free;
-    }
-
-    /// <summary>
     /// Удаляет слой игрового поля.
     /// </summary>
     public static void DestroyLayer(int layerInx)
     {
-        for (int x = 0; x < GameManager.gridWidth; x++)    // grid width не видит
+        for (int x = 0; x < sizeX; x++)    // grid width не видит
         {
-            for (int z = 0; z < GameManager.gridWidth; z++)
+            for (int z = 0; z < sizeZ; z++)
             {
                 Vector3Int CellPosition = new Vector3Int(x, layerInx, z);
-                CellState state = Grid.GetCellState(CellPosition);
                 GameObject block = Grid.GetCellGameObject(CellPosition);
 
-                if (state == CellState.Filled)
-                {
-                    Grid.SetCellState(CellPosition, null, CellState.Free);
-                    GameObject.Destroy(block);
-                }
+
+                StructureController structure = block.GetComponentInParent<StructureController>();
+                if (structure != null)
+                    structure.Collapse();
+
+                GameObject.Destroy(block);
+                Grid.SetCellState(CellPosition, null, CellState.Free);
 
                 // Отрисовка состояния Grid на данный момент.
                 if (CellsVizualizer.Instance != null)
@@ -140,6 +128,39 @@ public static class Grid
                 }
             }
         }
+        Debug.Log($"Отчистили слой y = {layerInx}");
     }
 
+    /// <summary>
+    /// Полностью очищает игровое поле: удаляет все блоки и сбрасывает статусы ячеек.
+    /// </summary>
+    public static void ClearGrid()
+    {
+        if (grid == null) return;
+
+        for (int x = 0; x < sizeX; x++)
+        {
+            for (int y = 1; y < sizeY; y++)
+            {
+                for (int z = 0; z < sizeZ; z++)
+                {
+                    GameObject block = grid[x, y, z].gameObject;
+                    if (block != null)
+                    {
+                        GameObject.Destroy(block);
+                    }
+
+                    grid[x, y, z].State = CellState.Free;
+                    grid[x, y, z].gameObject = null;
+
+                    // Отрисовка состояния Grid на данный момент.
+                    if (CellsVizualizer.Instance != null)
+                    {
+                        CellsVizualizer.Instance.UpdateCellMaterial(new Vector3Int(x,y,z));
+                    }
+                }
+            }
+        }
+        Debug.Log("Игровое поле полностью очищено.");
+    }
 }

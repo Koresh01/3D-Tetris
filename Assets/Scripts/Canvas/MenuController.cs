@@ -7,6 +7,9 @@ public class MenuController : MonoBehaviour
     [SerializeField] MobileInput mobileInput;
     [SerializeField] ComputerInput computerInput;
 
+    [Tooltip("Контейнер для деталей")]
+    [SerializeField] Transform detailsContainer;
+
     [Tooltip("Объекты которые отображаются только во время игры:")]
     [SerializeField] List<GameObject> objects;
 
@@ -54,4 +57,30 @@ public class MenuController : MonoBehaviour
             btn.SetActive(true);
         }
     }
+
+    /// <summary>
+    /// Удаляет все существующие на данный момент кубики.
+    /// </summary>
+    public void ClearGrid()
+    {
+        ScoreController.score = 0;
+        Grid.ClearGrid();
+
+        // Удаляем еще летящие детальки:
+        for (int i = detailsContainer.childCount - 1; i >= 0; i--)
+        {
+            Destroy(detailsContainer.GetChild(i).gameObject);
+        }
+    }
+
+    public void ExitGame()
+    {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false; // Остановить игру в редакторе
+#else
+            Application.Quit(); // Закрыть приложение в билде
+#endif
+    }
+
+
 }

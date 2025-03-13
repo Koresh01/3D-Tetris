@@ -45,13 +45,20 @@ public abstract class CommonFunctions : MonoBehaviour
 
     private void OnDisable()
     {
-        // Возвращаем камеру в исходное положение и поворот:
-        StartCoroutine(MoveToTarget(cameraSettings.cameraTransform.position, startedCameraTransform.position, 0f, 1f));
-        StartCoroutine(RotateToTarget(cameraSettings.cameraTransform.rotation, startedCameraTransform.rotation, 1f));
+        if (cameraSettings == null || cameraSettings.cameraTransform == null || cameraSettings.target == null)
+        {
+            Debug.LogError("Ошибка: cameraSettings или его компоненты равны null при отключении " + gameObject.name);
+            return;
+        }
 
-        // Удаляем временный объект, если он существует
         if (startedCameraTransform != null)
+        {
+            StartCoroutine(MoveToTarget(cameraSettings.cameraTransform.position, startedCameraTransform.position, 0f, 1f));
+            StartCoroutine(RotateToTarget(cameraSettings.cameraTransform.rotation, startedCameraTransform.rotation, 1f));
+
             Destroy(startedCameraTransform.gameObject);
+            startedCameraTransform = null; // Сбрасываем ссылку
+        }
     }
 
     /// <summary>

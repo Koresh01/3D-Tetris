@@ -57,7 +57,7 @@ Material:
     - _emission_Intensity: 1
     - _fresnel_Power: 3
     - _metallic: 1
-    - _smoothness: 0.9
+    - _smoothness: 1
     m_Colors:
     - _base_Color: {r: 0, g: 0, b: 0, a: 0}
     - _emission_Color: {r: 5.992157, g: 2.5024846, b: 0, a: 0}

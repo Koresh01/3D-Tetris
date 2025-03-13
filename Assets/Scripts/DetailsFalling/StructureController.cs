@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Events;
 
 /// <summary>
 /// Управляет поведением падающей тетрис-детали и её блоков.
@@ -12,6 +13,9 @@ public class StructureController : MonoBehaviour
 
     [Tooltip("Падает ли вся деталь как единое целое.")]
     public bool hasGroundContact;
+
+    [Tooltip("Событие отчистки слоя")]
+    public static UnityAction OnLayerDeleted;
 
     private void Start()
     {
@@ -26,6 +30,10 @@ public class StructureController : MonoBehaviour
 
         // Действие
         Fall();
+
+        // Самооуничтожение:
+        if (IsEmpty())
+            Destroy(gameObject);
     }
 
     /// <summary>
@@ -44,6 +52,7 @@ public class StructureController : MonoBehaviour
             int layerInx = block.GetAlignedPosition().y;
             if (Grid.IsLayerFilled(layerInx))
             {
+                OnLayerDeleted?.Invoke();
                 Grid.DestroyLayer(layerInx);
             }
         }
@@ -93,7 +102,7 @@ public class StructureController : MonoBehaviour
     /// Этот метод можно вызвать вручную через инспектор.
     /// </summary>
     [ContextMenu("Разобрать деталь")]
-    private void Collapse()
+    public void Collapse()
     {
         foreach (BlockController block in blocks)
         {
@@ -132,5 +141,17 @@ public class StructureController : MonoBehaviour
             if (!block) continue; // Unity-специфическая проверка на уничтоженный объект
             block.FreeCell();
         }
+    }
+
+    /// <summary>
+    /// Проверяет является ли деталь пустой. То есть кончились ли в ней кубики.
+    /// </summary>
+    private bool IsEmpty()
+    {
+        foreach (var block in blocks)
+        {
+            if (block) return false;
+        }
+        return true;
     }
 }
