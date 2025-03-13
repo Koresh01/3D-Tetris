@@ -22,10 +22,8 @@ public abstract class CommonFunctions : MonoBehaviour
     /// </summary>
     protected float distanceToTarget;
 
-    /// <summary>
-    /// Инициализация параметров камеры при старте.
-    /// Устанавливает камеру в начальное положение и рассчитывает дистанцию до цели.
-    /// </summary>
+    private Transform startedCameraTransform;
+
     private void OnEnable()
     {
         if (cameraSettings == null)
@@ -33,24 +31,35 @@ public abstract class CommonFunctions : MonoBehaviour
             Debug.LogError("CameraSettings не установлены в " + gameObject.name);
             return;
         }
-        StartCoroutine(LookAtTarget());
-        StartCoroutine(MoveToTarget());
+
+        // Запоминаем изначальную позицию и поворот камеры:
+        startedCameraTransform = new GameObject("TempCamTransform").transform;
+        startedCameraTransform.position = cameraSettings.cameraTransform.position;
+        startedCameraTransform.rotation = cameraSettings.cameraTransform.rotation;
+
+        // Перемещаем и поворачиваем камеру к целевой позиции:
+        StartCoroutine(MoveToTarget(cameraSettings.cameraTransform.position, cameraSettings.target.position, 20f, 1f));
+        StartCoroutine(RotateToTarget(cameraSettings.cameraTransform.rotation,
+            Quaternion.LookRotation(cameraSettings.target.position + Vector3.up * GameManager.gridHeight / 3f - cameraSettings.cameraTransform.position), 1f));
+    }
+
+    private void OnDisable()
+    {
+        // Возвращаем камеру в исходное положение и поворот:
+        StartCoroutine(MoveToTarget(cameraSettings.cameraTransform.position, startedCameraTransform.position, 0f, 1f));
+        StartCoroutine(RotateToTarget(cameraSettings.cameraTransform.rotation, startedCameraTransform.rotation, 1f));
+
+        // Удаляем временный объект, если он существует
+        if (startedCameraTransform != null)
+            Destroy(startedCameraTransform.gameObject);
     }
 
     /// <summary>
-    /// Направление камеры в сторону цели.
+    /// Вращает камеру к заданному повороту.
     /// </summary>
-    /// <returns></returns>
-    IEnumerator LookAtTarget()
+    IEnumerator RotateToTarget(Quaternion startRotation, Quaternion targetRotation, float duration)
     {
-        // Определяем конечное направление взгляда камеры:
-        Vector3 lookToTransform = cameraSettings.target.position + Vector3.up * GameManager.gridHeight / 3f;
-        Quaternion startRotation = cameraSettings.cameraTransform.rotation;
-        Quaternion targetRotation = Quaternion.LookRotation(lookToTransform - cameraSettings.cameraTransform.position);
-
-        float duration = 1f;    // время за которое камера выставляется в правильную позицию.
         float progress = 0f;
-
         while (progress < duration)
         {
             progress += Time.deltaTime;
@@ -58,30 +67,18 @@ public abstract class CommonFunctions : MonoBehaviour
             cameraSettings.cameraTransform.rotation = Quaternion.Lerp(startRotation, targetRotation, t);
             yield return null;
         }
-
-        // Гарантируем, что камера точно повернется к цели:
         cameraSettings.cameraTransform.rotation = targetRotation;
     }
 
     /// <summary>
-    /// Направление камеры в сторону цели.
+    /// Перемещает камеру к заданной позиции с учетом дистанции.
     /// </summary>
-    /// <returns></returns>
-    IEnumerator MoveToTarget()
+    IEnumerator MoveToTarget(Vector3 startPos, Vector3 targetPos, float distance, float duration)
     {
-        float distance = 20f;
+        Vector3 direction = (startPos - targetPos).normalized;
+        Vector3 endPos = targetPos + direction * distance;
 
-        // Определяем текущую позицию:
-        Vector3 startPos = cameraSettings.cameraTransform.position;
-
-        // Определяем целевую позицию:
-        Vector3 targetPos = cameraSettings.target.position;
-        Vector3 direction = (cameraSettings.cameraTransform.position - targetPos).normalized;
-        Vector3 endPos = direction * distance;
-
-        float duration = 1f;    // время за которое камера выставляется в правильную позицию.
         float progress = 0f;
-
         while (progress < duration)
         {
             progress += Time.deltaTime;
@@ -89,8 +86,13 @@ public abstract class CommonFunctions : MonoBehaviour
             cameraSettings.cameraTransform.position = Vector3.Lerp(startPos, endPos, t);
             yield return null;
         }
+        cameraSettings.cameraTransform.position = endPos;
     }
 
+    
+    
+    
+    
     /// <summary>
     /// Изменяет расстояние между камерой и целевым объектом (зум).
     /// </summary>
