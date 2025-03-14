@@ -42,7 +42,8 @@ public class GameManager : MonoBehaviour
         // Логика создания следующей детали:
         if (currentDetail == null) return;
         StructureController curDet = currentDetail.GetComponent<StructureController>();
-        if (curDet.hasGroundContact)
+        
+        if (curDet.HasGroundContact(out BlockController touchingBlock))
         {
             // Спавним первую детальку
             DetailsSpawner.Instance.SpawnNextDetail();

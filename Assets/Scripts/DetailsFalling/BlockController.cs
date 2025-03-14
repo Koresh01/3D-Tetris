@@ -23,7 +23,7 @@ public class BlockController : MonoBehaviour
         parentStructure = GetComponentInParent<StructureController>();
     }
 
-    private void LateUpdate()
+    private void Update()
     {
         // —бор данных о положении:
         localPos = transform.localPosition;

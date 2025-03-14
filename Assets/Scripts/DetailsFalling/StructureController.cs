@@ -1,6 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -23,72 +21,72 @@ public class StructureController : MonoBehaviour
         blocks = new List<BlockController>(GetComponentsInChildren<BlockController>());
     }
 
-    private void LateUpdate()
+    private void Update()
     {
-        // Если игра на стопе то останавливаем деталь:
         if (GameManager.isPaused) return;
 
-        // Сбор статистики:
-        hasGroundContact = HasGroundContact(out BlockController block);
+        // Проверяем наличие контакта с землёй
+        hasGroundContact = HasGroundContact(out BlockController touchingBlock);
 
-        // Действие
-        Fall();
+        if (hasGroundContact)
+        {
+            HandleGroundContact(touchingBlock);
+        }
+        else
+        {
+            TryFall();
+        }
 
-        // Самооуничтожение:
-        if (IsEmpty())
-            Destroy(gameObject);
+        CheckAndDestroySelf();
+    }
+
+    /// <summary>
+    /// Обрабатывает касание поверхности.
+    /// </summary>
+    private void HandleGroundContact(BlockController touchingBlock)
+    {
+        FillCells();
+
+        if (touchingBlock != null)
+        {
+            int layerIndex = touchingBlock.GetAlignedPosition().y;
+
+            if (Grid.IsLayerFilled(layerIndex))
+            {
+                OnLayerDeleted?.Invoke();  // Сигнализируем, что слой удаляется
+                // DetailsSpawner.Instance.SpawnNextDetail();
+                Grid.DestroyLayer(layerIndex);
+            }
+        }
     }
 
     /// <summary>
     /// Логика падения всей детали.
     /// </summary>
-    private void Fall()
+    private void TryFall()
     {
-        // Если хотя бы один блок достиг поверхности, останавливаем деталь
-        if (HasGroundContact(out BlockController block))
-        {
-            // Занимаем эти ячейки:
-            FillCells();
-            // тут можно центрировать всю деталь...
-
-            // Проверяем вдруг этот слой уже заполнен
-            int layerInx = block.GetAlignedPosition().y;
-            if (Grid.IsLayerFilled(layerInx))
-            {
-                OnLayerDeleted?.Invoke();
-                Grid.DestroyLayer(layerInx);
-            }
-        }
-        else
-        {
-            FreeCells();
-            transform.Translate(Vector3.down * Time.deltaTime, Space.World);
-        }
+        FreeCells();
+        transform.Translate(Vector3.down * Time.deltaTime, Space.World);
     }
 
     /// <summary>
-    /// Проверяет, касается ли хотя бы один блок земли или занятой клетки,
-    /// игнорируя блоки этой же детали.
+    /// Проверяет, касается ли хотя бы один блок земли или занятой клетки.
     /// </summary>
-    private bool HasGroundContact(out BlockController touchingBlock)
+    public bool HasGroundContact(out BlockController touchingBlock)
     {
-        touchingBlock = null; // Инициализируем переменную
+        touchingBlock = null;
+
         foreach (BlockController block in blocks)
         {
-            if (!block) continue; // Unity-специфическая проверка на уничтоженный объект
+            if (!block) continue;
 
             Vector3Int blockPos = block.GetAlignedPosition();
             Vector3Int belowPos = blockPos + Vector3Int.down;
 
-            // Если блок касается земли или занятой клетки
             if (Grid.GetCellState(belowPos) == CellState.Filled)
             {
-                // Проверяем, не является ли эта клетка частью той же детали
-                bool touchingOurBlock = blocks
-                    .Where(other => other && other != block) // Фильтруем уничтоженные объекты
-                    .Any(other => other.GetAlignedPosition() == belowPos);
-
-                if (!touchingOurBlock) // Тронули блок не этой детали, значит фиксируем упор в землю.
+                bool isOurBlock = blocks.Exists(other => other && other.GetAlignedPosition() == belowPos);
+                if (!isOurBlock)
                 {
                     touchingBlock = block;
                     return true;
@@ -98,63 +96,50 @@ public class StructureController : MonoBehaviour
         return false;
     }
 
-
-
     /// <summary>
     /// Разбирает деталь на отдельные блоки, удаляя родительский объект.
-    /// Этот метод можно вызвать вручную через инспектор.
     /// </summary>
     [ContextMenu("Разобрать деталь")]
     public void Collapse()
     {
         foreach (BlockController block in blocks)
         {
-            if (!block) continue; // Unity-специфическая проверка на уничтоженный объект
-            // Говорим что эти ячейки свободные:
-            // FreeCells();
-
-            // Запускаем падение кубиков(удаляя им родителя):
-            block.transform.parent = transform.parent; // Освобождаем блоки от родительского объекта
+            if (!block) continue;
+            block.transform.parent = transform.parent;
         }
-
-        Destroy(gameObject); // Удаляем объект, на котором висел StructureController
+        Destroy(gameObject);
     }
 
     /// <summary>
-    /// Заполняет ячейки, где сейчас стоят кубики нашей детали.
+    /// Заполняет ячейки, где стоят кубики этой детали.
     /// </summary>
     private void FillCells()
     {
-        // Говорим что эти ячейки заняты:
         foreach (BlockController block in blocks)
         {
-            if (!block) continue; // Unity-специфическая проверка на уничтоженный объект
-            block.FillCell();
+            block?.FillCell();
         }
     }
 
     /// <summary>
-    /// Освобождает ячейки, где сейчас стоят кубики нашей детали.
+    /// Освобождает ячейки, где находятся кубики этой детали.
     /// </summary>
     private void FreeCells()
     {
-        // Говорим что эти ячейки свободны:
         foreach (BlockController block in blocks)
         {
-            if (!block) continue; // Unity-специфическая проверка на уничтоженный объект
-            block.FreeCell();
+            block?.FreeCell();
         }
     }
 
     /// <summary>
-    /// Проверяет является ли деталь пустой. То есть кончились ли в ней кубики.
+    /// Проверяет, является ли деталь пустой.
     /// </summary>
-    private bool IsEmpty()
+    private void CheckAndDestroySelf()
     {
-        foreach (var block in blocks)
+        if (blocks.TrueForAll(block => block == null))
         {
-            if (block) return false;
+            Destroy(gameObject);
         }
-        return true;
     }
 }
