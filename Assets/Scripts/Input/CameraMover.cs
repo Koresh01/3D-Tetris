@@ -80,6 +80,7 @@ public class CameraMover : MonoBehaviour
     /// <summary>
     /// Анимирует перемещение камеры к заданной позиции.
     /// </summary>
+    /// <param name="duration">Длительность анимации.</param>
     private IEnumerator MoveToTarget(Vector3 targetPos, float distance, float duration)
     {
         Vector3 startPos = userInputSettings.cameraTransform.position;

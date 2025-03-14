@@ -5,6 +5,8 @@ using System.Collections.Generic;
 [AddComponentMenu("Custom/Details Spawner (Скрипт спавнит очередную детальку на сцене.)")]
 public class DetailsSpawner : MonoBehaviour
 {
+    public static DetailsSpawner Instance { get; private set; }
+
     [Tooltip("Середина игровой области")]
     [SerializeField] Transform centerPoint;
 
@@ -16,6 +18,12 @@ public class DetailsSpawner : MonoBehaviour
 
     [Tooltip("Префабы деталей")]
     [SerializeField] List<GameObject> detailPrefabs;
+
+    private void Awake()
+    {
+        if (Instance == null) Instance = this;
+        else Destroy(gameObject);
+    }
 
     private void Start()
     {
@@ -30,7 +38,7 @@ public class DetailsSpawner : MonoBehaviour
     /// Спавнит новую деталь на игровом поле.
     /// </summary>
     /// <returns></returns>
-    public void SpawnDetail()
+    public void SpawnNextDetail()
     {
         int randId = Random.Range(0, detailPrefabs.Count);
         GameObject currentDetail = Instantiate(detailPrefabs[randId], spawnPoint.transform.position, Quaternion.identity, detailsSceneContainer);

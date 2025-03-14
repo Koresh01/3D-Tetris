@@ -29,8 +29,18 @@ public class MenuController : MonoBehaviour
     /// </summary>
     public void setPlayMode()
     {
+        // Спавнит первую деталь:
+        if (GameManager.isPaused)
+            GameManager.isPaused = false;   // теперь игра не на паузе
+        else
+            DetailsSpawner.Instance.SpawnNextDetail();  // Если игра не была на паузе, а было нажатие на кнопку "играть" => Это первый запуск игры и надо заспавнить первую деталь. А дальше они сами спавнятся.
+
+        
+
         InputHandler.SetActive(true);
         CameraMover.SwitchToGameMode();
+        
+        
 
         // Отображаем нужные для игрового процесса объекты на сцене:
         foreach (var obj in objects)
@@ -50,6 +60,9 @@ public class MenuController : MonoBehaviour
     /// </summary>
     public void setMenuMode()
     {
+        // Ставим игру на стоп:
+        GameManager.isPaused = true;
+
         InputHandler.SetActive(false);
         CameraMover.SwitchToMenuMode();
 
@@ -71,6 +84,8 @@ public class MenuController : MonoBehaviour
     /// </summary>
     public void ClearGrid()
     {
+        GameManager.isPaused = false;   // теперь игра не на паузе
+
         ScoreController.SetScore(0);
         Grid.ClearGrid();
 

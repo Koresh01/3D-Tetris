@@ -25,6 +25,9 @@ public class StructureController : MonoBehaviour
 
     private void LateUpdate()
     {
+        // Если игра на стопе то останавливаем деталь:
+        if (GameManager.isPaused) return;
+
         // Сбор статистики:
         hasGroundContact = HasGroundContact(out BlockController block);
 

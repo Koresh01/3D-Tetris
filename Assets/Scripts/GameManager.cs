@@ -18,6 +18,8 @@ public class GameManager : MonoBehaviour
     public static int gridWidth { get; private set; }
     public static int gridHeight { get; private set; }
 
+    [Tooltip("Состояние паузы игры.")]
+    public static bool isPaused = false;
 
     [Tooltip("Текущая деталь.")]
     public static GameObject currentDetail;
@@ -30,5 +32,20 @@ public class GameManager : MonoBehaviour
 
 
         Grid.InitializeGrid();
+    }
+
+    private void Update()
+    {
+        // Если игра на стопе то останавливаем спавн деталей:
+        if (isPaused) return;
+
+        // Логика создания следующей детали:
+        if (currentDetail == null) return;
+        StructureController curDet = currentDetail.GetComponent<StructureController>();
+        if (curDet.hasGroundContact)
+        {
+            // Спавним первую детальку
+            DetailsSpawner.Instance.SpawnNextDetail();
+        }
     }
 }
