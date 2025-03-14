@@ -4,13 +4,18 @@ using UnityEngine;
 [AddComponentMenu("Менеджер паузы игры.")]
 public class MenuController : MonoBehaviour
 {
-    [SerializeField] MobileInput mobileInput;
-    [SerializeField] ComputerInput computerInput;
+    [Header("Камера:")]
+    [Tooltip("Объект со скриптами обрабатывающими ввод пользователя.")]
+    [SerializeField] GameObject InputHandler;
 
-    [Tooltip("Контейнер для деталей")]
+    [Tooltip("Скрипт перемещающий камеру во время перехода в меню и обратно.")]
+    [SerializeField] CameraMover CameraMover;
+
+    [Tooltip("Контейнер для деталей.")]
     [SerializeField] Transform detailsContainer;
 
-    [Tooltip("Объекты которые отображаются только во время игры:")]
+    [Header("Остальное:")]
+    [Tooltip("Объекты которые отображаются только во время игры.")]
     [SerializeField] List<GameObject> objects;
 
     [Tooltip("Интерактивные кнопки")]
@@ -21,8 +26,8 @@ public class MenuController : MonoBehaviour
     /// </summary>
     public void setPlayMode()
     {
-        mobileInput.enabled = true;
-        computerInput.enabled = true;
+        InputHandler.SetActive(true);
+        CameraMover.setPlayMode();
 
         // Отображаем нужные для игрового процесса объекты на сцене:
         foreach (var obj in objects)
@@ -42,8 +47,8 @@ public class MenuController : MonoBehaviour
     /// </summary>
     public void setMenuMode()
     {
-        mobileInput.enabled = false;
-        computerInput.enabled = false;
+        InputHandler.SetActive(false);
+        CameraMover.setMenuMode();
 
         // Тушим лишние объекты на сцене:
         foreach (var obj in objects)

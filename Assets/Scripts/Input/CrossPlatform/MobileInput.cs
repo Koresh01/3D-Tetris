@@ -40,7 +40,7 @@ public class MobileInput : CommonFunctions
                 float currDist = Vector2.Distance(touch1.position, touch2.position);
                 float pixelDeltaX = currDist - prevDist;
 
-                ZoomCamera(pixelDeltaX/(cameraSettings.zoomStep*1.5f));
+                ZoomCamera(pixelDeltaX/(userInputSettings.zoomStep*1.5f));
             }
 
             if (touch1.phase == TouchPhase.Moved && touch2.phase == TouchPhase.Moved)

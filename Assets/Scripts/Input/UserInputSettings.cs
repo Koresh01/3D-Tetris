@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 [AddComponentMenu("Custom/InputSettings (Хранит настройки)")]
-public class InputSettings : MonoBehaviour
+public class UserInputSettings : MonoBehaviour
 {
     [Header("Основные настройки")]
     public Transform cameraTransform;   // кэшируем transform(оптимизация)
