@@ -17,9 +17,6 @@ public abstract class CommonFunctions : MonoBehaviour
     /// Используется при масштабировании (зуме) камеры.
     /// </summary>
     protected float distanceToTarget;
-
-    
-    
     /// <summary>
     /// Изменяет расстояние между камерой и целевым объектом (зум).
     /// </summary>
@@ -65,8 +62,6 @@ public abstract class CommonFunctions : MonoBehaviour
         // Обновляем дистанцию до целевого объекта
         distanceToTarget = Vector3.Distance(cameraTransform.position, target.position);
     }
-
-
 
     /// <summary>
     /// Обновляет позицию камеры, сохраняя корректное расстояние до целевого объекта.

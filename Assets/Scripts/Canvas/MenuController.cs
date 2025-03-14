@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
 
 [AddComponentMenu("Менеджер паузы игры.")]
@@ -35,24 +36,13 @@ public class MenuController : MonoBehaviour
         else
             DetailsSpawner.Instance.SpawnNextDetail();  // Если игра не была на паузе, а было нажатие на кнопку "играть" => Это первый запуск игры и надо заспавнить первую деталь. А дальше они сами спавнятся.
 
-        
-
-        InputHandler.SetActive(true);
         CameraMover.SwitchToGameMode();
-        
-        
+
+
 
         // Отображаем нужные для игрового процесса объекты на сцене:
-        foreach (var obj in objects)
-        {
-            obj.SetActive(true);
-        }
-
         // Выключаем кнопки меню:
-        foreach (var btn in interactiveBtns)
-        {
-            btn.SetActive(false);
-        }
+        StartCoroutine(ToggleObjectsWithDelay(objects, true, interactiveBtns, false));
     }
 
     /// <summary>
@@ -63,20 +53,12 @@ public class MenuController : MonoBehaviour
         // Ставим игру на стоп:
         GameManager.isPaused = true;
 
-        InputHandler.SetActive(false);
         CameraMover.SwitchToMenuMode();
 
         // Тушим лишние объекты на сцене:
-        foreach (var obj in objects)
-        {
-            obj.SetActive(false);
-        }
-
         // Включаем кнопки меню:
-        foreach (var btn in interactiveBtns)
-        {
-            btn.SetActive(true);
-        }
+        StartCoroutine(ToggleObjectsWithDelay(objects, false, interactiveBtns, true));
+
     }
 
     /// <summary>
@@ -105,5 +87,26 @@ public class MenuController : MonoBehaviour
 #endif
     }
 
+    /// <summary>
+    /// Постепенно включает или выключает объекты и кнопки с небольшой задержкой между изменениями.
+    /// </summary>
+    /// <param name="objects">Список игровых объектов для переключения.</param>
+    /// <param name="stateObjects">Состояние (true - включить, false - выключить) для игровых объектов.</param>
+    /// <param name="buttons">Список кнопок UI для переключения.</param>
+    /// <param name="stateButtons">Состояние (true - включить, false - выключить) для кнопок.</param>
+    IEnumerator ToggleObjectsWithDelay(List<GameObject> objects, bool stateObjects, List<GameObject> buttons, bool stateButtons)
+    {
+        foreach (var obj in objects)
+        {
+            obj.SetActive(stateObjects);
+            yield return new WaitForSecondsRealtime(0.025f);
+        }
+
+        foreach (var btn in buttons)
+        {
+            btn.SetActive(stateButtons);
+            yield return new WaitForSecondsRealtime(0.025f);
+        }
+    }
 
 }
