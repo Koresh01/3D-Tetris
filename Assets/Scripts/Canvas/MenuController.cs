@@ -15,6 +15,9 @@ public class MenuController : MonoBehaviour
     [SerializeField] Transform detailsContainer;
 
     [Header("Остальное:")]
+    [Tooltip("Контроллер очков.")]
+    [SerializeField] ScoreController ScoreController;
+
     [Tooltip("Объекты которые отображаются только во время игры.")]
     [SerializeField] List<GameObject> objects;
 
@@ -27,7 +30,7 @@ public class MenuController : MonoBehaviour
     public void setPlayMode()
     {
         InputHandler.SetActive(true);
-        CameraMover.setPlayMode();
+        CameraMover.SwitchToGameMode();
 
         // Отображаем нужные для игрового процесса объекты на сцене:
         foreach (var obj in objects)
@@ -48,7 +51,7 @@ public class MenuController : MonoBehaviour
     public void setMenuMode()
     {
         InputHandler.SetActive(false);
-        CameraMover.setMenuMode();
+        CameraMover.SwitchToMenuMode();
 
         // Тушим лишние объекты на сцене:
         foreach (var obj in objects)
@@ -68,7 +71,7 @@ public class MenuController : MonoBehaviour
     /// </summary>
     public void ClearGrid()
     {
-        ScoreController.score = 0;
+        ScoreController.SetScore(0);
         Grid.ClearGrid();
 
         // Удаляем еще летящие детальки:

@@ -431,7 +431,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   userInputSettings: {fileID: 137100391}
-  startedCameraTransform: {fileID: 0}
 --- !u!4 &164443881
 Transform:
   m_ObjectHideFlags: 0
@@ -3251,7 +3250,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u0421\u0441\u0447\u0451\u0442: "
+  m_Text: "\u0421\u0447\u0451\u0442:  0"
 --- !u!222 &1692649525
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3272,6 +3271,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c5a65e924f8f3d4f8a6b81910991321, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  score: 0
   scoreText: {fileID: 1692649524}
 --- !u!1 &1755391431
 GameObject:
@@ -3883,6 +3883,7 @@ MonoBehaviour:
   InputHandler: {fileID: 1604851599}
   CameraMover: {fileID: 164443880}
   detailsContainer: {fileID: 1384978948}
+  ScoreController: {fileID: 1692649526}
   objects:
   - {fileID: 1755391431}
   - {fileID: 941518630}

@@ -4,7 +4,7 @@ using UnityEngine.UI;
 [AddComponentMenu("Контроллер ссчётчика очков:")]
 public class ScoreController : MonoBehaviour
 {
-    public static int score;
+    public int score;
     [SerializeField] Text scoreText;
 
     private void OnEnable()
@@ -22,7 +22,16 @@ public class ScoreController : MonoBehaviour
     /// </summary>
     void AddScore()
     {
-        score += GameManager.gridWidth * GameManager.gridWidth; ;
+        score += GameManager.gridWidth * GameManager.gridWidth;
         scoreText.text = $"Ссчёт: {score}";
+    }
+
+    /// <summary>
+    /// Устанавливает ссчёт.
+    /// </summary>
+    public void SetScore(int val)
+    {
+        score = val;
+        scoreText.text = $"Ссчёт: {val}";
     }
 }

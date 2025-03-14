@@ -1,53 +1,76 @@
 using UnityEngine;
 using System.Collections;
 
-[AddComponentMenu("Custom/CameraMover (Контроллер перемещения камеры)")]
+/// <summary>
+/// Управляет перемещением и вращением камеры между игровым режимом и режимом меню.
+/// </summary>
+[AddComponentMenu("Custom/CameraController (Контроллер камеры)")]
 public class CameraMover : MonoBehaviour
 {
-    [SerializeField, Tooltip("Настройки камеры, чтобы избежать дублирования параметров.")]
-    protected UserInputSettings userInputSettings;
+    [SerializeField, Tooltip("Настройки ввода пользователя и камера.")]
+    private UserInputSettings userInputSettings;
 
-    [SerializeField, Tooltip("Первоначальное положение камеры.")]
-    private Transform startedCameraTransform;
+    private Vector3 initialPosition;
+    private Quaternion initialRotation;
+
+    private Coroutine moveCoroutine;
+    private Coroutine rotateCoroutine;
 
     private void Start()
     {
-        // Запоминаем изначальную позицию и поворот камеры:
-        startedCameraTransform = new GameObject("TempCamTransform").transform;
-        startedCameraTransform.position = userInputSettings.cameraTransform.position;
-        startedCameraTransform.rotation = userInputSettings.cameraTransform.rotation;
+        // Запоминаем начальную позицию и поворот камеры
+        initialPosition = userInputSettings.cameraTransform.position;
+        initialRotation = userInputSettings.cameraTransform.rotation;
     }
 
     /// <summary>
-    /// Передвижение камеры в режим "игры"
+    /// Переключает камеру в режим "игры".
     /// </summary>
-    public void setPlayMode()
+    public void SwitchToGameMode()
     {
-        // Перемещаем и поворачиваем камеру к целевой позиции:
-        StartCoroutine(MoveToTarget(userInputSettings.cameraTransform.position, userInputSettings.target.position, 20f, 1f));
-        StartCoroutine(RotateToTarget(userInputSettings.cameraTransform.rotation,
-        Quaternion.LookRotation(userInputSettings.target.position + Vector3.up * GameManager.gridHeight / 3f - userInputSettings.cameraTransform.position), 1f));
+        StopActiveCoroutines();
+
+        Vector3 targetPosition = userInputSettings.target.position;
+        Quaternion targetRotation = Quaternion.LookRotation(
+            userInputSettings.target.position + Vector3.up * GameManager.gridHeight / 3f - userInputSettings.cameraTransform.position
+        );
+
+        moveCoroutine = StartCoroutine(MoveToTarget(targetPosition, 20f, 1f));
+        rotateCoroutine = StartCoroutine(RotateToTarget(targetRotation, 1f));
     }
 
     /// <summary>
-    /// Передвижение камеры в режим "меню"
+    /// Переключает камеру в режим "меню".
     /// </summary>
-    public void setMenuMode()
+    public void SwitchToMenuMode()
     {
-        StartCoroutine(MoveToTarget(userInputSettings.cameraTransform.position, startedCameraTransform.position, 0f, 1f));
-        StartCoroutine(RotateToTarget(userInputSettings.cameraTransform.rotation, startedCameraTransform.rotation, 1f));
+        StopActiveCoroutines();
+
+        moveCoroutine = StartCoroutine(MoveToTarget(initialPosition, 0f, 1f));
+        rotateCoroutine = StartCoroutine(RotateToTarget(initialRotation, 1f));
     }
 
     /// <summary>
-    /// Вращает камеру к заданному повороту.
+    /// Прерывает текущие корутины движения и вращения камеры, если они запущены.
     /// </summary>
-    IEnumerator RotateToTarget(Quaternion startRotation, Quaternion targetRotation, float duration)
+    private void StopActiveCoroutines()
     {
-        float progress = 0f;
-        while (progress < duration)
+        if (moveCoroutine != null) StopCoroutine(moveCoroutine);
+        if (rotateCoroutine != null) StopCoroutine(rotateCoroutine);
+    }
+
+    /// <summary>
+    /// Анимирует вращение камеры к заданному повороту.
+    /// </summary>
+    private IEnumerator RotateToTarget(Quaternion targetRotation, float duration)
+    {
+        Quaternion startRotation = userInputSettings.cameraTransform.rotation;
+        float elapsed = 0f;
+
+        while (elapsed < duration)
         {
-            progress += Time.deltaTime;
-            float t = progress / duration;
+            elapsed += Time.deltaTime;
+            float t = elapsed / duration;
             userInputSettings.cameraTransform.rotation = Quaternion.Lerp(startRotation, targetRotation, t);
             yield return null;
         }
@@ -55,18 +78,19 @@ public class CameraMover : MonoBehaviour
     }
 
     /// <summary>
-    /// Перемещает камеру к заданной позиции с учетом дистанции.
+    /// Анимирует перемещение камеры к заданной позиции.
     /// </summary>
-    IEnumerator MoveToTarget(Vector3 startPos, Vector3 targetPos, float distance, float duration)
+    private IEnumerator MoveToTarget(Vector3 targetPos, float distance, float duration)
     {
+        Vector3 startPos = userInputSettings.cameraTransform.position;
         Vector3 direction = (startPos - targetPos).normalized;
         Vector3 endPos = targetPos + direction * distance;
 
-        float progress = 0f;
-        while (progress < duration)
+        float elapsed = 0f;
+        while (elapsed < duration)
         {
-            progress += Time.deltaTime;
-            float t = progress / duration;
+            elapsed += Time.deltaTime;
+            float t = elapsed / duration;
             userInputSettings.cameraTransform.position = Vector3.Lerp(startPos, endPos, t);
             yield return null;
         }
