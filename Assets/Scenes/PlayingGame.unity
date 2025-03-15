@@ -1165,6 +1165,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1711850165}
+        m_TargetAssemblyTypeName: SoundManager, Assembly-CSharp
+        m_MethodName: PlayMoveRotate
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   scaleFactor: 1.2
   scaleSpeed: 15
 --- !u!1 &410087039
@@ -1342,6 +1354,18 @@ MonoBehaviour:
       - m_Target: {fileID: 941518634}
         m_TargetAssemblyTypeName: DetailRotator, Assembly-CSharp
         m_MethodName: RotateXCounterClockwise
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1711850165}
+        m_TargetAssemblyTypeName: SoundManager, Assembly-CSharp
+        m_MethodName: PlayMoveRotate
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1927,6 +1951,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63e56f59c7e94ec429934ec04fe40476, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  worldRotation: {x: 0, y: 0, z: 0, w: 1}
 --- !u!114 &941518634
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2196,6 +2221,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1711850165}
+        m_TargetAssemblyTypeName: SoundManager, Assembly-CSharp
+        m_MethodName: PlayMoveRotate
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   scaleFactor: 1.2
   scaleSpeed: 15
 --- !u!1 &1319689396
@@ -2446,6 +2483,18 @@ MonoBehaviour:
       - m_Target: {fileID: 1755391433}
         m_TargetAssemblyTypeName: DetailMover, Assembly-CSharp
         m_MethodName: MoveForward
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1711850165}
+        m_TargetAssemblyTypeName: SoundManager, Assembly-CSharp
+        m_MethodName: PlayMoveRotate
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2864,6 +2913,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1711850165}
+        m_TargetAssemblyTypeName: SoundManager, Assembly-CSharp
+        m_MethodName: PlayMoveRotate
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   scaleFactor: 1.2
   scaleSpeed: 15
 --- !u!65 &1511718642
@@ -3078,6 +3139,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1711850165}
+        m_TargetAssemblyTypeName: SoundManager, Assembly-CSharp
+        m_MethodName: PlayMoveRotate
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   scaleFactor: 1.2
   scaleSpeed: 15
 --- !u!1 &1604851599
@@ -3266,6 +3339,7 @@ MonoBehaviour:
   buttonClickSound: {fileID: 8300000, guid: e833511e05ac38b469efee9874312953, type: 3}
   moveErrorSound: {fileID: 8300000, guid: 433294556db647d44b8018638eca70a9, type: 3}
   clearLayerSound: {fileID: 8300000, guid: 8d6c639de4d5a154384c4915afd6c544, type: 3}
+  moveRotateSound: {fileID: 8300000, guid: 30d88fd9079d538409789d57d14070a1, type: 3}
   audioSource: {fileID: 330585548}
 --- !u!4 &1711850166
 Transform:
@@ -3344,6 +3418,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63e56f59c7e94ec429934ec04fe40476, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  worldRotation: {x: 0, y: 0, z: 0, w: 1}
 --- !u!1 &1891633677
 GameObject:
   m_ObjectHideFlags: 0
@@ -3398,6 +3473,18 @@ MonoBehaviour:
       - m_Target: {fileID: 941518634}
         m_TargetAssemblyTypeName: DetailRotator, Assembly-CSharp
         m_MethodName: RotateZCounterClockwise
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1711850165}
+        m_TargetAssemblyTypeName: SoundManager, Assembly-CSharp
+        m_MethodName: PlayMoveRotate
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3538,6 +3625,18 @@ MonoBehaviour:
       - m_Target: {fileID: 941518634}
         m_TargetAssemblyTypeName: DetailRotator, Assembly-CSharp
         m_MethodName: RotateZClockwise
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1711850165}
+        m_TargetAssemblyTypeName: SoundManager, Assembly-CSharp
+        m_MethodName: PlayMoveRotate
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4034,7 +4133,31 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 941518634}
+        m_TargetAssemblyTypeName: DetailRotator, Assembly-CSharp
+        m_MethodName: RotateYCounterClockwise
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1711850165}
+        m_TargetAssemblyTypeName: SoundManager, Assembly-CSharp
+        m_MethodName: PlayMoveRotate
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   scaleFactor: 1.2
   scaleSpeed: 5
 --- !u!136 &4055343119402528552

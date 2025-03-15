@@ -1,20 +1,17 @@
 ﻿using UnityEngine;
 
-
-[AddComponentMenu("Custom/FollowCamera (Сохраняет исходное ориентирование стрелочек)\"")]
+/// <summary>
+/// Сохраняет заданное мировое направление объекта, игнорируя вращение родителя.
+/// </summary>
+[AddComponentMenu("Custom/RotationSaver (Сохраняет заданное ориентирование)")]
 class RotationSaver : MonoBehaviour
 {
-    private Quaternion initialRotation;
-
-    void Start()
-    {
-        // Сохраняем изначальный поворот
-        initialRotation = transform.rotation;
-    }
+    [Tooltip("Глобальный поворот, который объект должен сохранять.")]
+    [SerializeField] private Quaternion worldRotation = Quaternion.identity; // Значение по умолчанию (без вращения)
 
     void Update()
     {
-        // Оставляем начальный поворот
-        transform.rotation = initialRotation;
+        // Применяем заданный мировой поворот, чтобы объект не вращался вместе с родителем
+        transform.rotation = worldRotation;
     }
 }
