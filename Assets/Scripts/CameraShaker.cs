@@ -39,6 +39,8 @@ public class CameraShaker : MonoBehaviour
             StopCoroutine(shakeCoroutine);
 
         shakeCoroutine = StartCoroutine(ShakeRoutine());
+
+        SoundManager.Instance.PlayMoveError();
     }
 
     private IEnumerator ShakeRoutine()

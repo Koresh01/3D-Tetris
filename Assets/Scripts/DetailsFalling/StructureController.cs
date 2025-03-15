@@ -54,7 +54,7 @@ public class StructureController : MonoBehaviour
             if (Grid.IsLayerFilled(layerIndex))
             {
                 OnLayerDeleted?.Invoke();  // Сигнализируем, что слой удаляется
-                // DetailsSpawner.Instance.SpawnNextDetail();
+                SoundManager.Instance.PlayClearLayer();
                 Grid.DestroyLayer(layerIndex);
             }
         }

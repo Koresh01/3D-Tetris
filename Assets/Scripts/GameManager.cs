@@ -45,6 +45,7 @@ public class GameManager : MonoBehaviour
         
         if (curDet.HasGroundContact(out BlockController touchingBlock))
         {
+            SoundManager.Instance.PlayPlaceBlock();
             // Спавним первую детальку
             DetailsSpawner.Instance.SpawnNextDetail();
         }

@@ -64,7 +64,7 @@ public class MenuController : MonoBehaviour
     /// <summary>
     /// Удаляет все существующие на данный момент кубики.
     /// </summary>
-    public void ClearGrid()
+    public void ResetGame()
     {
         GameManager.isPaused = false;   // теперь игра не на паузе
 
