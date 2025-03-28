@@ -23,7 +23,7 @@ public class ScoreController : MonoBehaviour
     void AddScore()
     {
         score += GameManager.gridWidth * GameManager.gridWidth;
-        scoreText.text = $"Ññ÷¸ò: {score}";
+        scoreText.text = $"Ñ÷¸ò: {score}";
     }
 
     /// <summary>
@@ -32,6 +32,6 @@ public class ScoreController : MonoBehaviour
     public void SetScore(int val)
     {
         score = val;
-        scoreText.text = $"Ññ÷¸ò: {val}";
+        scoreText.text = $"Ñ÷¸ò: {val}";
     }
 }

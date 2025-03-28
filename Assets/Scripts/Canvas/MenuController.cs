@@ -2,98 +2,114 @@ using System.Collections.Generic;
 using System.Collections;
 using UnityEngine;
 
-[AddComponentMenu("Менеджер паузы игры.")]
+[AddComponentMenu("РњРµРЅРµРґР¶РµСЂ РїР°СѓР·С‹ РёРіСЂС‹.")]
 public class MenuController : MonoBehaviour
 {
-    [Header("Камера:")]
-    [Tooltip("Объект со скриптами обрабатывающими ввод пользователя.")]
+    [Header("РљР°РјРµСЂР°:")]
+    [Tooltip("РћР±СЉРµРєС‚ СЃРѕ СЃРєСЂРёРїС‚Р°РјРё РѕР±СЂР°Р±Р°С‚С‹РІР°СЋС‰РёРјРё РІРІРѕРґ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ.")]
     [SerializeField] GameObject InputHandler;
 
-    [Tooltip("Скрипт перемещающий камеру во время перехода в меню и обратно.")]
+    [Tooltip("РЎРєСЂРёРїС‚ РїРµСЂРµРјРµС‰Р°СЋС‰РёР№ РєР°РјРµСЂСѓ РІРѕ РІСЂРµРјСЏ РїРµСЂРµС…РѕРґР° РІ РјРµРЅСЋ Рё РѕР±СЂР°С‚РЅРѕ.")]
     [SerializeField] CameraMover CameraMover;
 
-    [Tooltip("Контейнер для деталей.")]
+    [Tooltip("РљРѕРЅС‚РµР№РЅРµСЂ РґР»СЏ РґРµС‚Р°Р»РµР№.")]
     [SerializeField] Transform detailsContainer;
 
-    [Header("Остальное:")]
-    [Tooltip("Контроллер очков.")]
+    [Header("РћСЃС‚Р°Р»СЊРЅРѕРµ:")]
+    [Tooltip("РљРѕРЅС‚СЂРѕР»Р»РµСЂ РѕС‡РєРѕРІ.")]
     [SerializeField] ScoreController ScoreController;
 
-    [Tooltip("Объекты которые отображаются только во время игры.")]
+    [Tooltip("РћР±СЉРµРєС‚С‹ РєРѕС‚РѕСЂС‹Рµ РѕС‚РѕР±СЂР°Р¶Р°СЋС‚СЃСЏ С‚РѕР»СЊРєРѕ РІРѕ РІСЂРµРјСЏ РёРіСЂС‹.")]
     [SerializeField] List<GameObject> objects;
 
-    [Tooltip("Интерактивные кнопки")]
+    [Tooltip("РРЅС‚РµСЂР°РєС‚РёРІРЅС‹Рµ РєРЅРѕРїРєРё")]
     [SerializeField] List<GameObject> interactiveBtns;
 
+    [SerializeField] DissolveHandler dissolveHandler;
+
     /// <summary>
-    /// Переход в режим игры.
+    /// РџРµСЂРµС…РѕРґ РІ СЂРµР¶РёРј РёРіСЂС‹.
     /// </summary>
     public void setPlayMode()
     {
-        // Спавнит первую деталь:
-        if (GameManager.isPaused)
-            GameManager.isPaused = false;   // теперь игра не на паузе
-        else
-            DetailsSpawner.Instance.SpawnNextDetail();  // Если игра не была на паузе, а было нажатие на кнопку "играть" => Это первый запуск игры и надо заспавнить первую деталь. А дальше они сами спавнятся.
+        StartCoroutine(dissolveHandler.ShowObject());
+
+        if (GameManager.currentDetail == null)
+        {
+            DetailsSpawner.Instance.SpawnNextDetail();
+        }
+        GameManager.isPaused = false;
+
+
 
         CameraMover.SwitchToGameMode();
 
 
 
-        // Отображаем нужные для игрового процесса объекты на сцене:
-        // Выключаем кнопки меню:
+        // РћС‚РѕР±СЂР°Р¶Р°РµРј РЅСѓР¶РЅС‹Рµ РґР»СЏ РёРіСЂРѕРІРѕРіРѕ РїСЂРѕС†РµСЃСЃР° РѕР±СЉРµРєС‚С‹ РЅР° СЃС†РµРЅРµ:
+        // Р’С‹РєР»СЋС‡Р°РµРј РєРЅРѕРїРєРё РјРµРЅСЋ:
         StartCoroutine(ToggleObjectsWithDelay(objects, true, interactiveBtns, false));
     }
 
     /// <summary>
-    /// Переход в режим меню.
+    /// РџРµСЂРµС…РѕРґ РІ СЂРµР¶РёРј РјРµРЅСЋ.
     /// </summary>
     public void setMenuMode()
     {
-        // Ставим игру на стоп:
+        // РЎС‚Р°РІРёРј РёРіСЂСѓ РЅР° СЃС‚РѕРї:
         GameManager.isPaused = true;
 
         CameraMover.SwitchToMenuMode();
 
-        // Тушим лишние объекты на сцене:
-        // Включаем кнопки меню:
+        // РўСѓС€РёРј Р»РёС€РЅРёРµ РѕР±СЉРµРєС‚С‹ РЅР° СЃС†РµРЅРµ:
+        // Р’РєР»СЋС‡Р°РµРј РєРЅРѕРїРєРё РјРµРЅСЋ:
         StartCoroutine(ToggleObjectsWithDelay(objects, false, interactiveBtns, true));
 
     }
 
     /// <summary>
-    /// Удаляет все существующие на данный момент кубики.
+    /// РЈРґР°Р»СЏРµС‚ РІСЃРµ СЃСѓС‰РµСЃС‚РІСѓСЋС‰РёРµ РЅР° РґР°РЅРЅС‹Р№ РјРѕРјРµРЅС‚ РєСѓР±РёРєРё.
     /// </summary>
     public void ResetGame()
     {
-        GameManager.isPaused = false;   // теперь игра не на паузе
+        GameManager.isPaused = false;   // С‚РµРїРµСЂСЊ РёРіСЂР° РЅРµ РЅР° РїР°СѓР·Рµ
 
         ScoreController.SetScore(0);
         Grid.ClearGrid();
 
-        // Удаляем еще летящие детальки:
+        // РЈРґР°Р»СЏРµРј РµС‰Рµ Р»РµС‚СЏС‰РёРµ РґРµС‚Р°Р»СЊРєРё:
         for (int i = detailsContainer.childCount - 1; i >= 0; i--)
         {
             Destroy(detailsContainer.GetChild(i).gameObject);
         }
     }
 
+    /// <summary>
+    /// РџРµСЂС…РѕРґ РІ СЂРµР¶РёРј GameOver.
+    /// </summary>
+    public void SetGameOverMode()
+    {
+        StartCoroutine(dissolveHandler.HideObject());
+        ResetGame();
+        setMenuMode();
+    }
+
     public void ExitGame()
     {
 #if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false; // Остановить игру в редакторе
+        UnityEditor.EditorApplication.isPlaying = false; // РћСЃС‚Р°РЅРѕРІРёС‚СЊ РёРіСЂСѓ РІ СЂРµРґР°РєС‚РѕСЂРµ
 #else
-            Application.Quit(); // Закрыть приложение в билде
+            Application.Quit(); // Р—Р°РєСЂС‹С‚СЊ РїСЂРёР»РѕР¶РµРЅРёРµ РІ Р±РёР»РґРµ
 #endif
     }
 
     /// <summary>
-    /// Постепенно включает или выключает объекты и кнопки с небольшой задержкой между изменениями.
+    /// РџРѕСЃС‚РµРїРµРЅРЅРѕ РІРєР»СЋС‡Р°РµС‚ РёР»Рё РІС‹РєР»СЋС‡Р°РµС‚ РѕР±СЉРµРєС‚С‹ Рё РєРЅРѕРїРєРё СЃ РЅРµР±РѕР»СЊС€РѕР№ Р·Р°РґРµСЂР¶РєРѕР№ РјРµР¶РґСѓ РёР·РјРµРЅРµРЅРёСЏРјРё.
     /// </summary>
-    /// <param name="objects">Список игровых объектов для переключения.</param>
-    /// <param name="stateObjects">Состояние (true - включить, false - выключить) для игровых объектов.</param>
-    /// <param name="buttons">Список кнопок UI для переключения.</param>
-    /// <param name="stateButtons">Состояние (true - включить, false - выключить) для кнопок.</param>
+    /// <param name="objects">РЎРїРёСЃРѕРє РёРіСЂРѕРІС‹С… РѕР±СЉРµРєС‚РѕРІ РґР»СЏ РїРµСЂРµРєР»СЋС‡РµРЅРёСЏ.</param>
+    /// <param name="stateObjects">РЎРѕСЃС‚РѕСЏРЅРёРµ (true - РІРєР»СЋС‡РёС‚СЊ, false - РІС‹РєР»СЋС‡РёС‚СЊ) РґР»СЏ РёРіСЂРѕРІС‹С… РѕР±СЉРµРєС‚РѕРІ.</param>
+    /// <param name="buttons">РЎРїРёСЃРѕРє РєРЅРѕРїРѕРє UI РґР»СЏ РїРµСЂРµРєР»СЋС‡РµРЅРёСЏ.</param>
+    /// <param name="stateButtons">РЎРѕСЃС‚РѕСЏРЅРёРµ (true - РІРєР»СЋС‡РёС‚СЊ, false - РІС‹РєР»СЋС‡РёС‚СЊ) РґР»СЏ РєРЅРѕРїРѕРє.</param>
     IEnumerator ToggleObjectsWithDelay(List<GameObject> objects, bool stateObjects, List<GameObject> buttons, bool stateButtons)
     {
         foreach (var obj in objects)

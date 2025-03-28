@@ -1,7 +1,7 @@
 using UnityEngine;
 
 /// <summary>
-/// Контейнер, хранит GameObject блока и состояние ячейки.
+/// РљРѕРЅС‚РµР№РЅРµСЂ, С…СЂР°РЅРёС‚ GameObject Р±Р»РѕРєР° Рё СЃРѕСЃС‚РѕСЏРЅРёРµ СЏС‡РµР№РєРё.
 /// </summary>
 public class Cell
 {
@@ -10,15 +10,15 @@ public class Cell
 }
 
 /// <summary>
-/// Статический менеджер для хранения состояния клеток игрового поля.
+/// РЎС‚Р°С‚РёС‡РµСЃРєРёР№ РјРµРЅРµРґР¶РµСЂ РґР»СЏ С…СЂР°РЅРµРЅРёСЏ СЃРѕСЃС‚РѕСЏРЅРёСЏ РєР»РµС‚РѕРє РёРіСЂРѕРІРѕРіРѕ РїРѕР»СЏ.
 /// </summary>
 public static class Grid
 {
-    public static Cell[,,] grid; // Трехмерный массив клеток
-    private static int sizeX, sizeY, sizeZ; // Размеры поля
+    public static Cell[,,] grid; // РўСЂРµС…РјРµСЂРЅС‹Р№ РјР°СЃСЃРёРІ РєР»РµС‚РѕРє
+    private static int sizeX, sizeY, sizeZ; // Р Р°Р·РјРµСЂС‹ РїРѕР»СЏ
 
     /// <summary>
-    /// Инициализирует игровое поле с заданными размерами.
+    /// РРЅРёС†РёР°Р»РёР·РёСЂСѓРµС‚ РёРіСЂРѕРІРѕРµ РїРѕР»Рµ СЃ Р·Р°РґР°РЅРЅС‹РјРё СЂР°Р·РјРµСЂР°РјРё.
     /// </summary>
     public static void InitializeGrid()
     {
@@ -27,17 +27,17 @@ public static class Grid
         sizeZ = GameManager.gridWidth;
         grid = new Cell[sizeX, sizeY, sizeZ];
 
-        // Заполняем поле свободными клетками
+        // Р—Р°РїРѕР»РЅСЏРµРј РїРѕР»Рµ СЃРІРѕР±РѕРґРЅС‹РјРё РєР»РµС‚РєР°РјРё
         for (int x = 0; x < sizeX; x++)
             for (int y = 0; y < sizeY; y++)
                 for (int z = 0; z < sizeZ; z++)
-                    grid[x, y, z] = new Cell { State = CellState.Free, gameObject = null }; // Без явного new
+                    grid[x, y, z] = new Cell { State = CellState.Free, gameObject = null }; // Р‘РµР· СЏРІРЅРѕРіРѕ new
     }
 
     /// <summary>
-    /// Устанавливает состояние клетки в сетке.
+    /// РЈСЃС‚Р°РЅР°РІР»РёРІР°РµС‚ СЃРѕСЃС‚РѕСЏРЅРёРµ РєР»РµС‚РєРё РІ СЃРµС‚РєРµ.
     /// </summary>
-    /// <param name="block">Блок который устанавливается в эту ячейку</param>
+    /// <param name="block">Р‘Р»РѕРє РєРѕС‚РѕСЂС‹Р№ СѓСЃС‚Р°РЅР°РІР»РёРІР°РµС‚СЃСЏ РІ СЌС‚Сѓ СЏС‡РµР№РєСѓ</param>
     public static void SetCellState(Vector3Int position, GameObject block, CellState state)
     {
         if (IsInsideGrid(position))
@@ -54,12 +54,12 @@ public static class Grid
         }
         else
         {
-            // Debug.LogError($"Переданные координаты [x:{position.x}, y:{position.y}, z:{position.z}] не попали в игровую область");
+            // Debug.LogError($"РџРµСЂРµРґР°РЅРЅС‹Рµ РєРѕРѕСЂРґРёРЅР°С‚С‹ [x:{position.x}, y:{position.y}, z:{position.z}] РЅРµ РїРѕРїР°Р»Рё РІ РёРіСЂРѕРІСѓСЋ РѕР±Р»Р°СЃС‚СЊ");
         }
     }
 
     /// <summary>
-    /// Получает состояние клетки в сетке.
+    /// РџРѕР»СѓС‡Р°РµС‚ СЃРѕСЃС‚РѕСЏРЅРёРµ РєР»РµС‚РєРё РІ СЃРµС‚РєРµ.
     /// </summary>
     public static CellState GetCellState(Vector3Int position)
     {
@@ -67,7 +67,7 @@ public static class Grid
     }
 
     /// <summary>
-    /// Получает кубик.
+    /// РџРѕР»СѓС‡Р°РµС‚ РєСѓР±РёРє.
     /// </summary>
     public static GameObject GetCellGameObject(Vector3Int position)
     {
@@ -75,7 +75,7 @@ public static class Grid
     }
 
     /// <summary>
-    /// Проверяет, находится ли клетка в пределах сетки.
+    /// РџСЂРѕРІРµСЂСЏРµС‚, РЅР°С…РѕРґРёС‚СЃСЏ Р»Рё РєР»РµС‚РєР° РІ РїСЂРµРґРµР»Р°С… СЃРµС‚РєРё.
     /// </summary>
     private static bool IsInsideGrid(Vector3Int position)
     {
@@ -85,7 +85,7 @@ public static class Grid
     }
 
     /// <summary>
-    /// Проверяет занят ли весь слой.
+    /// РџСЂРѕРІРµСЂСЏРµС‚ Р·Р°РЅСЏС‚ Р»Рё РІРµСЃСЊ СЃР»РѕР№.
     /// </summary>
     public static bool IsLayerFilled(int layerInx)
     {
@@ -102,11 +102,32 @@ public static class Grid
     }
 
     /// <summary>
-    /// Удаляет слой игрового поля.
+    /// РџСЂРѕРІРµСЂСЏРµС‚, РјРѕР¶РЅРѕ Р»Рё СЃРїР°РІРЅРёС‚СЊ РѕР±СЉРµРєС‚.
+    /// </summary>
+    public static bool CanSpawn()
+    {
+        if (sizeY <= 2)
+            Debug.LogError("РЎР»РёС€РєРѕРј РЅРёР·РєРѕРµ РїРѕР»Рµ!!!");
+
+
+        float spawnYPos = (float)sizeY-2;    // РљРѕСЂСЂРµРєС‚РёСЂСѓРµРј С‚РёРї РґР°РЅРЅС‹С…
+        foreach (Cell c in grid)
+        {
+            if (c.gameObject != null && c.gameObject.transform.position.y >= spawnYPos) // РџСЂРѕРІРµСЂРєР° РЅР° null
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+
+    /// <summary>
+    /// РЈРґР°Р»СЏРµС‚ СЃР»РѕР№ РёРіСЂРѕРІРѕРіРѕ РїРѕР»СЏ.
     /// </summary>
     public static void DestroyLayer(int layerInx)
     {
-        for (int x = 0; x < sizeX; x++)    // grid width не видит
+        for (int x = 0; x < sizeX; x++)    // grid width РЅРµ РІРёРґРёС‚
         {
             for (int z = 0; z < sizeZ; z++)
             {
@@ -121,18 +142,18 @@ public static class Grid
                 GameObject.Destroy(block);
                 Grid.SetCellState(CellPosition, null, CellState.Free);
 
-                // Отрисовка состояния Grid на данный момент.
+                // РћС‚СЂРёСЃРѕРІРєР° СЃРѕСЃС‚РѕСЏРЅРёСЏ Grid РЅР° РґР°РЅРЅС‹Р№ РјРѕРјРµРЅС‚.
                 if (CellsVizualizer.Instance != null)
                 {
                     CellsVizualizer.Instance.UpdateCellMaterial(CellPosition);
                 }
             }
         }
-        Debug.Log($"Отчистили слой y = {layerInx}");
+        Debug.Log($"РћС‚С‡РёСЃС‚РёР»Рё СЃР»РѕР№ y = {layerInx}");
     }
 
     /// <summary>
-    /// Полностью очищает игровое поле: удаляет все блоки и сбрасывает статусы ячеек.
+    /// РџРѕР»РЅРѕСЃС‚СЊСЋ РѕС‡РёС‰Р°РµС‚ РёРіСЂРѕРІРѕРµ РїРѕР»Рµ: СѓРґР°Р»СЏРµС‚ РІСЃРµ Р±Р»РѕРєРё Рё СЃР±СЂР°СЃС‹РІР°РµС‚ СЃС‚Р°С‚СѓСЃС‹ СЏС‡РµРµРє.
     /// </summary>
     public static void ClearGrid()
     {
@@ -153,7 +174,7 @@ public static class Grid
                     grid[x, y, z].State = CellState.Free;
                     grid[x, y, z].gameObject = null;
 
-                    // Отрисовка состояния Grid на данный момент.
+                    // РћС‚СЂРёСЃРѕРІРєР° СЃРѕСЃС‚РѕСЏРЅРёСЏ Grid РЅР° РґР°РЅРЅС‹Р№ РјРѕРјРµРЅС‚.
                     if (CellsVizualizer.Instance != null)
                     {
                         CellsVizualizer.Instance.UpdateCellMaterial(new Vector3Int(x,y,z));
@@ -161,6 +182,6 @@ public static class Grid
                 }
             }
         }
-        Debug.Log("Игровое поле полностью очищено.");
+        Debug.Log("РРіСЂРѕРІРѕРµ РїРѕР»Рµ РїРѕР»РЅРѕСЃС‚СЊСЋ РѕС‡РёС‰РµРЅРѕ.");
     }
 }
