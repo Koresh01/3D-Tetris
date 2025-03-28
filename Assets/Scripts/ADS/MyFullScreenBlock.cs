@@ -19,7 +19,7 @@ public class MyFullScreenBlock : MonoBehaviour
         return new InterstitialAd(slotId);
     }
 
-    private void Awake()
+    private void Start()
     {
         InitAd();
     }
