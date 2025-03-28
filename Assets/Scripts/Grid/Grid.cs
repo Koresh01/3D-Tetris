@@ -102,6 +102,27 @@ public static class Grid
     }
 
     /// <summary>
+    /// Проверяет, можно ли спавнить объект.
+    /// </summary>
+    public static bool CanSpawn()
+    {
+        if (sizeY <= 2)
+            Debug.LogError("Слишком низкое поле!!!");
+
+
+        float spawnYPos = (float)sizeY-2;    // Корректируем тип данных
+        foreach (Cell c in grid)
+        {
+            if (c.gameObject != null && c.gameObject.transform.position.y >= spawnYPos) // Проверка на null
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+
+    /// <summary>
     /// Удаляет слой игрового поля.
     /// </summary>
     public static void DestroyLayer(int layerInx)

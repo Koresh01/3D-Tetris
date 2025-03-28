@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-6332838078645502105
+--- !u!114 &-7774102323547744062
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
@@ -20,8 +20,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Brilliant Space
-  m_Shader: {fileID: -6465566751694194690, guid: ffdaa28045c89dc49b7bcbb1f9eed073, type: 3}
+  m_Name: Dissolve
+  m_Shader: {fileID: -6465566751694194690, guid: 753a3f8fc1a424043a20ff62407676a4, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -51,13 +51,13 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Fresnel_Power: 6
-    - _Noise_Scale: 100
+    - _Line_Width: 0.1
+    - _Noise_scale: 20
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _Scroll_Speed: 0.003
+    - _dissolve: 1
     m_Colors:
-    - _Inner_Color: {r: 0.084905684, g: 0.084905684, b: 0.084905684, a: 0}
-    - _Outer_Color: {r: 6.7540116, g: 0, b: 15.999997, a: 0}
+    - _Base_color: {r: 3.0653143, g: 0.08482548, b: 0, a: 0}
+    - _Color: {r: 11.984312, g: 0.56888044, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
