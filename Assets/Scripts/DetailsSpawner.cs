@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 
+
 [AddComponentMenu("Custom/Details Spawner (Скрипт спавнит очередную детальку на сцене.)")]
 public class DetailsSpawner : MonoBehaviour
 {
@@ -18,8 +19,6 @@ public class DetailsSpawner : MonoBehaviour
     [Tooltip("Префабы деталей")]
     [SerializeField] List<GameObject> detailPrefabs;
 
-    private int lastDetailId = -1;
-
     private void Awake()
     {
         if (Instance == null) Instance = this;
@@ -28,10 +27,8 @@ public class DetailsSpawner : MonoBehaviour
 
     private void Start()
     {
-        Random.InitState(System.DateTime.Now.Millisecond); // Устанавливаем случайный seed
-
         centerPoint.GetComponent<CenterFinder>()?.FindCenter();
-
+        
         // Точка спавна должна быть выше на gridHeight:
         Vector3 spawnPos = centerPoint.position + Vector3.up * GameManager.gridHeight + Vector3.down;
         spawnPoint.transform.position = spawnPos;
@@ -40,18 +37,10 @@ public class DetailsSpawner : MonoBehaviour
     /// <summary>
     /// Спавнит новую деталь на игровом поле.
     /// </summary>
+    /// <returns></returns>
     public void SpawnNextDetail()
     {
         int randId = Random.Range(0, detailPrefabs.Count);
-
-        // Если предыдущая деталь совпала, берем следующую по списку
-        if (detailPrefabs.Count > 1 && randId == lastDetailId)
-        {
-            randId = (randId + 1) % detailPrefabs.Count;
-        }
-
-        lastDetailId = randId;
-
         GameObject currentDetail = Instantiate(detailPrefabs[randId], spawnPoint.transform.position, Quaternion.identity, detailsSceneContainer);
         GameManager.currentDetail = currentDetail;
     }
