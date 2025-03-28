@@ -35,7 +35,7 @@ public class MyTargetBanner : MonoBehaviour
             }
 
             // Создаем рекламный баннер формата 320x50 без автоматической ротации
-            _myTargetView = new MyTargetView(SLOT_ID, AdSize.Size320x50, false);
+            _myTargetView = new MyTargetView(SLOT_ID, AdSize.Size320x50);
 
             // Подписываемся на события
             _myTargetView.AdClicked += OnAdClicked;
