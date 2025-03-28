@@ -32,6 +32,6 @@ public class ScoreController : MonoBehaviour
     public void SetScore(int val)
     {
         score = val;
-        scoreText.text = $"Ñ÷¸ò: {val}";
+        scoreText.text = $"Ññ÷¸ò: {val}";
     }
 }

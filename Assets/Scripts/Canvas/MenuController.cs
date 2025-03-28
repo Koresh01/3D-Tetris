@@ -25,22 +25,16 @@ public class MenuController : MonoBehaviour
     [Tooltip("Интерактивные кнопки")]
     [SerializeField] List<GameObject> interactiveBtns;
 
-    [SerializeField] DissolveHandler dissolveHandler;
-
     /// <summary>
     /// Переход в режим игры.
     /// </summary>
     public void setPlayMode()
     {
-        StartCoroutine(dissolveHandler.ShowObject());
-
-        if (GameManager.currentDetail == null)
-        {
-            DetailsSpawner.Instance.SpawnNextDetail();
-        }
-        GameManager.isPaused = false;
-
-
+        // Спавнит первую деталь:
+        if (GameManager.isPaused)
+            GameManager.isPaused = false;   // теперь игра не на паузе
+        else
+            DetailsSpawner.Instance.SpawnNextDetail();  // Если игра не была на паузе, а было нажатие на кнопку "играть" => Это первый запуск игры и надо заспавнить первую деталь. А дальше они сами спавнятся.
 
         CameraMover.SwitchToGameMode();
 
@@ -82,16 +76,6 @@ public class MenuController : MonoBehaviour
         {
             Destroy(detailsContainer.GetChild(i).gameObject);
         }
-    }
-
-    /// <summary>
-    /// Перход в режим GameOver.
-    /// </summary>
-    public void SetGameOverMode()
-    {
-        StartCoroutine(dissolveHandler.HideObject());
-        ResetGame();
-        setMenuMode();
     }
 
     public void ExitGame()

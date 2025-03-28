@@ -39,15 +39,10 @@ public class GameManager : MonoBehaviour
         // Если игра на стопе то останавливаем спавн деталей:
         if (isPaused) return;
 
-        SpawnHandler();
-    }
-
-    void SpawnHandler()
-    {
         // Логика создания следующей детали:
         if (currentDetail == null) return;
         StructureController curDet = currentDetail.GetComponent<StructureController>();
-
+        
         if (curDet.HasGroundContact(out BlockController touchingBlock))
         {
             SoundManager.Instance.PlayPlaceBlock();
