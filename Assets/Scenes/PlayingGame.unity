@@ -2605,15 +2605,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: b7b7baaec17f1034d90ea27c13eefd06, type: 3}
       propertyPath: m_LocalScale.x
-      value: 39.553307
+      value: 29.414606
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b7b7baaec17f1034d90ea27c13eefd06, type: 3}
       propertyPath: m_LocalScale.y
-      value: 39.553307
+      value: 29.414606
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b7b7baaec17f1034d90ea27c13eefd06, type: 3}
       propertyPath: m_LocalScale.z
-      value: 39.553307
+      value: 29.414606
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b7b7baaec17f1034d90ea27c13eefd06, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2662,6 +2662,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: b7b7baaec17f1034d90ea27c13eefd06, type: 3}
       propertyPath: m_Name
       value: "text-GameOver (\u0431\u0435\u0437 \u043C\u0430\u0442\u0435\u0440\u0438\u0430\u043B\u0430)"
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: b7b7baaec17f1034d90ea27c13eefd06, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -82,6 +82,11 @@ public class MenuController : MonoBehaviour
         {
             Destroy(detailsContainer.GetChild(i).gameObject);
         }
+
+        /*
+         Проблема в том, что GameManager.currentDetail продолжает ссылаться на удалённый объект, но эта ссылка не становится null автоматически. В Unity, когда объект уничтожается через Destroy(), ссылки на него всё ещё существуют до конца текущего кадра. Однако сам объект становится "уничтоженным", и доступ к нему приводит к ошибке "MissingReferenceException", но не null.
+         */
+        GameManager.currentDetail = null;
     }
 
     /// <summary>

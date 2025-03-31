@@ -38,7 +38,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Line_Width: 0.01
+    - _Line_Width: 0.02
     - _Noise_scale: 30
     - _QueueControl: 0
     - _QueueOffset: 0
