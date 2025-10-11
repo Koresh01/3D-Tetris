@@ -1086,6 +1086,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   menuController: {fileID: 2137169061}
+  Ybound: -1
 --- !u!1 &371625273
 GameObject:
   m_ObjectHideFlags: 0
