@@ -492,7 +492,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bannerSize: 0
   adPosition: 1
-  adUnitId: demo-banner-yandex
+  adUnitId: R-M-17464125-1
 --- !u!1 &183667052
 GameObject:
   m_ObjectHideFlags: 0
