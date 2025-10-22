@@ -12,7 +12,7 @@ public class YandexMobileAdsBannerDemoScript : MonoBehaviour
 
     [Header("Размеры баннера:")]
     [SerializeField] private BannerSizeType bannerSize = BannerSizeType.Banner320x50;
-    [Header("Высота баннера в px (Используется если выбран Adaptive)")]
+    [Header("Высота баннера в px (Используется если выбран InlineAdaptive)")]
     [SerializeField, Range(30, 400)] int adaptiveHeightPx = 100;
 
     private Banner banner;

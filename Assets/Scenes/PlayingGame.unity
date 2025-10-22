@@ -492,7 +492,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   adPosition: 1
   adUnitId: R-M-17556582-1
-  bannerSize: 4
+  bannerSize: 3
   adaptiveHeightPx: 200
 --- !u!1 &183667052
 GameObject:
