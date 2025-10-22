@@ -6,9 +6,14 @@ using YandexMobileAds.Base;
 public class YandexMobileAdsBannerDemoScript : MonoBehaviour
 {
     [Header("Настройки баннера")]
-    [SerializeField] private BannerSizeType bannerSize = BannerSizeType.Banner320x50;
+    
     [SerializeField] private AdPosition adPosition = AdPosition.TopCenter;
     [SerializeField] private string adUnitId = "demo-banner-yandex"; // ⚠️ Замени на свой ID
+
+    [Header("Размеры баннера:")]
+    [SerializeField] private BannerSizeType bannerSize = BannerSizeType.Banner320x50;
+    [Header("Высота баннера в px (Используется если выбран Adaptive)")]
+    [SerializeField, Range(30, 400)] int adaptiveHeightPx = 100;
 
     private Banner banner;
 
@@ -58,10 +63,12 @@ public class YandexMobileAdsBannerDemoScript : MonoBehaviour
                 return BannerAdSize.FixedSize(300, 250);
             case BannerSizeType.Banner728x90:
                 return BannerAdSize.FixedSize(728, 90);
-            case BannerSizeType.InlineAdaptive:
-                return BannerAdSize.InlineSize(GetScreenWidthDp(), 100);
+            case BannerSizeType.InlineAdaptive: // Максимум по ширине с заданной высотой в пикселях
+                int widthDp = GetScreenWidthDp();
+                int heightDp = ScreenUtils.ConvertPixelsToDp(adaptiveHeightPx);
+                return BannerAdSize.InlineSize(widthDp, heightDp);  
             case BannerSizeType.StickyAdaptive:
-                return BannerAdSize.StickySize(GetScreenWidthDp());
+                return BannerAdSize.StickySize(GetScreenWidthDp()); // вариант который советует yandex, но высота баннера у StickySize определяется АВТОМАТИЧЕСКИ внутри yandex sdk.
             default:
                 return BannerAdSize.FixedSize(320, 50);
         }
