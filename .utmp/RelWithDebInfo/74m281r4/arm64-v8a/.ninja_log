@@ -1,19 +1,19 @@
 # ninja log v5
-82	2767	7828668079296962	GameActivity/CMakeFiles/game.dir/UGAInputKeyEvent.cpp.o	30af0f80ead9ef93
-115	2773	7828668079347471	GameActivity/CMakeFiles/game.dir/UGAInputMotionEvent.cpp.o	7e598cb85387021d
-15	2898	7828668080660600	GameActivity/CMakeFiles/game.dir/UGADebug.cpp.o	a20ee1f05f9a96cc
-50	2834	7828668080013096	GameActivity/CMakeFiles/game.dir/UGAEntry.cpp.o	367be0fce179b411
-66	2766	7828668079281738	GameActivity/CMakeFiles/game.dir/UGAConfiguration.cpp.o	ab0f4f6adce2078d
-131	2850	7828668080143079	GameActivity/CMakeFiles/game.dir/UGASoftKeyboard.cpp.o	c838572538ca27e4
-37	3124	7828668082950663	GameActivity/CMakeFiles/game.dir/UGAApplication.cpp.o	637fd89edd8e8cd5
-99	3040	7828668082103761	GameActivity/CMakeFiles/game.dir/UGAInput.cpp.o	13f90d58aee0cce2
-3124	3508	7828668086833657	D:/UnityProjects/3D Tetris/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/RelWithDebInfo/74m281r4/obj/arm64-v8a/libgame.so	2ceb25b62c79f6af
-8	1132	7828694109346466	GameActivity/CMakeFiles/game.dir/UGAEntry.cpp.o	367be0fce179b411
 82	1133	7828694109346466	GameActivity/CMakeFiles/game.dir/UGAInputKeyEvent.cpp.o	30af0f80ead9ef93
-58	1136	7828694109437212	GameActivity/CMakeFiles/game.dir/UGAConfiguration.cpp.o	ab0f4f6adce2078d
-112	1144	7828694109508255	GameActivity/CMakeFiles/game.dir/UGAInputMotionEvent.cpp.o	7e598cb85387021d
 70	1258	7828694110675487	GameActivity/CMakeFiles/game.dir/UGADebug.cpp.o	a20ee1f05f9a96cc
+112	1144	7828694109508255	GameActivity/CMakeFiles/game.dir/UGAInputMotionEvent.cpp.o	7e598cb85387021d
+8	1132	7828694109346466	GameActivity/CMakeFiles/game.dir/UGAEntry.cpp.o	367be0fce179b411
 129	1261	7828694110720663	GameActivity/CMakeFiles/game.dir/UGASoftKeyboard.cpp.o	c838572538ca27e4
-96	1391	7828694112042608	GameActivity/CMakeFiles/game.dir/UGAInput.cpp.o	13f90d58aee0cce2
+58	1136	7828694109437212	GameActivity/CMakeFiles/game.dir/UGAConfiguration.cpp.o	ab0f4f6adce2078d
 26	1510	7828694113238122	GameActivity/CMakeFiles/game.dir/UGAApplication.cpp.o	637fd89edd8e8cd5
+96	1391	7828694112042608	GameActivity/CMakeFiles/game.dir/UGAInput.cpp.o	13f90d58aee0cce2
 1510	1689	7828694115102039	D:/UnityProjects/3D Tetris/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/RelWithDebInfo/74m281r4/obj/arm64-v8a/libgame.so	2ceb25b62c79f6af
+34	1120	7828717851106152	GameActivity/CMakeFiles/game.dir/UGAEntry.cpp.o	367be0fce179b411
+8	1121	7828717851106152	GameActivity/CMakeFiles/game.dir/UGAConfiguration.cpp.o	ab0f4f6adce2078d
+112	1142	7828717851333917	GameActivity/CMakeFiles/game.dir/UGAInputKeyEvent.cpp.o	30af0f80ead9ef93
+80	1182	7828717851732545	GameActivity/CMakeFiles/game.dir/UGAInputMotionEvent.cpp.o	7e598cb85387021d
+20	1297	7828717852900737	GameActivity/CMakeFiles/game.dir/UGADebug.cpp.o	a20ee1f05f9a96cc
+128	1307	7828717853001859	GameActivity/CMakeFiles/game.dir/UGASoftKeyboard.cpp.o	c838572538ca27e4
+96	1495	7828717854897959	GameActivity/CMakeFiles/game.dir/UGAInput.cpp.o	13f90d58aee0cce2
+65	1609	7828717856088011	GameActivity/CMakeFiles/game.dir/UGAApplication.cpp.o	637fd89edd8e8cd5
+1609	1805	7828717858104341	D:/UnityProjects/3D Tetris/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/RelWithDebInfo/74m281r4/obj/arm64-v8a/libgame.so	2ceb25b62c79f6af

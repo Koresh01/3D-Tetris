@@ -24,6 +24,9 @@ public class GameManager : MonoBehaviour
     [Tooltip("Текущая деталь.")]
     public static GameObject currentDetail;
 
+    [Tooltip("Текущая скорость детали (по умолчанию 1f).")]
+    public static float currentDetailSpeed = 1f;
+
 
     private void Awake()
     {
@@ -48,6 +51,20 @@ public class GameManager : MonoBehaviour
             SoundManager.Instance.PlayPlaceBlock();
             // Спавним первую детальку
             DetailsSpawner.Instance.SpawnNextDetail();
+            // Отключаем ускоренное падение.
+            FastFall_Off();
         }
     }
+
+    #region DetailFalling 
+    public void FastFall_On()
+    {
+        currentDetailSpeed = 10f;
+    }
+
+    public void FastFall_Off()
+    {
+        currentDetailSpeed = 1f;
+    }
+    #endregion
 }

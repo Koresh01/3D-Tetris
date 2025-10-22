@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Collections;
 using UnityEngine;
 
-[AddComponentMenu("Менеджер паузы игры.")]
 public class MenuController : MonoBehaviour
 {
     [Header("Камера:")]
@@ -64,6 +63,9 @@ public class MenuController : MonoBehaviour
         // Тушим лишние объекты на сцене:
         // Включаем кнопки меню:
         StartCoroutine(ToggleObjectsWithDelay(objects, false, interactiveBtns, true));
+
+        // Отключаем ускоренное падение:
+        GameManager.currentDetailSpeed = 1f;
 
     }
 

@@ -66,7 +66,7 @@ public class StructureController : MonoBehaviour
     private void TryFall()
     {
         FreeCells();
-        transform.Translate(Vector3.down * Time.deltaTime, Space.World);
+        transform.Translate(Vector3.down * GameManager.currentDetailSpeed * Time.deltaTime, Space.World);
     }
 
     /// <summary>
