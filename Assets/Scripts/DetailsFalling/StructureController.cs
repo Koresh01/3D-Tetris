@@ -1,23 +1,23 @@
-using System.Collections.Generic;
+п»їusing System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
 /// <summary>
-/// Управляет поведением падающей тетрис-детали и её блоков.
+/// РЈРїСЂР°РІР»СЏРµС‚ РїРѕРІРµРґРµРЅРёРµРј РїР°РґР°СЋС‰РµР№ С‚РµС‚СЂРёСЃ-РґРµС‚Р°Р»Рё Рё РµС‘ Р±Р»РѕРєРѕРІ.
 /// </summary>
 public class StructureController : MonoBehaviour
 {
     public List<BlockController> blocks;
 
-    [Tooltip("Падает ли вся деталь как единое целое.")]
+    [Tooltip("РџР°РґР°РµС‚ Р»Рё РІСЃСЏ РґРµС‚Р°Р»СЊ РєР°Рє РµРґРёРЅРѕРµ С†РµР»РѕРµ.")]
     public bool hasGroundContact;
 
-    [Tooltip("Событие отчистки слоя")]
+    [Tooltip("РЎРѕР±С‹С‚РёРµ РѕС‚С‡РёСЃС‚РєРё СЃР»РѕСЏ")]
     public static UnityAction OnLayerDeleted;
 
     private void Start()
     {
-        // Находим все блоки внутри этой детали
+        // РќР°С…РѕРґРёРј РІСЃРµ Р±Р»РѕРєРё РІРЅСѓС‚СЂРё СЌС‚РѕР№ РґРµС‚Р°Р»Рё
         blocks = new List<BlockController>(GetComponentsInChildren<BlockController>());
     }
 
@@ -25,7 +25,7 @@ public class StructureController : MonoBehaviour
     {
         if (GameManager.isPaused) return;
 
-        // Проверяем наличие контакта с землёй
+        // РџСЂРѕРІРµСЂСЏРµРј РЅР°Р»РёС‡РёРµ РєРѕРЅС‚Р°РєС‚Р° СЃ Р·РµРјР»С‘Р№
         hasGroundContact = HasGroundContact(out BlockController touchingBlock);
 
         if (hasGroundContact)
@@ -41,19 +41,27 @@ public class StructureController : MonoBehaviour
     }
 
     /// <summary>
-    /// Обрабатывает касание поверхности.
+    /// РћР±СЂР°Р±Р°С‚С‹РІР°РµС‚ РєР°СЃР°РЅРёРµ РїРѕРІРµСЂС…РЅРѕСЃС‚Рё.
     /// </summary>
     private void HandleGroundContact(BlockController touchingBlock)
     {
         FillCells();
 
+        // РЈСЃС‚Р°РЅР°РІР»РёРІР°РµРј РІСЃСЋ РґРµС‚Р°Р»СЊ РїРѕ С†РµР»С‹Рј РєРѕРѕСЂРґРёРЅР°С‚Р°Рј.
+        transform.position = new Vector3Int(
+            Mathf.RoundToInt(transform.position.x),
+            Mathf.CeilToInt(transform.position.y), // РћРєСЂСѓРіР»РµРЅРёРµ РІРІРµСЂС…
+            Mathf.RoundToInt(transform.position.z)
+        );
+
+        // РџС‹С‚Р°РµРјСЃСЏ РїРѕР»СѓС‡РёС‚СЊ Р±Р»РѕРє РєРѕС‚РѕСЂРѕРіРѕ РєРѕСЃРЅСѓР»РёСЃСЊ, РїСЂРёС‡РµРј РІР°Р¶РЅРѕ С‡С‚РѕР± СЌС‚Рѕ Р±С‹Р» РЅРµ Р±Р»РѕРє РЅР°С€РµР№ РґРµС‚Р°Р»Рё.
         if (touchingBlock != null)
         {
             int layerIndex = touchingBlock.GetAlignedPosition().y;
 
             if (Grid.IsLayerFilled(layerIndex))
             {
-                OnLayerDeleted?.Invoke();  // Сигнализируем, что слой удаляется
+                OnLayerDeleted?.Invoke();  // РЎРёРіРЅР°Р»РёР·РёСЂСѓРµРј, С‡С‚Рѕ СЃР»РѕР№ СѓРґР°Р»СЏРµС‚СЃСЏ
                 SoundManager.Instance.PlayClearLayer();
                 Grid.DestroyLayer(layerIndex);
             }
@@ -61,7 +69,7 @@ public class StructureController : MonoBehaviour
     }
 
     /// <summary>
-    /// Логика падения всей детали.
+    /// Р›РѕРіРёРєР° РїР°РґРµРЅРёСЏ РІСЃРµР№ РґРµС‚Р°Р»Рё.
     /// </summary>
     private void TryFall()
     {
@@ -70,7 +78,7 @@ public class StructureController : MonoBehaviour
     }
 
     /// <summary>
-    /// Проверяет, касается ли хотя бы один блок земли или занятой клетки.
+    /// РџСЂРѕРІРµСЂСЏРµС‚, РєР°СЃР°РµС‚СЃСЏ Р»Рё С…РѕС‚СЏ Р±С‹ РѕРґРёРЅ Р±Р»РѕРє Р·РµРјР»Рё РёР»Рё Р·Р°РЅСЏС‚РѕР№ РєР»РµС‚РєРё.
     /// </summary>
     public bool HasGroundContact(out BlockController touchingBlock)
     {
@@ -97,9 +105,9 @@ public class StructureController : MonoBehaviour
     }
 
     /// <summary>
-    /// Разбирает деталь на отдельные блоки, удаляя родительский объект.
+    /// Р Р°Р·Р±РёСЂР°РµС‚ РґРµС‚Р°Р»СЊ РЅР° РѕС‚РґРµР»СЊРЅС‹Рµ Р±Р»РѕРєРё, СѓРґР°Р»СЏСЏ СЂРѕРґРёС‚РµР»СЊСЃРєРёР№ РѕР±СЉРµРєС‚.
     /// </summary>
-    [ContextMenu("Разобрать деталь")]
+    [ContextMenu("Р Р°Р·РѕР±СЂР°С‚СЊ РґРµС‚Р°Р»СЊ")]
     public void Collapse()
     {
         foreach (BlockController block in blocks)
@@ -111,7 +119,7 @@ public class StructureController : MonoBehaviour
     }
 
     /// <summary>
-    /// Заполняет ячейки, где стоят кубики этой детали.
+    /// Р—Р°РїРѕР»РЅСЏРµС‚ СЏС‡РµР№РєРё, РіРґРµ СЃС‚РѕСЏС‚ РєСѓР±РёРєРё СЌС‚РѕР№ РґРµС‚Р°Р»Рё.
     /// </summary>
     private void FillCells()
     {
@@ -122,7 +130,7 @@ public class StructureController : MonoBehaviour
     }
 
     /// <summary>
-    /// Освобождает ячейки, где находятся кубики этой детали.
+    /// РћСЃРІРѕР±РѕР¶РґР°РµС‚ СЏС‡РµР№РєРё, РіРґРµ РЅР°С…РѕРґСЏС‚СЃСЏ РєСѓР±РёРєРё СЌС‚РѕР№ РґРµС‚Р°Р»Рё.
     /// </summary>
     private void FreeCells()
     {
@@ -133,7 +141,7 @@ public class StructureController : MonoBehaviour
     }
 
     /// <summary>
-    /// Проверяет, является ли деталь пустой.
+    /// РџСЂРѕРІРµСЂСЏРµС‚, СЏРІР»СЏРµС‚СЃСЏ Р»Рё РґРµС‚Р°Р»СЊ РїСѓСЃС‚РѕР№.
     /// </summary>
     private void CheckAndDestroySelf()
     {
